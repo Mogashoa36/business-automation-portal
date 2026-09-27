@@ -1,0 +1,118 @@
+<app-page-hero
+  [eyebrow]="'Services'"
+  [title]="service().title"
+  [intro]="service().tagline"
+  [crumbs]="[
+    { label: 'Services', link: '/services' },
+    { label: service().title },
+  ]"
+/>
+
+<!-- ========================= What it replaces ======================= -->
+<section class="section">
+  <div class="container">
+    <div class="split">
+      <div>
+        <app-section-heading
+          eyebrow="The Problem We Solve"
+          title="Manual processes slow good businesses down"
+          [intro]="service().summary"
+        />
+        <div class="btn-row">
+          <a class="btn btn--primary" routerLink="/contact">{{ service().ctaLabel }}</a>
+          <a class="btn btn--secondary" routerLink="/services">All services</a>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel__title">What we replace</h3>
+        <ul class="check-list check-list--columns panel__list">
+          @for (item of service().replaces; track item) {
+            <li>{{ item }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ Workflow ============================ -->
+@if (service().workflow; as workflow) {
+  <section class="section section--tint">
+    <div class="container">
+      <app-section-heading
+        eyebrow="How It Works"
+        [title]="workflow.title"
+        intro="One digital process replaces the hand-offs, the chasing and the spreadsheet updates."
+      />
+      <app-process-flow [steps]="workflow.steps" />
+    </div>
+  </section>
+}
+
+<!-- ========================== Capabilities ========================== -->
+<section class="section">
+  <div class="container">
+    <app-section-heading
+      eyebrow="What You Get"
+      title="What is included"
+      intro="Every engagement is shaped around your process. These are the building blocks we work with."
+    />
+
+    <div class="grid grid--3">
+      @for (capability of service().capabilities; track capability.title) {
+        <article class="card">
+          <h3 class="card__title">{{ capability.title }}</h3>
+          <p class="card__body">{{ capability.description }}</p>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ============================ Outcomes ============================ -->
+<section class="section section--dark">
+  <div class="container">
+    <div class="split split--reverse">
+      <div>
+        <app-section-heading
+          eyebrow="Business Outcomes"
+          title="What changes for your business"
+          intro="Technology is the means. These are the results the work is judged on."
+        />
+        <ul class="check-list">
+          @for (outcome of service().outcomes; track outcome) {
+            <li>{{ outcome }}</li>
+          }
+        </ul>
+      </div>
+
+      <div class="panel panel--dark">
+        <h3 class="panel__title">Other services</h3>
+        <ul class="link-list">
+          @for (other of otherServices(); track other.slug) {
+            <li>
+              <a [routerLink]="['/services', other.slug]">
+                <app-icon [name]="other.icon" [size]="20" />
+                <span>
+                  <strong>{{ other.navLabel }}</strong>
+                  <span class="link-list__hint">{{ other.tagline }}</span>
+                </span>
+                <app-icon name="arrow-right" [size]="18" />
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-cta-banner
+  [title]="'Ready to ' + service().ctaLabel.toLowerCase() + '?'"
+  [text]="'Tell us which process is costing you the most time. We will map out what automating it involves and what it would take.'"
+  [ctaLabel]="service().ctaLabel"
+  ctaLink="/contact"
+  secondaryLabel="See our solutions"
+  secondaryLink="/solutions"
+/>

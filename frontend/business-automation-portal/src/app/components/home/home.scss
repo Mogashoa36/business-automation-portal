@@ -1,0 +1,253 @@
+/* ============================== Hero ============================== */
+.hero {
+  position: relative;
+  padding-block: clamp(3rem, 6vw, 5.5rem);
+  background: linear-gradient(180deg, var(--surface-muted) 0%, #fff 100%);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+
+.hero h1 {
+  margin-bottom: 1rem;
+}
+
+.hero__promises {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-top: 1.75rem;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.hero__promises li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.hero__promises app-icon {
+  color: var(--success);
+}
+
+/* --- Abstract product visual (no stock photography) --- */
+.hero__visual {
+  display: none;
+}
+
+.mock {
+  background-color: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.mock__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--brand-900);
+  color: #cddcec;
+  font-size: 0.8rem;
+}
+
+.mock__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.mock__title {
+  margin-left: 0.5rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.mock__row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.88rem;
+}
+
+.mock__text {
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+.mock__state {
+  flex: none;
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--success-soft);
+  color: #0b5c3d;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.mock__state--active {
+  background-color: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.mock__state--todo {
+  background-color: #eef2f7;
+  color: var(--muted);
+}
+
+.mock__row--active {
+  background-color: #fbfdff;
+}
+
+.mock__footer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.25rem 1rem;
+  padding: 1rem;
+  background-color: var(--surface-muted);
+  font-size: 0.82rem;
+}
+
+.mock__footer strong {
+  color: var(--ink);
+}
+
+/* ============================ Sections ============================= */
+.reasons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: clamp(1rem, 2vw, 1.75rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reason {
+  padding: 1.35rem 1.25rem;
+  background-color: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  height: 100%;
+}
+
+.reason__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 0.85rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--accent-soft);
+  color: var(--accent);
+}
+
+.reason h3 {
+  margin-bottom: 0.35rem;
+  font-size: 1.05rem;
+}
+
+.reason p {
+  margin: 0;
+  font-size: 0.94rem;
+  color: var(--ink-soft);
+}
+
+.solution-card {
+  text-decoration: none;
+}
+
+.tech-card {
+  padding: 1.35rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius);
+}
+
+.tech-card__head {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.tech-card__head h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.tech-card .tag {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #cddcec;
+}
+
+.tech-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.project-card__top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.notice {
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background-color: var(--surface-muted);
+  font-size: 0.9rem;
+}
+
+.section-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.25rem;
+}
+
+/* =========================== Responsive =========================== */
+@media (min-width: 62rem) {
+  .hero__visual {
+    display: block;
+  }
+}
+
+@media (max-width: 61.99rem) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 37.49rem) {
+  .hero__promises {
+    gap: 0.4rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .btn-row .btn {
+    flex: 1 1 100%;
+  }
+}

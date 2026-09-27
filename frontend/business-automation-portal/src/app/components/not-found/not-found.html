@@ -1,0 +1,25 @@
+<app-page-hero
+  eyebrow="404"
+  title="We could not find that page"
+  intro="The link may be out of date, or the address may have a typo in it. Here are the pages people usually want."
+  [crumbs]="[{ label: 'Not found' }]"
+/>
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid--3">
+      @for (service of services; track service.slug) {
+        <a class="card card--interactive link-card" [routerLink]="['/services', service.slug]">
+          <span class="icon-tile"><app-icon [name]="service.icon" [size]="24" /></span>
+          <h2 class="card__title">{{ service.title }}</h2>
+          <p class="card__body">{{ service.tagline }}</p>
+        </a>
+      }
+    </div>
+
+    <div class="actions">
+      <a class="btn btn--primary" routerLink="/">Back to home</a>
+      <a class="btn btn--secondary" routerLink="/contact">Contact us</a>
+    </div>
+  </div>
+</section>

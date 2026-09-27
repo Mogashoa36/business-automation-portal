@@ -1,0 +1,72 @@
+<app-page-hero
+  eyebrow="Portfolio"
+  title="Selected case studies"
+  intro="Each case study walks through a real shape of business problem: what it cost, what we built, and what changed."
+  [crumbs]="[{ label: 'Portfolio' }]"
+/>
+
+<section class="section">
+  <div class="container">
+    @if (fromFallback()) {
+      <p class="notice" role="status">
+        These are sample scenarios bundled with the website. They illustrate the kind of work we do and are not
+        presented as projects delivered for a client. Live case studies load from the project database when it is
+        available.
+      </p>
+    }
+
+    @if (loading()) {
+      <div class="grid grid--3" aria-hidden="true">
+        @for (placeholder of [1, 2, 3]; track placeholder) {
+          <div class="skeleton"></div>
+        }
+      </div>
+      <p class="visually-hidden" role="status">Loading case studies</p>
+    } @else {
+      <div class="grid grid--3">
+        @for (project of projects(); track project.slug) {
+          <article class="card card--interactive project">
+            <div class="project__top">
+              <span class="badge badge--neutral">{{ project.industry }}</span>
+              @if (project.sampleProject) {
+                <span class="badge badge--sample">Sample project</span>
+              }
+            </div>
+
+            <div class="project__visual" aria-hidden="true">
+              <span class="project__monogram">{{ project.name.charAt(0) }}</span>
+            </div>
+
+            <h2 class="card__title">{{ project.name }}</h2>
+            <p class="card__body">{{ project.summary }}</p>
+
+            <ul class="tag-list">
+              @for (technology of project.technologies.slice(0, 4); track technology) {
+                <li class="tag">{{ technology }}</li>
+              }
+              @if (project.technologies.length > 4) {
+                <li class="tag">+{{ project.technologies.length - 4 }} more</li>
+              }
+            </ul>
+
+            <div class="card__footer">
+              <a class="text-link" [routerLink]="['/portfolio', project.slug]">
+                Read the case study
+                <app-icon name="arrow-right" [size]="18" />
+              </a>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<app-cta-banner
+  title="Your process could be the next case study"
+  text="Tell us what is taking too long, too many people or too much risk. We will show you what a digital version looks like."
+  ctaLabel="Discuss Your Project"
+  ctaLink="/contact"
+  secondaryLabel="See our services"
+  secondaryLink="/services"
+/>

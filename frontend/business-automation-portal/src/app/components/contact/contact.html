@@ -1,0 +1,221 @@
+<app-page-hero
+  eyebrow="Contact"
+  title="Tell us which process is slowing you down"
+  intro="Share a little about the manual work, the spreadsheets or the chasing involved. We will come back to you with a practical first step."
+  [crumbs]="[{ label: 'Contact' }]"
+/>
+
+<section class="section">
+  <div class="container">
+    <div class="contact">
+      <!-- ============================ Form ============================ -->
+      <div class="contact__form">
+        <h2>Send us an enquiry</h2>
+        <p class="contact__intro">
+          All fields marked required must be completed. We only use these details to respond to your enquiry.
+        </p>
+
+        @if (state() === 'success') {
+          <div class="form-status form-status--success" role="status">
+            <p class="status-title"><app-icon name="check" [size]="20" /> Thank you - your enquiry is with us.</p>
+            <p>
+              @if (receipt(); as confirmation) {
+                <span>Reference <strong>{{ confirmation.reference }}</strong>.</span>
+              }
+              {{ statusMessage() }}
+            </p>
+          </div>
+        } @else if (state() === 'error') {
+          <div class="form-status form-status--error" role="alert">
+            {{ statusMessage() }}
+          </div>
+        }
+
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          <div class="form-grid">
+            <div class="field" [class.field--invalid]="hasError('fullName')">
+              <label class="label" for="fullName">Full name <span aria-hidden="true">*</span></label>
+              <input
+                class="input"
+                id="fullName"
+                type="text"
+                formControlName="fullName"
+                autocomplete="name"
+                maxlength="120"
+                required
+                aria-required="true"
+                [attr.aria-invalid]="hasError('fullName')"
+                [attr.aria-describedby]="hasError('fullName') ? 'fullName-error' : null"
+              />
+              @if (hasError('fullName')) {
+                <p class="field__error" id="fullName-error">{{ errorFor('fullName') }}</p>
+              }
+            </div>
+
+            <div class="field" [class.field--invalid]="hasError('company')">
+              <label class="label" for="company">Company</label>
+              <input
+                class="input"
+                id="company"
+                type="text"
+                formControlName="company"
+                autocomplete="organization"
+                maxlength="120"
+                [attr.aria-invalid]="hasError('company')"
+                [attr.aria-describedby]="hasError('company') ? 'company-error' : null"
+              />
+              @if (hasError('company')) {
+                <p class="field__error" id="company-error">{{ errorFor('company') }}</p>
+              }
+            </div>
+
+            <div class="field" [class.field--invalid]="hasError('email')">
+              <label class="label" for="email">Email <span aria-hidden="true">*</span></label>
+              <input
+                class="input"
+                id="email"
+                type="email"
+                formControlName="email"
+                autocomplete="email"
+                inputmode="email"
+                maxlength="180"
+                required
+                aria-required="true"
+                placeholder="name@company.co.za"
+                [attr.aria-invalid]="hasError('email')"
+                [attr.aria-describedby]="hasError('email') ? 'email-error' : null"
+              />
+              @if (hasError('email')) {
+                <p class="field__error" id="email-error">{{ errorFor('email') }}</p>
+              }
+            </div>
+
+            <div class="field" [class.field--invalid]="hasError('phone')">
+              <label class="label" for="phone">Phone</label>
+              <input
+                class="input"
+                id="phone"
+                type="tel"
+                formControlName="phone"
+                autocomplete="tel"
+                inputmode="tel"
+                maxlength="40"
+                [attr.aria-invalid]="hasError('phone')"
+                [attr.aria-describedby]="hasError('phone') ? 'phone-error' : null"
+              />
+              @if (hasError('phone')) {
+                <p class="field__error" id="phone-error">{{ errorFor('phone') }}</p>
+              }
+            </div>
+
+            <div class="field field--full" [class.field--invalid]="hasError('service')">
+              <label class="label" for="service">Service <span aria-hidden="true">*</span></label>
+              <select
+                class="select"
+                id="service"
+                formControlName="service"
+                required
+                aria-required="true"
+                [attr.aria-invalid]="hasError('service')"
+                [attr.aria-describedby]="hasError('service') ? 'service-error' : null"
+              >
+                <option value="" disabled>Select the service you are interested in</option>
+                @for (option of serviceOptions; track option) {
+                  <option [value]="option">{{ option }}</option>
+                }
+              </select>
+              @if (hasError('service')) {
+                <p class="field__error" id="service-error">{{ errorFor('service') }}</p>
+              }
+            </div>
+
+            <div class="field field--full" [class.field--invalid]="hasError('message')">
+              <label class="label" for="message">Message <span aria-hidden="true">*</span></label>
+              <textarea
+                class="textarea"
+                id="message"
+                formControlName="message"
+                rows="6"
+                maxlength="4000"
+                required
+                aria-required="true"
+                placeholder="Which process takes the most time today, and what would a better version look like?"
+                [attr.aria-invalid]="hasError('message')"
+                [attr.aria-describedby]="hasError('message') ? 'message-error message-hint' : 'message-hint'"
+              ></textarea>
+              <p class="hint" id="message-hint">Minimum 10 characters. Please avoid including confidential information.</p>
+              @if (hasError('message')) {
+                <p class="field__error" id="message-error">{{ errorFor('message') }}</p>
+              }
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button
+              class="btn btn--primary"
+              type="submit"
+              [disabled]="state() === 'submitting'"
+              [attr.aria-disabled]="state() === 'submitting'"
+            >
+              {{ state() === 'submitting' ? 'Sending...' : 'Send enquiry' }}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ========================== Contact info ======================= -->
+      <aside class="contact__aside">
+        <div class="panel">
+          <h2 class="panel__title">Talk to us directly</h2>
+          <ul class="contact-list">
+            <li>
+              <span class="icon-tile"><app-icon name="mail" [size]="20" /></span>
+              <span>
+                <strong>Email</strong>
+                <a [href]="'mailto:' + company.email">{{ company.email }}</a>
+              </span>
+            </li>
+            <li>
+              <span class="icon-tile"><app-icon name="phone" [size]="20" /></span>
+              <span>
+                <strong>Phone</strong>
+                <a [href]="'tel:' + company.phone.replace(/\s/g, '')">{{ company.phone }}</a>
+              </span>
+            </li>
+            <li>
+              <span class="icon-tile"><app-icon name="pin" [size]="20" /></span>
+              <span>
+                <strong>Location</strong>
+                <span>{{ company.location }}</span>
+              </span>
+            </li>
+            <li>
+              <span class="icon-tile"><app-icon name="clock" [size]="20" /></span>
+              <span>
+                <strong>Hours</strong>
+                <span>{{ company.businessHours }}</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h2 class="panel__title">Quick links</h2>
+          <p class="panel__text">Jump straight to the service or solution you want to discuss.</p>
+          <ul class="chips">
+            @for (service of services; track service.slug) {
+              <li>
+                <button type="button" class="chip" (click)="prefill(service.title)">{{ service.title }}</button>
+              </li>
+            }
+            @for (solution of solutions; track solution.slug) {
+              <li>
+                <button type="button" class="chip" (click)="prefill(solution.title)">{{ solution.title }}</button>
+              </li>
+            }
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>

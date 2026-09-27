@@ -1,0 +1,107 @@
+<app-page-hero
+  eyebrow="Technology"
+  title="Proven technology, chosen for reliability"
+  intro="The stack below is what we build and maintain business software with. We pick tools that are well supported, widely understood and boring in the best possible way."
+  [crumbs]="[{ label: 'Technology' }]"
+/>
+
+<section class="section">
+  <div class="container">
+    <app-section-heading
+      eyebrow="Our Stack"
+      title="What we build with"
+      intro="None of this is interesting for its own sake. It is interesting because it is the combination we can deliver reliably, maintain cheaply and support for years."
+    />
+
+    <div class="grid grid--2">
+      @for (group of groups; track group.id) {
+        <article class="group" [id]="group.id">
+          <div class="group__head">
+            <span class="icon-tile"><app-icon [name]="group.icon" [size]="24" /></span>
+            <div>
+              <h2>{{ group.title }}</h2>
+              <p>{{ group.description }}</p>
+            </div>
+          </div>
+
+          <ul class="items">
+            @for (item of group.items; track item.name) {
+              <li>
+                <strong>{{ item.name }}</strong>
+                <span>{{ item.note }}</span>
+              </li>
+            }
+          </ul>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <app-section-heading
+      eyebrow="How We Apply It"
+      title="Technology in service of the business"
+      intro="These are the practical decisions that come out of using this stack well."
+    />
+
+    <div class="grid grid--3">
+      <article class="card">
+        <h3 class="card__title">Security by default</h3>
+        <p class="card__body">
+          Authentication, role based access control and audit trails are part of the application itself, not something
+          bolted on after launch.
+        </p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">Validation at source</h3>
+        <p class="card__body">
+          Data is checked as it is entered and on the server as well, so reporting is based on information that was
+          validated rather than whatever someone typed.
+        </p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">Accessible interfaces</h3>
+        <p class="card__body">
+          Semantic HTML, keyboard support and real contrast ratios, so the application works for everyone using it -
+          including staff on older devices.
+        </p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">Automated delivery</h3>
+        <p class="card__body">
+          Every change is built and tested automatically before release, which keeps updates predictable and
+          reversible.
+        </p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">Server side rendering</h3>
+        <p class="card__body">
+          This website is rendered on the server, so pages load quickly and search engines and screen readers get
+          the real content.
+        </p>
+      </article>
+      <article class="card">
+        <h3 class="card__title">Documented APIs</h3>
+        <p class="card__body">
+          Systems we build expose clear REST interfaces, so they can integrate with the tools you already use as
+          your business grows.
+        </p>
+      </article>
+    </div>
+
+    <div class="section-actions">
+      <a class="btn btn--primary" routerLink="/contact">Discuss Your Project</a>
+    </div>
+  </div>
+</section>
+
+<app-cta-banner
+  title="Not sure what you need?"
+  text="You do not need to choose a technology. Tell us about the problem and we will recommend the simplest approach that solves it."
+  ctaLabel="Talk to Us"
+  ctaLink="/contact"
+  secondaryLabel="View our services"
+  secondaryLink="/services"
+/>

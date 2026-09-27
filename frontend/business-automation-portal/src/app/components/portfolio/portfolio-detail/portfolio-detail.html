@@ -1,0 +1,118 @@
+@if (project(); as current) {
+  <app-page-hero
+    [eyebrow]="current.industry"
+    [title]="current.name"
+    [intro]="current.summary"
+    [crumbs]="[
+      { label: 'Portfolio', link: '/portfolio' },
+      { label: current.name },
+    ]"
+  />
+
+  @if (current.sampleProject) {
+    <div class="container">
+      <p class="sample-note" role="note">
+        <strong>Sample project.</strong> This case study is an illustrative scenario published to show the kind of
+        work we deliver. It is not presented as a project delivered for a client.
+      </p>
+    </div>
+  }
+
+  <section class="section">
+    <div class="container">
+      <div class="detail">
+        <div class="detail__main">
+          <article class="block">
+            <h2>The problem</h2>
+            <p>{{ current.problem }}</p>
+          </article>
+
+          <article class="block">
+            <h2>The solution</h2>
+            <p>{{ current.solution }}</p>
+          </article>
+
+          @if (current.keyFeatures.length) {
+            <article class="block">
+              <h2>Key features</h2>
+              <ul class="check-list check-list--columns">
+                @for (feature of current.keyFeatures; track feature) {
+                  <li>{{ feature }}</li>
+                }
+              </ul>
+            </article>
+          }
+
+          @if (current.results.length) {
+            <article class="block">
+              <h2>Results</h2>
+              <ul class="results">
+                @for (result of current.results; track result) {
+                  <li>
+                    <app-icon name="trend-up" [size]="20" />
+                    <span>{{ result }}</span>
+                  </li>
+                }
+              </ul>
+            </article>
+          }
+        </div>
+
+        <aside class="detail__aside">
+          <div class="panel">
+            <h2 class="panel__title">Project details</h2>
+            <dl class="meta">
+              <dt>Industry</dt>
+              <dd>{{ current.industry }}</dd>
+              <dt>Technologies</dt>
+              <dd>
+                <ul class="tag-list">
+                  @for (technology of current.technologies; track technology) {
+                    <li class="tag">{{ technology }}</li>
+                  }
+                </ul>
+              </dd>
+            </dl>
+          </div>
+
+          <div class="panel panel--cta">
+            <h2 class="panel__title">Facing something similar?</h2>
+            <p class="panel__text">Tell us about the process and we will map out a practical first step.</p>
+            <a class="btn btn--primary btn--block" routerLink="/contact">Start a Conversation</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <app-cta-banner
+    title="Ready to automate your own process?"
+    text="Every project starts the same way: a conversation about what is slowing the business down."
+    ctaLabel="Get Started"
+    ctaLink="/contact"
+    secondaryLabel="Back to portfolio"
+    secondaryLink="/portfolio"
+  />
+} @else if (project() === null) {
+  <app-page-hero
+    eyebrow="Portfolio"
+    title="Case study not found"
+    intro="We could not find a case study with that address. It may have been renamed or removed."
+    [crumbs]="[
+      { label: 'Portfolio', link: '/portfolio' },
+      { label: 'Not found' },
+    ]"
+  />
+
+  <section class="section">
+    <div class="container text-center">
+      <a class="btn btn--primary" routerLink="/portfolio">Back to all case studies</a>
+    </div>
+  </section>
+} @else {
+  <section class="section">
+    <div class="container">
+      <p role="status">Loading case study&hellip;</p>
+    </div>
+  </section>
+}

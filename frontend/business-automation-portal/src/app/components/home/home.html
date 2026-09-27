@@ -1,0 +1,224 @@
+<!-- ============================== Hero ============================== -->
+<section class="hero">
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <p class="eyebrow reveal">Business Automation &amp; Custom Software</p>
+      <h1 class="reveal reveal--delay-1">Transform Your Business With Smarter Digital Solutions</h1>
+      <p class="lead reveal reveal--delay-2">
+        We automate manual business processes and build secure, scalable software that helps businesses work
+        faster, smarter and more efficiently.
+      </p>
+      <div class="btn-row reveal reveal--delay-3">
+        <a class="btn btn--primary" routerLink="/contact">Let's Automate Your Business</a>
+        <a class="btn btn--secondary" routerLink="/services">View Our Services</a>
+      </div>
+      <ul class="hero__promises reveal reveal--delay-3">
+        @for (promise of promises; track promise) {
+          <li>
+            <app-icon name="check" [size]="16" />
+            {{ promise }}
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="hero__visual reveal reveal--delay-2" aria-hidden="true">
+      <div class="mock">
+        <div class="mock__bar">
+          <span class="mock__dot"></span>
+          <span class="mock__dot"></span>
+          <span class="mock__dot"></span>
+          <span class="mock__title">Purchase request #4821</span>
+        </div>
+        <div class="mock__row mock__row--done">
+          <span class="mock__state">Approved</span>
+          <span class="mock__text">Request submitted</span>
+        </div>
+        <div class="mock__row mock__row--done">
+          <span class="mock__state">Approved</span>
+          <span class="mock__text">Manager approval</span>
+        </div>
+        <div class="mock__row mock__row--active">
+          <span class="mock__state mock__state--active">In progress</span>
+          <span class="mock__text">Supplier order</span>
+        </div>
+        <div class="mock__row">
+          <span class="mock__state mock__state--todo">Queued</span>
+          <span class="mock__text">Delivery confirmation</span>
+        </div>
+        <div class="mock__footer">
+          <span class="mock__metric">Cycle time</span>
+          <strong>2.4 days</strong>
+          <span class="mock__metric">Manual steps removed</span>
+          <strong>11</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== What we do ============================ -->
+<section class="section" id="what-we-do">
+  <div class="container">
+    <app-section-heading
+      eyebrow="What We Do"
+      title="Three services, one outcome: a business that runs better"
+      intro="We start with the process that is costing you time, then build the technology that fixes it."
+    />
+
+    <div class="grid grid--3">
+      @for (service of services; track service.slug; let index = $index) {
+        <article class="card card--interactive reveal" [class.reveal--delay-1]="index === 0" [class.reveal--delay-2]="index === 1" [class.reveal--delay-3]="index === 2">
+          <span class="icon-tile"><app-icon [name]="service.icon" [size]="26" /></span>
+          @if (service.isPrimary) {
+            <p class="badge">Primary specialisation</p>
+          }
+          <h3 class="card__title">{{ service.title }}</h3>
+          <p class="card__body">{{ service.summary }}</p>
+          <ul class="tag-list">
+            @for (item of service.replaces.slice(0, 3); track item) {
+              <li class="tag">{{ item }}</li>
+            }
+          </ul>
+          <div class="card__footer">
+            <a class="text-link" [routerLink]="['/services', service.slug]">
+              {{ service.ctaLabel }}
+              <app-icon name="arrow-right" [size]="18" />
+            </a>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ====================== Why businesses choose us ==================== -->
+<section class="section section--tint">
+  <div class="container">
+    <app-section-heading
+      eyebrow="Why Businesses Choose Us"
+      title="Less manual work. Better decisions. Software that scales."
+      intro="The point of automation is not the technology. It is the time your people get back, and the confidence that the business is running on accurate information."
+    />
+
+    <ul class="reasons">
+      @for (reason of reasons; track reason.title) {
+        <li class="reason">
+          <span class="reason__icon"><app-icon [name]="reason.icon" [size]="22" /></span>
+          <h3>{{ reason.title }}</h3>
+          <p>{{ reason.description }}</p>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- ============================= Solutions ============================ -->
+<section class="section">
+  <div class="container">
+    <app-section-heading
+      eyebrow="Solutions"
+      title="Software for the work your business does every day"
+      intro="Each solution is built on the same foundation: clear workflows, controlled access and reporting you can rely on."
+    />
+
+    <div class="grid grid--3">
+      @for (solution of solutions; track solution.slug) {
+        <a class="card card--interactive solution-card" [routerLink]="['/solutions', solution.slug]">
+          <span class="icon-tile"><app-icon [name]="solution.icon" [size]="24" /></span>
+          <h3 class="card__title">{{ solution.title }}</h3>
+          <p class="card__body">{{ solution.tagline }}</p>
+          <span class="card__footer text-link">
+            Learn more
+            <app-icon name="arrow-right" [size]="18" />
+          </span>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ============================ Technology =========================== -->
+<section class="section section--dark">
+  <div class="container">
+    <app-section-heading
+      eyebrow="Technology"
+      title="Chosen for reliability, not for fashion"
+      intro="The stack below is what we build and maintain with every day. It is deliberately boring: proven tools that keep working as your business grows."
+    />
+
+    <div class="grid grid--3">
+      @for (group of technology; track group.id) {
+        <div class="tech-card">
+          <div class="tech-card__head">
+            <span class="icon-tile"><app-icon [name]="group.icon" [size]="22" /></span>
+            <h3>{{ group.title }}</h3>
+          </div>
+          <ul class="tag-list">
+            @for (item of group.items; track item.name) {
+              <li class="tag">{{ item.name }}</li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+
+    <div class="tech-more">
+      <a class="btn btn--ghost-inverse" routerLink="/technology">Explore our technology</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= Portfolio =========================== -->
+<section class="section">
+  <div class="container">
+    <app-section-heading
+      eyebrow="Portfolio"
+      title="How the work looks in practice"
+      intro="Illustrative scenarios showing the kind of outcomes our services are designed to deliver."
+    />
+
+    @if (portfolioOffline()) {
+      <p class="notice">Showing our bundled sample scenarios. Live case studies appear here when the project database is available.</p>
+    }
+
+    <div class="grid grid--3">
+      @for (project of projects(); track project.slug) {
+        <article class="card card--interactive project-card">
+          <div class="project-card__top">
+            <span class="badge badge--neutral">{{ project.industry }}</span>
+            @if (project.sampleProject) {
+              <span class="badge badge--sample">Sample project</span>
+            }
+          </div>
+          <h3 class="card__title">{{ project.name }}</h3>
+          <p class="card__body">{{ project.summary }}</p>
+          <ul class="tag-list">
+            @for (technology of project.technologies.slice(0, 4); track technology) {
+              <li class="tag">{{ technology }}</li>
+            }
+          </ul>
+          <div class="card__footer">
+            <a class="text-link" [routerLink]="['/portfolio', project.slug]">
+              Read the case study
+              <app-icon name="arrow-right" [size]="18" />
+            </a>
+          </div>
+        </article>
+      }
+    </div>
+
+    <div class="section-actions">
+      <a class="btn btn--secondary" routerLink="/portfolio">View all case studies</a>
+    </div>
+  </div>
+</section>
+
+<app-cta-banner
+  title="Have a process that is slowing your business down?"
+  text="Let's turn it into a smarter digital workflow. Tell us where the manual work is and we will map out what automating it looks like."
+  ctaLabel="Get Started"
+  ctaLink="/contact"
+  secondaryLabel="See our services"
+  secondaryLink="/services"
+/>
