@@ -1,56 +1,31 @@
-.group {
-  padding: clamp(1.35rem, 2.5vw, 1.85rem);
-  background-color: #fff;
+/* Technology cards, unique to this page. The .tech__group list is global. */
+.tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1px; list-style: none; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+
+.tech { display: grid; gap: 0.85rem; align-content: start; height: 100%; padding: clamp(1.5rem, 2.5vw, 2.25rem); background: var(--surface); }
+.tech__head { display: flex; align-items: center; gap: 0.85rem; }
+.tech__icon { color: var(--accent); }
+.tech__head h2 { margin: 0; font-size: 1.15rem; }
+.tech__desc { margin: 0; font-size: 0.92rem; color: var(--text-soft); }
+
+/* Large typographic index of the individual technologies. */
+.tech__names { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.35rem 0 0; padding: 0; list-style: none; }
+
+.tech__names li {
+  padding: 0.3rem 0.7rem;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  height: 100%;
+  border-radius: var(--radius-sm);
+  background: var(--c-cream);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color var(--d-fast) var(--ease), border-color var(--d-fast) var(--ease),
+    background-color var(--d-fast) var(--ease);
 }
 
-.group__head {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.9rem;
-  margin-bottom: 1.25rem;
+/* Tags brighten individually on hover; nothing moves. */
+@media (hover: hover) {
+  .tech__names li:hover { color: var(--accent-text); border-color: var(--accent); background: var(--c-accent-soft); }
 }
 
-.group__head h2 {
-  margin: 0 0 0.3rem;
-  font-size: 1.2rem;
-}
-
-.group__head p {
-  margin: 0;
-  font-size: 0.92rem;
-  color: var(--ink-soft);
-}
-
-.items {
-  display: grid;
-  gap: 0.1rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.items li {
-  display: grid;
-  gap: 0.1rem;
-  padding: 0.7rem 0;
-  border-top: 1px solid var(--line);
-}
-
-.items strong {
-  font-size: 0.95rem;
-  color: var(--ink);
-}
-
-.items span {
-  font-size: 0.88rem;
-  color: var(--muted);
-}
-
-.section-actions {
-  display: flex;
-  justify-content: center;
-  margin-top: 2.25rem;
-}
+.actions { display: flex; justify-content: center; margin-top: clamp(2rem, 4vw, 3rem); }

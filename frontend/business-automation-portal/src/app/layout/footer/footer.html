@@ -1,0 +1,74 @@
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a class="footer__logo" routerLink="/" aria-label="Business Automation Company - home">
+          <span class="footer__mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="32" height="32" rx="4" fill="#B83A2B" />
+              <path d="M9 11h14M9 16h9M9 21h6" stroke="#100705" stroke-width="2.4" stroke-linecap="round" />
+            </svg>
+          </span>
+          <span>{{ company.shortName }}</span>
+        </a>
+        <p class="footer__pitch">{{ company.positioning }}</p>
+        <ul class="footer__contact">
+          <li>
+            <app-icon name="mail" [size]="18" />
+            <a [href]="'mailto:' + company.email">{{ company.email }}</a>
+          </li>
+          <li>
+            <app-icon name="phone" [size]="18" />
+            <a [href]="'tel:' + dialNumber">{{ company.phone }}</a>
+          </li>
+          <li>
+            <app-icon name="pin" [size]="18" />
+            <span>{{ company.location }}</span>
+          </li>
+          <li>
+            <app-icon name="clock" [size]="18" />
+            <span>{{ company.businessHours }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <nav class="footer__nav" aria-labelledby="footer-services">
+        <h2 class="footer__heading" id="footer-services">Services</h2>
+        <ul>
+          @for (service of services; track service.slug) {
+            <li><a [routerLink]="['/services', service.slug]">{{ service.navLabel }}</a></li>
+          }
+        </ul>
+      </nav>
+
+      <nav class="footer__nav" aria-labelledby="footer-solutions">
+        <h2 class="footer__heading" id="footer-solutions">Solutions</h2>
+        <ul>
+          @for (solution of solutions; track solution.slug) {
+            <li><a [routerLink]="['/solutions', solution.slug]">{{ solution.navLabel }}</a></li>
+          }
+        </ul>
+      </nav>
+
+      <nav class="footer__nav" aria-labelledby="footer-company">
+        <h2 class="footer__heading" id="footer-company">Company</h2>
+        <ul>
+          <li><a routerLink="/about">About</a></li>
+          <li><a routerLink="/portfolio">Portfolio</a></li>
+          <li><a routerLink="/technology">Technology</a></li>
+          <li><a routerLink="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer__cta">
+      <p class="footer__cta-title">Have a process that should be automated?</p>
+      <a class="btn btn--primary" routerLink="/contact">Start a project</a>
+    </div>
+
+    <div class="footer__bottom">
+      <p>&copy; {{ year }} {{ company.legalName }}. All rights reserved.</p>
+      <p class="footer__note">Business Automation South Africa &middot; Process Automation &middot; Custom Business Software</p>
+    </div>
+  </div>
+</footer>

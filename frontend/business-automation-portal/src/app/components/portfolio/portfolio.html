@@ -1,6 +1,6 @@
 <app-page-hero
   eyebrow="Portfolio"
-  title="Selected case studies"
+  title="Selected case studies."
   intro="Each case study walks through a real shape of business problem: what it cost, what we built, and what changed."
   [crumbs]="[{ label: 'Portfolio' }]"
 />
@@ -8,64 +8,74 @@
 <section class="section">
   <div class="container">
     @if (fromFallback()) {
-      <p class="notice" role="status">
-        These are sample scenarios bundled with the website. They illustrate the kind of work we do and are not
-        presented as projects delivered for a client. Live case studies load from the project database when it is
-        available.
+      <p class="notice" appReveal>
+        These are sample scenarios bundled with the website. They illustrate the kind of work we do
+        and are not presented as projects delivered for a client. Live case studies load from the
+        project database when it is available.
       </p>
     }
 
     @if (loading()) {
-      <div class="grid grid--3" aria-hidden="true">
+      <div class="case-grid" aria-hidden="true">
         @for (placeholder of [1, 2, 3]; track placeholder) {
           <div class="skeleton"></div>
         }
       </div>
       <p class="visually-hidden" role="status">Loading case studies</p>
-    } @else {
-      <div class="grid grid--3">
-        @for (project of projects(); track project.slug) {
-          <article class="card card--interactive project">
-            <div class="project__top">
-              <span class="badge badge--neutral">{{ project.industry }}</span>
-              @if (project.sampleProject) {
-                <span class="badge badge--sample">Sample project</span>
-              }
-            </div>
+    } @else if (featured(); as lead) {
+      <article class="case-lead" appReveal>
+        <div class="case-lead__body">
+          <div class="case-lead__badges">
+            <span class="badge">{{ lead.industry }}</span>
+            @if (lead.sampleProject) {
+              <span class="badge badge--sample">Sample project</span>
+            }
+          </div>
+          <h2>{{ lead.name }}</h2>
+          <p>{{ lead.summary }}</p>
+          <a class="link" [routerLink]="['/portfolio', lead.slug]">
+            View project
+            <app-icon name="arrow-right" [size]="18" />
+          </a>
+        </div>
+        <div class="case-lead__art" aria-hidden="true">
+          <span class="case-lead__monogram">{{ lead.name.charAt(0) }}</span>
+        </div>
+      </article>
 
-            <div class="project__visual" aria-hidden="true">
-              <span class="project__monogram">{{ project.name.charAt(0) }}</span>
-            </div>
-
-            <h2 class="card__title">{{ project.name }}</h2>
-            <p class="card__body">{{ project.summary }}</p>
-
-            <ul class="tag-list">
-              @for (technology of project.technologies.slice(0, 4); track technology) {
-                <li class="tag">{{ technology }}</li>
-              }
-              @if (project.technologies.length > 4) {
-                <li class="tag">+{{ project.technologies.length - 4 }} more</li>
-              }
-            </ul>
-
-            <div class="card__footer">
-              <a class="text-link" [routerLink]="['/portfolio', project.slug]">
-                Read the case study
-                <app-icon name="arrow-right" [size]="18" />
+      @if (projects().length) {
+        <ul class="case-grid" appRevealGroup>
+          @for (project of projects(); track project.slug) {
+            <li>
+              <a class="case" [routerLink]="['/portfolio', project.slug]">
+                <span class="badge">{{ project.industry }}</span>
+                @if (project.sampleProject) {
+                  <span class="badge badge--sample">Sample</span>
+                }
+                <h3>{{ project.name }}</h3>
+                <p>{{ project.summary }}</p>
+                <span class="link">
+                  Read case study
+                  <app-icon name="arrow-right" [size]="18" />
+                </span>
               </a>
-            </div>
-          </article>
-        }
-      </div>
+            </li>
+          }
+        </ul>
+      }
+    } @else {
+      <p class="notice" role="status">
+        There are no published case studies yet. Get in touch and we will walk you through how a
+        project like yours would run.
+      </p>
     }
   </div>
 </section>
 
 <app-cta-banner
-  title="Your process could be the next case study"
+  title="Your process could be the next case study."
   text="Tell us what is taking too long, too many people or too much risk. We will show you what a digital version looks like."
-  ctaLabel="Discuss Your Project"
+  ctaLabel="Discuss your project"
   ctaLink="/contact"
   secondaryLabel="See our services"
   secondaryLink="/services"

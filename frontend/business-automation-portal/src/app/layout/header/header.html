@@ -1,0 +1,114 @@
+<header class="header" [class.header--scrolled]="scrolled()" [class.header--open]="menuOpen()">
+  <div class="container header__inner">
+    <a class="brand" routerLink="/" aria-label="Business Automation Company - home">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="4" fill="#B83A2B" />
+          <path d="M9 11h14M9 16h9M9 21h6" stroke="#100705" stroke-width="2.4" stroke-linecap="round" />
+        </svg>
+      </span>
+      <span class="brand__name">{{ company.shortName }}</span>
+    </a>
+
+    <button
+      type="button"
+      class="header__toggle"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="primary-navigation"
+      (click)="toggleMenu()"
+    >
+      <span class="header__toggle-bars" [class.is-open]="menuOpen()" aria-hidden="true">
+        <span></span>
+        <span></span>
+      </span>
+      <span class="visually-hidden">{{ menuOpen() ? 'Close menu' : 'Open menu' }}</span>
+    </button>
+
+    <nav id="primary-navigation" class="nav" [class.nav--open]="menuOpen()" aria-label="Primary">
+      <ul class="nav__list">
+        <li class="nav__item">
+          <a class="nav__link" routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">
+            Home
+          </a>
+        </li>
+
+        <li
+          class="nav__item nav__item--parent"
+          [class.is-open]="isOpen('services')"
+          (mouseenter)="isOpen('services') || (openDropdown.set('services'))"
+          (mouseleave)="isOpen('services') && openDropdown.set(null)"
+        >
+          <button
+            type="button"
+            class="nav__link nav__trigger"
+            [attr.aria-expanded]="isOpen('services')"
+            aria-controls="submenu-services"
+            (click)="toggleDropdown('services')"
+          >
+            Services
+          </button>
+          <div class="nav__panel" id="submenu-services" [class.is-open]="isOpen('services')">
+            <ul class="nav__sublist">
+              @for (service of services; track service.slug) {
+                <li>
+                  <a class="nav__sublink" [routerLink]="['/services', service.slug]" routerLinkActive="is-active">
+                    <span class="nav__subindex">0{{ $index + 1 }}</span>
+                    <span>
+                      <span class="nav__sublabel">{{ service.navLabel }}</span>
+                      <span class="nav__subhint">{{ service.tagline }}</span>
+                    </span>
+                  </a>
+                </li>
+              }
+            </ul>
+          </div>
+        </li>
+
+        <li
+          class="nav__item nav__item--parent"
+          [class.is-open]="isOpen('solutions')"
+          (mouseenter)="isOpen('solutions') || (openDropdown.set('solutions'))"
+          (mouseleave)="isOpen('solutions') && openDropdown.set(null)"
+        >
+          <button
+            type="button"
+            class="nav__link nav__trigger"
+            [attr.aria-expanded]="isOpen('solutions')"
+            aria-controls="submenu-solutions"
+            (click)="toggleDropdown('solutions')"
+          >
+            Solutions
+          </button>
+          <div class="nav__panel" id="submenu-solutions" [class.is-open]="isOpen('solutions')">
+            <ul class="nav__sublist nav__sublist--wide">
+              @for (solution of solutions; track solution.slug) {
+                <li>
+                  <a class="nav__sublink" [routerLink]="['/solutions', solution.slug]" routerLinkActive="is-active">
+                    <span class="nav__subindex">0{{ $index + 1 }}</span>
+                    <span>
+                      <span class="nav__sublabel">{{ solution.navLabel }}</span>
+                      <span class="nav__subhint">{{ solution.tagline }}</span>
+                    </span>
+                  </a>
+                </li>
+              }
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav__item">
+          <a class="nav__link" routerLink="/about" routerLinkActive="is-active">About</a>
+        </li>
+        <li class="nav__item">
+          <a class="nav__link" routerLink="/portfolio" routerLinkActive="is-active">Portfolio</a>
+        </li>
+        <li class="nav__item">
+          <a class="nav__link" routerLink="/technology" routerLinkActive="is-active">Technology</a>
+        </li>
+        <li class="nav__item nav__item--cta">
+          <a class="btn btn--primary" routerLink="/contact">Start a project</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

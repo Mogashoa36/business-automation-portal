@@ -7,7 +7,7 @@ import { CtaBanner } from '../cta-banner/cta-banner';
 import { Icon } from '../icon/icon';
 import { PageHero } from '../page-hero/page-hero';
 import { ProcessFlow } from '../process-flow/process-flow';
-import { SectionHeading } from '../section-heading/section-heading';
+import { Reveal } from '../reveal/reveal';
 
 /**
  * Presentation for a single service. Each service route renders this with its
@@ -17,7 +17,7 @@ import { SectionHeading } from '../section-heading/section-heading';
 @Component({
   selector: 'app-service-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, PageHero, SectionHeading, ProcessFlow, CtaBanner],
+  imports: [RouterLink, Icon, PageHero, ProcessFlow, CtaBanner, Reveal],
   templateUrl: './service-detail.html',
   styleUrl: './service-detail.scss',
 })
@@ -26,4 +26,9 @@ export class ServiceDetail {
   readonly service = input.required<ServiceContent>();
 
   protected readonly otherServices = computed(() => SERVICES.filter((item) => item.slug !== this.service().slug));
+
+  /** Zero padded index, e.g. 01, 02. */
+  protected pad(value: number): string {
+    return value.toString().padStart(2, '0');
+  }
 }

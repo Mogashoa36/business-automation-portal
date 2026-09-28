@@ -1,5 +1,5 @@
 <app-page-hero
-  [eyebrow]="'Solutions'"
+  eyebrow="Solution"
   [title]="solution().title"
   [intro]="solution().tagline"
   [crumbs]="[
@@ -8,85 +8,105 @@
   ]"
 />
 
-<!-- ============================ Overview =========================== -->
+<!-- ============================== Overview ============================= -->
 <section class="section">
   <div class="container">
     <div class="split">
       <div>
-        <app-section-heading eyebrow="The Solution" [title]="solution().title" [intro]="solution().summary" />
-        <ul class="check-list">
+        <p class="eyebrow">The solution</p>
+        <h2 class="split__title">Built around how your team actually works.</h2>
+        <p class="lead">{{ solution().summary }}</p>
+        <ul class="outcomes">
           @for (benefit of solution().benefits; track benefit) {
-            <li>{{ benefit }}</li>
+            <li>
+              <app-icon name="check" [size]="18" />
+              <span>{{ benefit }}</span>
+            </li>
           }
         </ul>
       </div>
 
-      <div class="panel">
-        <h3 class="panel__title">How it is delivered</h2>
+      <div class="panel" appReveal>
+        <h3 class="panel__title">How it is delivered</h3>
         <p class="panel__text">
-          Delivered as a custom application, so the rules, the screens and the reports match how your team works
-          today. It can start as a focused module and grow into a wider system as the business does.
+          Delivered as a custom application, so the rules, the screens and the reports match how
+          your team works today. It can start as a focused module and grow into a wider system as
+          the business does.
         </p>
-        <div class="btn-row">
-          <a class="btn btn--primary" routerLink="/contact">{{ solution().ctaLabel }}</a>
-        </div>
+        <a class="btn btn--primary" routerLink="/contact">
+          {{ solution().ctaLabel }}
+          <app-icon name="arrow-right" [size]="18" />
+        </a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============================ Workflow =========================== -->
+<!-- ============================== Workflow ============================= -->
 @if (solution().workflow; as workflow) {
-  <section class="section section--tint">
+  <section class="section">
     <div class="container">
-      <app-section-heading
-        eyebrow="The Process"
-        [title]="workflow.title"
-        intro="Each step is captured, routed and recorded so nothing depends on who remembers."
-      />
+      <div class="section-head section-head--split" appReveal>
+        <div>
+          <p class="eyebrow">The process</p>
+          <h2>{{ workflow.title }}</h2>
+        </div>
+        <p class="lead">Each step is captured, routed and recorded so nothing depends on who remembers.</p>
+      </div>
       <app-process-flow [steps]="workflow.steps" />
     </div>
   </section>
 }
 
-<!-- ========================== Capabilities ========================== -->
+<!-- ============================ Capabilities =========================== -->
 <section class="section">
   <div class="container">
-    <app-section-heading
-      eyebrow="Capabilities"
-      title="What the solution gives you"
-      intro="Practical, proven capabilities configured for your organisation rather than a generic product."
-    />
-
-    <div class="grid grid--3">
-      @for (capability of solution().capabilities; track capability.title) {
-        <article class="card">
-          <h3 class="card__title">{{ capability.title }}</h3>
-          <p class="card__body">{{ capability.description }}</p>
-        </article>
-      }
+    <div class="section-head section-head--split" appReveal>
+      <div>
+        <p class="eyebrow">Capabilities</p>
+        <h2>What the solution gives you.</h2>
+      </div>
+      <p class="lead">
+        Practical, proven capabilities configured for your organisation rather than a generic
+        product.
+      </p>
     </div>
+
+    <ul class="caps" appRevealGroup>
+      @for (capability of solution().capabilities; track capability.title) {
+        <li class="cap">
+          <span class="index-num">{{ pad($index + 1) }}</span>
+          <h3>{{ capability.title }}</h3>
+          <p>{{ capability.description }}</p>
+        </li>
+      }
+    </ul>
   </div>
 </section>
 
-<!-- ======================= Related solutions ======================== -->
-<section class="section section--dark">
+<!-- ========================== Related solutions ======================== -->
+<section class="section section--related">
   <div class="container">
-    <app-section-heading eyebrow="Explore More" title="Other solutions we build" />
-
-    <div class="grid grid--3">
-      @for (other of otherSolutions(); track other.slug) {
-        <a class="solution-link" [routerLink]="['/solutions', other.slug]">
-          <span class="icon-tile"><app-icon [name]="other.icon" [size]="22" /></span>
-          <h3>{{ other.title }}</h3>
-          <p>{{ other.tagline }}</p>
-          <span class="text-link">
-            Learn more
-            <app-icon name="arrow-right" [size]="18" />
-          </span>
-        </a>
-      }
+    <div class="section-head" appReveal>
+      <p class="eyebrow">Explore more</p>
+      <h2>Other solutions we build.</h2>
     </div>
+
+    <ul class="related-grid" appRevealGroup>
+      @for (other of otherSolutions(); track other.slug) {
+        <li>
+          <a class="related-card" [routerLink]="['/solutions', other.slug]">
+            <span class="index-num">0{{ $index + 1 }}</span>
+            <h3>{{ other.title }}</h3>
+            <p>{{ other.tagline }}</p>
+            <span class="link">
+              Learn more
+              <app-icon name="arrow-right" [size]="18" />
+            </span>
+          </a>
+        </li>
+      }
+    </ul>
   </div>
 </section>
 

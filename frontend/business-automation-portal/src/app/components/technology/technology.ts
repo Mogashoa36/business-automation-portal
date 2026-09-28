@@ -6,12 +6,12 @@ import { SeoService } from '../../services/seo.service';
 import { CtaBanner } from '../../shared/cta-banner/cta-banner';
 import { Icon } from '../../shared/icon/icon';
 import { PageHero } from '../../shared/page-hero/page-hero';
-import { SectionHeading } from '../../shared/section-heading/section-heading';
+import { Reveal } from '../../shared/reveal/reveal';
 
 @Component({
   selector: 'app-technology',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, PageHero, SectionHeading, CtaBanner],
+  imports: [RouterLink, Icon, PageHero, CtaBanner, Reveal],
   templateUrl: './technology.html',
   styleUrl: './technology.scss',
 })

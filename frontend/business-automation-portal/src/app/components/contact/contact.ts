@@ -13,13 +13,14 @@ import { ContactService, describeApiError } from '../../services/contact.service
 import { SeoService } from '../../services/seo.service';
 import { Icon } from '../../shared/icon/icon';
 import { PageHero } from '../../shared/page-hero/page-hero';
+import { Reveal } from '../../shared/reveal/reveal';
 
 type SubmitState = 'idle' | 'submitting' | 'success' | 'error';
 
 @Component({
   selector: 'app-contact',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, Icon, PageHero],
+  imports: [ReactiveFormsModule, Icon, PageHero, Reveal],
   templateUrl: './contact.html',
   styleUrl: './contact.scss',
 })
@@ -29,6 +30,8 @@ export class Contact {
   private readonly seo = inject(SeoService);
 
   protected readonly company = COMPANY;
+  /** Phone number in a `tel:` friendly format (no spaces). */
+  protected readonly dialNumber = COMPANY.phone.replace(/\s/g, '');
   protected readonly serviceOptions: readonly ServiceOption[] = SERVICE_OPTIONS;
   protected readonly services = SERVICES;
   protected readonly solutions = SOLUTIONS;

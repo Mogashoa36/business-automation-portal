@@ -1,42 +1,80 @@
-.approach {
+/* Steps and service index, unique to this page. */
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1px; list-style: none; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.steps li { display: grid; gap: 0.5rem; align-content: start; padding: clamp(1.4rem, 2.5vw, 2rem); background: var(--surface); }
+.steps h3 { margin: 0; font-size: 1.1rem; }
+.steps p { margin: 0; font-size: 0.92rem; color: var(--text-soft); }
+
+.svc-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1px; list-style: none; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+
+.svc {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
-  gap: clamp(1rem, 2vw, 1.75rem);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: approach;
-}
-
-.approach li {
-  padding: 1.5rem 1.35rem;
-  background-color: #fff;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  gap: 0.8rem;
+  align-content: start;
   height: 100%;
+  padding: clamp(1.6rem, 3vw, 2.5rem);
+  background: var(--surface);
+  transition: background-color var(--d-ui) var(--ease), transform var(--d-ui) var(--ease),
+    box-shadow var(--d-ui) var(--ease);
 }
 
-.approach__step {
-  display: block;
-  margin-bottom: 0.75rem;
+/*
+ * The card lifts out of the grid and its number picks up a short accent rule.
+ * The previous `background: var(--surface)` on hover was a no-op against the
+ * base value, so the row had no visible response at all.
+ */
+@media (hover: hover) {
+  .svc:hover { background: var(--bg-elev); transform: translateY(-4px); box-shadow: var(--shadow-md); z-index: 1; }
+  .svc:hover .svc__num { transform: translateX(3px); }
+  .svc:hover .svc__title { transform: translateX(3px); }
+  .svc:hover .link { color: var(--accent-text); }
+  .svc:hover .link app-icon { transform: translateX(5px); }
+}
+
+.svc__num {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
   color: var(--accent);
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
+  transition: transform var(--d-ui) var(--ease);
 }
 
-.approach h3 {
-  margin-bottom: 0.4rem;
-  font-size: 1.08rem;
+/* Short accent rule under the number, drawn in on hover. */
+.svc__num::after {
+  content: '';
+  display: block;
+  width: 1.5rem;
+  height: 1.5px;
+  margin-top: 0.5rem;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--d-ui) var(--ease);
 }
 
-.approach p {
-  margin: 0;
-  color: var(--ink-soft);
-  font-size: 0.95rem;
-}
+.svc:hover .svc__num::after { transform: scaleX(1); }
 
-.service__list {
-  gap: 0.5rem;
-  font-size: 0.92rem;
+.svc__title { margin: 0; font-size: clamp(1.35rem, 1.1rem + 1vw, 1.9rem); line-height: 1.05; transition: transform var(--d-ui) var(--ease); }
+.svc__body { margin: 0; font-size: 0.95rem; color: var(--text-soft); }
+
+.svc__replaces { display: grid; gap: 0.5rem; list-style: none; }
+.svc__replaces li { display: grid; grid-template-columns: 1.2rem 1fr; gap: 0.55rem; align-items: start; font-size: 0.87rem; color: var(--text-muted); }
+.svc__replaces app-icon { margin-top: 0.18rem; color: var(--accent); }
+
+.svc__cta { margin-top: auto; padding-top: 0.5rem; }
+.svc--primary .svc__title::after {
+  content: 'Primary';
+  display: inline-block;
+  margin-left: 0.7rem;
+  padding: 0.22rem 0.55rem;
+  vertical-align: middle;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
 }

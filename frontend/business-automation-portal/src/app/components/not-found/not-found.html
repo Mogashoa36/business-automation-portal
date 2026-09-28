@@ -1,25 +1,28 @@
 <app-page-hero
   eyebrow="404"
-  title="We could not find that page"
-  intro="The link may be out of date, or the address may have a typo in it. Here are the pages people usually want."
+  title="We could not find that page."
+  intro="The link may be out of date, or the address may have a typo in it. Here is where most people were heading."
   [crumbs]="[{ label: 'Not found' }]"
 />
 
 <section class="section">
   <div class="container">
-    <div class="grid grid--3">
+    <ul class="sol-list">
       @for (service of services; track service.slug) {
-        <a class="card card--interactive link-card" [routerLink]="['/services', service.slug]">
-          <span class="icon-tile"><app-icon [name]="service.icon" [size]="24" /></span>
-          <h2 class="card__title">{{ service.title }}</h2>
-          <p class="card__body">{{ service.tagline }}</p>
-        </a>
+        <li>
+          <a class="sol" [routerLink]="['/services', service.slug]">
+            <span class="sol__num">0{{ $index + 1 }}</span>
+            <h3 class="sol__title">{{ service.title }}</h3>
+            <p class="sol__body">{{ service.tagline }}</p>
+            <app-icon class="sol__arrow" name="arrow-right" [size]="22" />
+          </a>
+        </li>
       }
-    </div>
+    </ul>
 
     <div class="actions">
       <a class="btn btn--primary" routerLink="/">Back to home</a>
-      <a class="btn btn--secondary" routerLink="/contact">Contact us</a>
+      <a class="btn btn--outline" routerLink="/contact">Contact us</a>
     </div>
   </div>
 </section>

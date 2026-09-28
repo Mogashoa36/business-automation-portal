@@ -1,224 +1,425 @@
-<!-- ============================== Hero ============================== -->
+<!-- ================================ HERO ================================ -->
 <section class="hero">
+  <span class="hero__glow" aria-hidden="true"></span>
+  <span class="hero__grid" aria-hidden="true"></span>
+
   <div class="container hero__inner">
     <div class="hero__copy">
-      <p class="eyebrow reveal">Business Automation &amp; Custom Software</p>
-      <h1 class="reveal reveal--delay-1">Transform Your Business With Smarter Digital Solutions</h1>
-      <p class="lead reveal reveal--delay-2">
-        We automate manual business processes and build secure, scalable software that helps businesses work
-        faster, smarter and more efficiently.
+      <p class="eyebrow" data-anim="fade-up">Business Process Automation &amp; Custom Software</p>
+
+      <h1 class="hero__title">
+        <span class="hero__line d1" data-anim="fade-up">Turn complex</span>
+        <span class="hero__line d2" data-anim="fade-up">business processes</span>
+        <span class="hero__line hero__line--accent d3" data-anim="fade-up">into smarter</span>
+        <span class="hero__line d4" data-anim="fade-up">digital systems.</span>
+      </h1>
+
+      <p class="lead hero__lead d4" data-anim="fade-up">
+        We design and build secure digital solutions that automate manual processes, improve
+        operational visibility and help businesses work smarter.
       </p>
-      <div class="btn-row reveal reveal--delay-3">
-        <a class="btn btn--primary" routerLink="/contact">Let's Automate Your Business</a>
-        <a class="btn btn--secondary" routerLink="/services">View Our Services</a>
-      </div>
-      <ul class="hero__promises reveal reveal--delay-3">
-        @for (promise of promises; track promise) {
-          <li>
-            <app-icon name="check" [size]="16" />
-            {{ promise }}
-          </li>
-        }
-      </ul>
-    </div>
 
-    <div class="hero__visual reveal reveal--delay-2" aria-hidden="true">
-      <div class="mock">
-        <div class="mock__bar">
-          <span class="mock__dot"></span>
-          <span class="mock__dot"></span>
-          <span class="mock__dot"></span>
-          <span class="mock__title">Purchase request #4821</span>
-        </div>
-        <div class="mock__row mock__row--done">
-          <span class="mock__state">Approved</span>
-          <span class="mock__text">Request submitted</span>
-        </div>
-        <div class="mock__row mock__row--done">
-          <span class="mock__state">Approved</span>
-          <span class="mock__text">Manager approval</span>
-        </div>
-        <div class="mock__row mock__row--active">
-          <span class="mock__state mock__state--active">In progress</span>
-          <span class="mock__text">Supplier order</span>
-        </div>
-        <div class="mock__row">
-          <span class="mock__state mock__state--todo">Queued</span>
-          <span class="mock__text">Delivery confirmation</span>
-        </div>
-        <div class="mock__footer">
-          <span class="mock__metric">Cycle time</span>
-          <strong>2.4 days</strong>
-          <span class="mock__metric">Manual steps removed</span>
-          <strong>11</strong>
-        </div>
+      <div class="btn-row hero__actions d5" data-anim="fade-up">
+        <a class="btn btn--primary" routerLink="/contact">
+          Start a project
+          <app-icon name="arrow-right" [size]="18" />
+        </a>
+        <a class="btn btn--outline" routerLink="/services">Explore services</a>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- =========================== What we do ============================ -->
-<section class="section" id="what-we-do">
-  <div class="container">
-    <app-section-heading
-      eyebrow="What We Do"
-      title="Three services, one outcome: a business that runs better"
-      intro="We start with the process that is costing you time, then build the technology that fixes it."
-    />
-
-    <div class="grid grid--3">
-      @for (service of services; track service.slug; let index = $index) {
-        <article class="card card--interactive reveal" [class.reveal--delay-1]="index === 0" [class.reveal--delay-2]="index === 1" [class.reveal--delay-3]="index === 2">
-          <span class="icon-tile"><app-icon [name]="service.icon" [size]="26" /></span>
-          @if (service.isPrimary) {
-            <p class="badge">Primary specialisation</p>
-          }
-          <h3 class="card__title">{{ service.title }}</h3>
-          <p class="card__body">{{ service.summary }}</p>
-          <ul class="tag-list">
-            @for (item of service.replaces.slice(0, 3); track item) {
-              <li class="tag">{{ item }}</li>
-            }
-          </ul>
-          <div class="card__footer">
-            <a class="text-link" [routerLink]="['/services', service.slug]">
-              {{ service.ctaLabel }}
-              <app-icon name="arrow-right" [size]="18" />
-            </a>
+    <!-- Layered product visual: a dark application surface on a light page.
+         The frame assembles once on arrival and then holds still. -->
+    <div class="hero__visual d4" data-anim="fade-up" aria-hidden="true">
+      <div class="panel-main frame frame--dark" appMockup>
+        <div class="frame__bar">
+          <span class="frame__dot"></span>
+          <span class="frame__dot"></span>
+          <span class="frame__dot"></span>
+          <span class="frame__title">Workflow — Purchase request #4821</span>
+        </div>
+        <div class="frame__body" appRevealGroup>
+          <div class="row row--done">
+            <span class="row__tag">Approved</span>
+            <span class="row__text">Request submitted</span>
           </div>
-        </article>
-      }
+          <div class="row row--done">
+            <span class="row__tag">Approved</span>
+            <span class="row__text">Manager approval</span>
+          </div>
+          <div class="row row--active">
+            <span class="row__tag row__tag--active">In progress</span>
+            <span class="row__text">Supplier order</span>
+          </div>
+          <div class="row">
+            <span class="row__tag row__tag--todo">Queued</span>
+            <span class="row__text">Delivery confirmation</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-float panel-float--a d5" data-anim="fade-up">
+        <span class="index-num">Cycle time</span>
+        <strong>2.4 days</strong>
+      </div>
+      <div class="panel-float panel-float--b d6" data-anim="fade-up">
+        <span class="index-num">Manual steps removed</span>
+        <strong>11</strong>
+      </div>
     </div>
+  </div>
+
+  <!-- Factual meta strip: the three services, nothing invented. -->
+  <div class="container hero__meta">
+    @for (service of services; track service.slug) {
+      <a class="hero__meta-item" [routerLink]="['/services', service.slug]">
+        <span class="index-num">0{{ $index + 1 }}</span>
+        <span>{{ service.title }}</span>
+        <app-icon name="arrow-right" [size]="16" />
+      </a>
+    }
   </div>
 </section>
 
-<!-- ====================== Why businesses choose us ==================== -->
-<section class="section section--tint">
+<!-- ============================== SERVICES ============================== -->
+<section class="section section--services">
   <div class="container">
-    <app-section-heading
-      eyebrow="Why Businesses Choose Us"
-      title="Less manual work. Better decisions. Software that scales."
-      intro="The point of automation is not the technology. It is the time your people get back, and the confidence that the business is running on accurate information."
-    />
+    <div class="section-head section-head--split" appReveal>
+      <div>
+        <p class="eyebrow">What we do</p>
+        <h2>Digital solutions designed around the way your business actually works.</h2>
+      </div>
+      <p class="lead">
+        We are not a coding shop. We start with the process that is costing you time, remove the
+        manual work, and build the software that replaces it.
+      </p>
+    </div>
 
-    <ul class="reasons">
-      @for (reason of reasons; track reason.title) {
-        <li class="reason">
-          <span class="reason__icon"><app-icon [name]="reason.icon" [size]="22" /></span>
-          <h3>{{ reason.title }}</h3>
-          <p>{{ reason.description }}</p>
+    <ul class="service-list" appRevealGroup>
+      @for (service of services; track service.slug) {
+        <li>
+          <a class="service" [class.service--primary]="service.isPrimary" [routerLink]="['/services', service.slug]">
+            <span class="service__num">0{{ $index + 1 }}</span>
+            <h3 class="service__title">{{ service.title }}</h3>
+            <p class="service__body">{{ service.tagline }}</p>
+            <span class="service__tags">
+              @for (item of service.replaces.slice(0, 3); track item) {
+                <span class="tag">{{ item }}</span>
+              }
+            </span>
+            <span class="service__cta" aria-hidden="true">
+              <app-icon name="arrow-right" [size]="20" />
+            </span>
+          </a>
         </li>
       }
     </ul>
   </div>
 </section>
 
-<!-- ============================= Solutions ============================ -->
-<section class="section">
+<!-- ================== 01 BUSINESS PROCESS AUTOMATION ==================== -->
+<!-- The one deliberate dark band on the home page: the primary specialisation. -->
+<section class="section section--feature theme-dark">
   <div class="container">
-    <app-section-heading
-      eyebrow="Solutions"
-      title="Software for the work your business does every day"
-      intro="Each solution is built on the same foundation: clear workflows, controlled access and reporting you can rely on."
-    />
-
-    <div class="grid grid--3">
-      @for (solution of solutions; track solution.slug) {
-        <a class="card card--interactive solution-card" [routerLink]="['/solutions', solution.slug]">
-          <span class="icon-tile"><app-icon [name]="solution.icon" [size]="24" /></span>
-          <h3 class="card__title">{{ solution.title }}</h3>
-          <p class="card__body">{{ solution.tagline }}</p>
-          <span class="card__footer text-link">
-            Learn more
-            <app-icon name="arrow-right" [size]="18" />
-          </span>
+    <div class="feature" appReveal>
+      <div class="feature__copy">
+        <p class="eyebrow">01 - Business Process Automation</p>
+        <h2 class="feature__title">Your process.<br /><em>Automated.</em></h2>
+        <p class="lead">
+          Our specialisation. We turn repetitive manual work into digital workflows that route,
+          approve, notify, escalate and report on their own.
+        </p>
+        <p class="feature__body">
+          Excel trackers, email approval chains, paper sign-off and hand-built reports become one
+          auditable system - so nothing depends on who remembers to chase it.
+        </p>
+        <a class="btn btn--primary" routerLink="/contact">
+          Automate your process
+          <app-icon name="arrow-right" [size]="18" />
         </a>
-      }
+      </div>
+
+      <ul class="feature__list">
+        @for (capability of primary.capabilities.slice(0, 6); track capability.title) {
+          <li>
+            <app-icon name="check" [size]="18" />
+            <span>
+              <strong>{{ capability.title }}</strong>
+              <span>{{ capability.description }}</span>
+            </span>
+          </li>
+        }
+      </ul>
     </div>
+
+    @if (primary.workflow; as workflow) {
+      <div class="flow-block" appReveal>
+        <app-process-flow [steps]="workflow.steps" [title]="workflow.title" />
+      </div>
+    }
   </div>
 </section>
 
-<!-- ============================ Technology =========================== -->
-<section class="section section--dark">
+<!-- ================== 02 CUSTOM BUSINESS APPLICATIONS ==================== -->
+<section class="section section--feature">
   <div class="container">
-    <app-section-heading
-      eyebrow="Technology"
-      title="Chosen for reliability, not for fashion"
-      intro="The stack below is what we build and maintain with every day. It is deliberately boring: proven tools that keep working as your business grows."
-    />
+    <div class="feature feature--flip" appReveal>
+      <div class="feature__copy">
+        <p class="eyebrow">02 - Custom Business Applications</p>
+        <h2 class="feature__title">Software built<br /><em>around your business.</em></h2>
+        <p class="lead">
+          We build custom applications that fit your process, instead of forcing your business into
+          a generic platform.
+        </p>
+        <p class="feature__body">
+          Operations systems, employee and customer portals, order management and reporting
+          platforms - with role-based access, audit trails and cloud deployment.
+        </p>
+        <a class="btn btn--primary" routerLink="/contact">
+          Build your application
+          <app-icon name="arrow-right" [size]="18" />
+        </a>
+      </div>
 
-    <div class="grid grid--3">
-      @for (group of technology; track group.id) {
-        <div class="tech-card">
-          <div class="tech-card__head">
-            <span class="icon-tile"><app-icon [name]="group.icon" [size]="22" /></span>
-            <h3>{{ group.title }}</h3>
+      <!-- Enterprise dashboard: KPI tiles and a weekly performance chart.
+           Assembles once as it scrolls into view, then holds still. -->
+      <div class="dash" appMockup aria-hidden="true">
+        <div class="dash__tiles">
+          <div class="dash__tile">
+            <span class="index-num">Open requests</span>
+            <strong>1,245</strong>
           </div>
-          <ul class="tag-list">
-            @for (item of group.items; track item.name) {
-              <li class="tag">{{ item.name }}</li>
-            }
-          </ul>
+          <div class="dash__tile">
+            <span class="index-num">Pending</span>
+            <strong>183</strong>
+          </div>
+          <div class="dash__tile">
+            <span class="index-num">SLA breaches</span>
+            <strong class="is-warn">41</strong>
+          </div>
         </div>
-      }
-    </div>
-
-    <div class="tech-more">
-      <a class="btn btn--ghost-inverse" routerLink="/technology">Explore our technology</a>
+        <div class="dash__chart">
+          @for (height of [42, 68, 55, 82, 61, 94, 73]; track $index) {
+            <span class="dash__col" [style.height.%]="height"></span>
+          }
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ============================= Portfolio =========================== -->
+<!-- ===================== 03 WEBSITE DEVELOPMENT ======================== -->
+<section class="section section--feature">
+  <div class="container">
+    <div class="feature" appReveal>
+      <div class="feature__copy">
+        <p class="eyebrow">03 - Website Development</p>
+        <h2 class="feature__title">Your business,<br /><em>online.</em></h2>
+        <p class="lead">
+          Modern, responsive websites designed to communicate your value and turn visitors into
+          customers.
+        </p>
+        <p class="feature__body">
+          Corporate sites, landing pages and service websites - built fast, accessible on every
+          device, and straightforward for your own team to maintain.
+        </p>
+        <a class="btn btn--primary" routerLink="/contact">
+          Build my website
+          <app-icon name="arrow-right" [size]="18" />
+        </a>
+      </div>
+
+      <!-- Commercial website mockup. Assembles once on reveal. -->
+      <div class="browser" appMockup aria-hidden="true">
+        <div class="browser__chrome">
+          <span class="frame__dot"></span>
+          <span class="frame__dot"></span>
+          <span class="frame__dot"></span>
+          <span class="browser__url">yourcompany.co.za</span>
+        </div>
+        <div class="browser__page">
+          <span class="browser__nav"></span>
+          <div class="browser__hero">
+            <span class="browser__line browser__line--lg"></span>
+            <span class="browser__line"></span>
+            <span class="browser__cta"></span>
+          </div>
+          <div class="browser__grid">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================== WHY CHOOSE US ============================= -->
 <section class="section">
   <div class="container">
-    <app-section-heading
-      eyebrow="Portfolio"
-      title="How the work looks in practice"
-      intro="Illustrative scenarios showing the kind of outcomes our services are designed to deliver."
-    />
+    <div class="section-head section-head--split" appReveal>
+      <div>
+        <p class="eyebrow">Why businesses choose us</p>
+        <h2>Less manual work. Better decisions. Software that scales.</h2>
+      </div>
+      <p class="lead">
+        The point of automation is not the technology. It is the time your people get back, and the
+        confidence that the business is running on accurate information.
+      </p>
+    </div>
 
-    @if (portfolioOffline()) {
-      <p class="notice">Showing our bundled sample scenarios. Live case studies appear here when the project database is available.</p>
+    <ul class="outcomes-grid" appRevealGroup>
+      @for (reason of reasons; track reason.title) {
+        <li class="outcome">
+          <app-icon class="outcome__icon" [name]="reason.icon" [size]="24" />
+          <h3>{{ reason.title }}</h3>
+          <p>{{ reason.description }}</p>
+        </li>
+      }
+    </ul>
+
+    <ul class="promises" appReveal>
+      @for (promise of promises; track promise) {
+        <li>
+          <app-icon name="check" [size]="16" />
+          {{ promise }}
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- ============================== SOLUTIONS ============================= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head--split" appReveal>
+      <div>
+        <p class="eyebrow">Solutions</p>
+        <h2>Software for the work your business does every day.</h2>
+      </div>
+      <p class="lead">
+        Each solution solves one clear business problem, and they are built to work together.
+      </p>
+    </div>
+
+    <ul class="sol-list">
+      @for (solution of solutions; track solution.slug) {
+        <li>
+          <a class="sol" [routerLink]="['/solutions', solution.slug]">
+            <span class="sol__num">0{{ $index + 1 }}</span>
+            <h3 class="sol__title">{{ solution.title }}</h3>
+            <p class="sol__body">{{ solution.tagline }}</p>
+            <app-icon class="sol__arrow" name="arrow-right" [size]="22" />
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- ============================= TECHNOLOGY ============================= -->
+<section class="section tech">
+  <div class="container">
+    <div class="section-head section-head--split" appReveal>
+      <div>
+        <p class="eyebrow">Technology</p>
+        <h2>Modern technology, carefully selected to build reliable business software.</h2>
+      </div>
+      <p class="lead">
+        Deliberately boring, widely supported tools that keep working as your business grows.
+      </p>
+    </div>
+
+    @for (group of technology; track group.id) {
+      <div class="tech__group" appReveal>
+        <h3 class="tech__group-title">{{ group.title }}</h3>
+        <ul class="tech__items">
+          @for (item of group.items; track item.name) {
+            <li class="tech__item">
+              <span class="tech__name">{{ item.name }}</span>
+              <span class="tech__note">{{ item.note }}</span>
+            </li>
+          }
+        </ul>
+      </div>
     }
 
-    <div class="grid grid--3">
-      @for (project of projects(); track project.slug) {
-        <article class="card card--interactive project-card">
-          <div class="project-card__top">
-            <span class="badge badge--neutral">{{ project.industry }}</span>
-            @if (project.sampleProject) {
+    <div class="tech__more" appReveal>
+      <a class="btn btn--outline" routerLink="/technology">Explore our technology</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PORTFOLIO ============================= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head--split" appReveal>
+      <div>
+        <p class="eyebrow">Portfolio</p>
+        <h2>Selected case studies.</h2>
+      </div>
+      <p class="lead">
+        Illustrative scenarios showing the kind of outcomes our services are designed to deliver.
+      </p>
+    </div>
+
+    @if (portfolioOffline()) {
+      <p class="notice" appReveal>
+        Showing bundled sample scenarios. Live case studies load from the project database when it
+        is available.
+      </p>
+    }
+
+    @if (featured(); as lead) {
+      <article class="case-lead" appReveal>
+        <div class="case-lead__body">
+          <div class="case-lead__badges">
+            <span class="badge">{{ lead.industry }}</span>
+            @if (lead.sampleProject) {
               <span class="badge badge--sample">Sample project</span>
             }
           </div>
-          <h3 class="card__title">{{ project.name }}</h3>
-          <p class="card__body">{{ project.summary }}</p>
-          <ul class="tag-list">
-            @for (technology of project.technologies.slice(0, 4); track technology) {
-              <li class="tag">{{ technology }}</li>
-            }
-          </ul>
-          <div class="card__footer">
-            <a class="text-link" [routerLink]="['/portfolio', project.slug]">
-              Read the case study
-              <app-icon name="arrow-right" [size]="18" />
-            </a>
-          </div>
-        </article>
-      }
-    </div>
+          <h3>{{ lead.name }}</h3>
+          <p>{{ lead.summary }}</p>
+          <a class="link" [routerLink]="['/portfolio', lead.slug]">
+            View project
+            <app-icon name="arrow-right" [size]="18" />
+          </a>
+        </div>
+        <div class="case-lead__art" aria-hidden="true">
+          <span class="case-lead__monogram">{{ lead.name.charAt(0) }}</span>
+        </div>
+      </article>
+    }
 
-    <div class="section-actions">
-      <a class="btn btn--secondary" routerLink="/portfolio">View all case studies</a>
+    @if (projects().length) {
+      <ul class="case-grid" appRevealGroup>
+        @for (project of projects(); track project.slug) {
+          <li>
+            <a class="case" [routerLink]="['/portfolio', project.slug]">
+              <span class="badge">{{ project.industry }}</span>
+              <h3>{{ project.name }}</h3>
+              <p>{{ project.summary }}</p>
+              <span class="link">
+                Read case study
+                <app-icon name="arrow-right" [size]="18" />
+              </span>
+            </a>
+          </li>
+        }
+      </ul>
+    }
+
+    <div class="portfolio__more" appReveal>
+      <a class="btn btn--outline" routerLink="/portfolio">View all case studies</a>
     </div>
   </div>
 </section>
 
 <app-cta-banner
-  title="Have a process that is slowing your business down?"
-  text="Let's turn it into a smarter digital workflow. Tell us where the manual work is and we will map out what automating it looks like."
-  ctaLabel="Get Started"
+  title="Have a process that should be automated?"
+  text="Tell us what is slowing your business down. We'll help turn it into a smarter digital workflow."
+  ctaLabel="Start a project"
   ctaLink="/contact"
-  secondaryLabel="See our services"
+  secondaryLabel="Explore services"
   secondaryLink="/services"
 />

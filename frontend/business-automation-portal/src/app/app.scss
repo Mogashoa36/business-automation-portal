@@ -1,0 +1,34 @@
+:host {
+  display: flex;
+  min-height: 100dvh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 1 auto;
+}
+
+/*
+ * Route transition.
+ *
+ * A routed component is created fresh on every navigation, so a single CSS
+ * animation on `main > *` re-runs each time without any router hook, state or
+ * subscription. The movement is deliberately tiny - 8px and 220ms - so it
+ * reads as continuity rather than a page wipe, and it is skipped entirely for
+ * the server-rendered first paint via the `.js` guard.
+ */
+@keyframes route-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.js main > * { animation: route-in var(--d-ui) var(--ease) both; }
+
+/*
+ * The main landmark is focusable so the skip link can move keyboard focus
+ * into the content. It should not draw a visible focus ring for pointer users.
+ */
+main:focus {
+  outline: none;
+}
+

@@ -1,81 +1,82 @@
 <app-page-hero
   eyebrow="Services"
-  title="Business Process Automation, Custom Applications and Websites"
+  title="Business process automation, custom applications and website development."
   intro="We do not simply write code. We start with the business process, remove the manual work, and build the software that replaces it."
   [crumbs]="[{ label: 'Services' }]"
 />
 
+<!-- ============================== Approach ============================= -->
 <section class="section">
   <div class="container">
-    <app-section-heading
-      eyebrow="How We Work"
-      title="From business problem to working software"
-      intro="The technology follows the process. Every engagement starts by understanding where time, money and risk are being lost."
-    />
+    <div class="section-head section-head--split" appReveal>
+      <div>
+        <p class="eyebrow">How we work</p>
+        <h2>From business problem to working software.</h2>
+      </div>
+      <p class="lead">
+        The technology follows the process. Every engagement starts by understanding where time,
+        money and risk are being lost.
+      </p>
+    </div>
 
-    <ol class="approach">
-      <li>
-        <span class="approach__step">01</span>
-        <h3>Understand the process</h3>
-        <p>We map how the work is actually done today, including the workarounds nobody has written down.</p>
-      </li>
-      <li>
-        <span class="approach__step">02</span>
-        <h3>Identify what to automate</h3>
-        <p>We separate the steps that genuinely need automation from the ones that only need better information.</p>
-      </li>
-      <li>
-        <span class="approach__step">03</span>
-        <h3>Build it properly</h3>
-        <p>Secure, tested software with the access controls, audit trails and reporting the business requires.</p>
-      </li>
-      <li>
-        <span class="approach__step">04</span>
-        <h3>Support it long term</h3>
-        <p>Maintenance, changes and improvements after go-live, because business software never really finishes.</p>
-      </li>
+    <ol class="steps" appRevealGroup>
+      @for (step of approach; track step.title) {
+        <li>
+          <span class="index-num">0{{ $index + 1 }}</span>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.description }}</p>
+        </li>
+      }
     </ol>
   </div>
 </section>
 
-<section class="section section--tint">
+<!-- ========================== Service index ============================ -->
+<section class="section">
   <div class="container">
-    <app-section-heading
-      eyebrow="What We Deliver"
-      title="Our three services"
-      intro="Automation is the specialisation. Custom applications are how we deliver it. Websites complete the picture."
-    />
-
-    <div class="grid grid--3">
-      @for (service of services; track service.slug) {
-        <article class="card card--interactive">
-          <span class="icon-tile"><app-icon [name]="service.icon" [size]="26" /></span>
-          @if (service.isPrimary) {
-            <p class="badge">Primary specialisation</p>
-          }
-          <h3 class="card__title">{{ service.title }}</h3>
-          <p class="card__body">{{ service.summary }}</p>
-          <ul class="check-list service__list">
-            @for (item of service.replaces.slice(0, 3); track item) {
-              <li>{{ item }}</li>
-            }
-          </ul>
-          <div class="card__footer">
-            <a class="text-link" [routerLink]="['/services', service.slug]">
-              {{ service.ctaLabel }}
-              <app-icon name="arrow-right" [size]="18" />
-            </a>
-          </div>
-        </article>
-      }
+    <div class="section-head section-head--split" appReveal>
+      <div>
+        <p class="eyebrow">What we deliver</p>
+        <h2>Our three services.</h2>
+      </div>
+      <p class="lead">
+        Automation is the specialisation. Custom applications are how we deliver it. Websites
+        complete the picture.
+      </p>
     </div>
+
+    <ul class="svc-list">
+      @for (service of services; track service.slug) {
+        <li>
+          <a class="svc" [class.svc--primary]="service.isPrimary" [routerLink]="['/services', service.slug]">
+            <span class="svc__num">0{{ $index + 1 }}</span>
+            <h3 class="svc__title">{{ service.title }}</h3>
+            <p class="svc__body">{{ service.summary }}</p>
+            <ul class="svc__replaces">
+              @for (item of service.replaces.slice(0, 4); track item) {
+                <li>
+                  <app-icon name="check" [size]="16" />
+                  {{ item }}
+                </li>
+              }
+            </ul>
+            <span class="svc__cta">
+              <span class="link">
+                {{ service.ctaLabel }}
+                <app-icon name="arrow-right" [size]="18" />
+              </span>
+            </span>
+          </a>
+        </li>
+      }
+    </ul>
   </div>
 </section>
 
 <app-cta-banner
   title="Not sure which service you need?"
   text="Describe the process that is slowing you down. We will tell you honestly whether automation, a custom application or better reporting is the right answer."
-  ctaLabel="Talk to Us"
+  ctaLabel="Talk to us"
   ctaLink="/contact"
   secondaryLabel="Explore solutions"
   secondaryLink="/solutions"

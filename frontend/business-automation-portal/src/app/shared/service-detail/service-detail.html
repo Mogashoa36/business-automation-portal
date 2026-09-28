@@ -1,5 +1,5 @@
 <app-page-hero
-  [eyebrow]="'Services'"
+  [eyebrow]="'Service' + (service().isPrimary ? ' - Primary specialisation' : '')"
   [title]="service().title"
   [intro]="service().tagline"
   [crumbs]="[
@@ -8,27 +8,31 @@
   ]"
 />
 
-<!-- ========================= What it replaces ======================= -->
+<!-- ========================= What it replaces ========================== -->
 <section class="section">
   <div class="container">
     <div class="split">
       <div>
-        <app-section-heading
-          eyebrow="The Problem We Solve"
-          title="Manual processes slow good businesses down"
-          [intro]="service().summary"
-        />
+        <p class="eyebrow">The problem we solve</p>
+        <h2 class="split__title">Manual processes slow good businesses down.</h2>
+        <p class="lead">{{ service().summary }}</p>
         <div class="btn-row">
-          <a class="btn btn--primary" routerLink="/contact">{{ service().ctaLabel }}</a>
-          <a class="btn btn--secondary" routerLink="/services">All services</a>
+          <a class="btn btn--primary" routerLink="/contact">
+            {{ service().ctaLabel }}
+            <app-icon name="arrow-right" [size]="18" />
+          </a>
+          <a class="btn btn--outline" routerLink="/services">All services</a>
         </div>
       </div>
 
-      <div class="panel">
+      <div class="panel" appReveal>
         <h3 class="panel__title">What we replace</h3>
-        <ul class="check-list check-list--columns panel__list">
+        <ul class="panel__list">
           @for (item of service().replaces; track item) {
-            <li>{{ item }}</li>
+            <li>
+              <app-icon name="check" [size]="18" />
+              <span>{{ item }}</span>
+            </li>
           }
         </ul>
       </div>
@@ -36,68 +40,77 @@
   </div>
 </section>
 
-<!-- ============================ Workflow ============================ -->
+<!-- ============================= Workflow ============================= -->
 @if (service().workflow; as workflow) {
-  <section class="section section--tint">
+  <section class="section">
     <div class="container">
-      <app-section-heading
-        eyebrow="How It Works"
-        [title]="workflow.title"
-        intro="One digital process replaces the hand-offs, the chasing and the spreadsheet updates."
-      />
+      <div class="section-head section-head--split" appReveal>
+        <div>
+          <p class="eyebrow">How it works</p>
+          <h2>{{ workflow.title }}</h2>
+        </div>
+        <p class="lead">
+          One digital process replaces the hand-offs, the chasing and the spreadsheet updates.
+        </p>
+      </div>
       <app-process-flow [steps]="workflow.steps" />
     </div>
   </section>
 }
 
-<!-- ========================== Capabilities ========================== -->
+<!-- ============================ Capabilities ========================== -->
 <section class="section">
   <div class="container">
-    <app-section-heading
-      eyebrow="What You Get"
-      title="What is included"
-      intro="Every engagement is shaped around your process. These are the building blocks we work with."
-    />
-
-    <div class="grid grid--3">
-      @for (capability of service().capabilities; track capability.title) {
-        <article class="card">
-          <h3 class="card__title">{{ capability.title }}</h3>
-          <p class="card__body">{{ capability.description }}</p>
-        </article>
-      }
+    <div class="section-head section-head--split" appReveal>
+      <div>
+        <p class="eyebrow">What you get</p>
+        <h2>What is included.</h2>
+      </div>
+      <p class="lead">
+        Every engagement is shaped around your process. These are the building blocks we work with.
+      </p>
     </div>
+
+    <ul class="caps" appRevealGroup>
+      @for (capability of service().capabilities; track capability.title) {
+        <li class="cap">
+          <span class="index-num">{{ pad($index + 1) }}</span>
+          <h3>{{ capability.title }}</h3>
+          <p>{{ capability.description }}</p>
+        </li>
+      }
+    </ul>
   </div>
 </section>
 
-<!-- ============================ Outcomes ============================ -->
-<section class="section section--dark">
+<!-- ============================== Outcomes ============================ -->
+<section class="section section--outcomes">
   <div class="container">
     <div class="split split--reverse">
       <div>
-        <app-section-heading
-          eyebrow="Business Outcomes"
-          title="What changes for your business"
-          intro="Technology is the means. These are the results the work is judged on."
-        />
-        <ul class="check-list">
+        <p class="eyebrow">Business outcomes</p>
+        <h2 class="split__title">What changes for your business.</h2>
+        <p class="lead">
+          Technology is the means. These are the results the work is judged on.
+        </p>
+        <ul class="outcomes">
           @for (outcome of service().outcomes; track outcome) {
-            <li>{{ outcome }}</li>
+            <li>
+              <app-icon name="check" [size]="18" />
+              <span>{{ outcome }}</span>
+            </li>
           }
         </ul>
       </div>
 
-      <div class="panel panel--dark">
-        <h3 class="panel__title">Other services</h3>
-        <ul class="link-list">
+      <div class="related" appReveal>
+        <h3 class="related__title">Other services</h3>
+        <ul class="related__list">
           @for (other of otherServices(); track other.slug) {
             <li>
               <a [routerLink]="['/services', other.slug]">
-                <app-icon [name]="other.icon" [size]="20" />
-                <span>
-                  <strong>{{ other.navLabel }}</strong>
-                  <span class="link-list__hint">{{ other.tagline }}</span>
-                </span>
+                <span class="related__num">0{{ $index + 1 }}</span>
+                <span class="related__label">{{ other.navLabel }}</span>
                 <app-icon name="arrow-right" [size]="18" />
               </a>
             </li>
@@ -110,7 +123,7 @@
 
 <app-cta-banner
   [title]="'Ready to ' + service().ctaLabel.toLowerCase() + '?'"
-  [text]="'Tell us which process is costing you the most time. We will map out what automating it involves and what it would take.'"
+  text="Tell us which process is costing you the most time. We will map out what automating it involves and what it would take."
   [ctaLabel]="service().ctaLabel"
   ctaLink="/contact"
   secondaryLabel="See our solutions"

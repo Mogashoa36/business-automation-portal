@@ -11,12 +11,13 @@ import { SeoService } from '../../services/seo.service';
 import { PortfolioService } from '../../services/portfolio.service';
 import { CtaBanner } from '../../shared/cta-banner/cta-banner';
 import { Icon } from '../../shared/icon/icon';
-import { SectionHeading } from '../../shared/section-heading/section-heading';
+import { ProcessFlow } from '../../shared/process-flow/process-flow';
+import { Reveal } from '../../shared/reveal/reveal';
 
 @Component({
   selector: 'app-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, SectionHeading, CtaBanner],
+  imports: [RouterLink, Icon, ProcessFlow, CtaBanner, Reveal],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -31,8 +32,11 @@ export class Home {
   protected readonly promises = PROMISES;
   protected readonly technology = TECHNOLOGY_GROUPS;
 
-  /** Featured case studies shown near the bottom of the page. */
+  /** The primary service, given the strongest emphasis on the page. */
+  protected readonly primary = SERVICES[0];
+
   protected readonly projects = signal<readonly PortfolioProject[]>([]);
+  protected readonly featured = signal<PortfolioProject | null>(null);
   /** True when the bundled snapshot is shown because the API was unreachable. */
   protected readonly portfolioOffline = signal(false);
 
@@ -46,7 +50,9 @@ export class Home {
 
     this.portfolioService.list().subscribe((result) => {
       const featured = result.projects.filter((project) => project.featured);
-      this.projects.set((featured.length ? featured : result.projects).slice(0, 3));
+      const ordered = featured.length ? featured : result.projects;
+      this.featured.set(ordered[0] ?? null);
+      this.projects.set(ordered.slice(1, 4));
       this.portfolioOffline.set(result.fromFallback);
     });
   }

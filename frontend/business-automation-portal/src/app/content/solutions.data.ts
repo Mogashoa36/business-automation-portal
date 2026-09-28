@@ -1,0 +1,268 @@
+import { SolutionContent } from '../models/solution.model';
+
+/**
+ * The business solutions delivered on top of the three services. Solutions are
+ * the concrete outcomes a business buys: they describe what the software does
+ * for a particular team or process.
+ */
+export const SOLUTIONS = [
+  {
+    slug: 'workflow-management',
+    navLabel: 'Workflow Management',
+    title: 'Workflow Management',
+    icon: 'workflow',
+    tagline: 'Every request routed, tracked and closed - with nothing depending on memory.',
+    summary:
+      'Workflow management turns how work actually moves through your business into a digital process. Requests are raised once, routed to the right people, tracked to completion and evidenced the whole way through.',
+    workflow: {
+      title: 'A managed workflow',
+      steps: ['Request raised', 'Routed for approval', 'Tasks assigned', 'Work completed', 'Recorded and reported'],
+    },
+    capabilities: [
+      {
+        title: 'Digital workflows',
+        description: 'Process steps, rules and ownership defined once and reused for every request type.',
+      },
+      {
+        title: 'Approval processes',
+        description: 'Single or multi level approvals with clear delegation when someone is unavailable.',
+      },
+      {
+        title: 'Task assignment',
+        description: 'Work is allocated to named people or teams by rule, not by whoever notices first.',
+      },
+      {
+        title: 'Notifications',
+        description: 'Reminders and alerts so tasks are actioned while they still matter.',
+      },
+      {
+        title: 'Escalations',
+        description: 'Stalled steps move up automatically with a record of when and why.',
+      },
+      {
+        title: 'Status tracking',
+        description: 'One live view of what is open, what is blocked and who holds each item.',
+      },
+      {
+        title: 'Audit trails',
+        description: 'A complete, timestamped history of every request, decision and change.',
+      },
+    ],
+    benefits: [
+      'Processes stop depending on individual memory or goodwill',
+      'Approvals happen in days rather than weeks',
+      'Management sees bottlenecks before they become problems',
+      'Every decision can be explained and evidenced later',
+    ],
+    ctaLabel: 'Automate Your Workflow',
+    seo: {
+      title: 'Workflow Management Solutions | Digital Approval Workflows',
+      description:
+        'Digital workflow management with automated approvals, task assignment, notifications, escalations, status tracking and full audit trails.',
+    },
+  },
+  {
+    slug: 'operations-management',
+    navLabel: 'Operations Management',
+    title: 'Operations Management',
+    icon: 'operations',
+    tagline: 'Run day to day operations from one accurate, current view.',
+    summary:
+      'Operations management gives your team a single place to see what is happening, what is outstanding and what needs attention - with the reporting to prove it at the end of the month.',
+    capabilities: [
+      {
+        title: 'Operational dashboards',
+        description: 'Live views of workload, status and performance for the processes that matter most.',
+      },
+      {
+        title: 'Task management',
+        description: 'Allocate, prioritise and close work with clear ownership at every step.',
+      },
+      {
+        title: 'Process monitoring',
+        description: 'Spot stalled processes, repeat bottlenecks and workarounds as they develop.',
+      },
+      {
+        title: 'Performance tracking',
+        description: 'Measure throughput and turnaround against the standards your business set.',
+      },
+      {
+        title: 'Reporting',
+        description: 'Routine operational reports generated from live data rather than manual summaries.',
+      },
+      {
+        title: 'Centralised information',
+        description: 'One trusted source for the detail your team needs to make decisions.',
+      },
+    ],
+    benefits: [
+      'Operational decisions based on current information',
+      'Fewer surprises at reporting deadlines',
+      'Capacity problems identified before they affect customers',
+      'Less time spent collecting and reformatting numbers',
+    ],
+    ctaLabel: 'Improve My Operations',
+    seo: {
+      title: 'Operations Management Software | Operational Dashboards',
+      description:
+        'Operations management software with operational dashboards, task management, process monitoring, performance tracking and centralised reporting.',
+    },
+  },
+  {
+    slug: 'employee-management',
+    navLabel: 'Employee Management',
+    title: 'Employee Management',
+    icon: 'employee',
+    tagline: 'One secure place for everything your organisation needs to manage its people.',
+    summary:
+      'Employee management brings people information, requests, tasks and documents together, so HR and line managers spend less time chasing paperwork and more time supporting the business.',
+    capabilities: [
+      {
+        title: 'Employee information',
+        description: 'A single, accurate record per employee that the whole organisation can rely on.',
+      },
+      {
+        title: 'Requests',
+        description: 'Leave, access, equipment and certificate requests raised and tracked in one place.',
+      },
+      {
+        title: 'Approvals',
+        description: 'Manager and HR approval steps with a clear record of who decided what.',
+      },
+      {
+        title: 'Tasks',
+        description: 'Onboarding, reviews and follow up actions assigned to owners with due dates.',
+      },
+      {
+        title: 'Documents',
+        description: 'Contracts, policies and employee documents stored securely against the right person.',
+      },
+      {
+        title: 'Internal workflows',
+        description: 'Repeatable processes for the HR and management tasks that happen every month.',
+      },
+      {
+        title: 'Reporting',
+        description: 'Headcount, leave and process reporting without maintaining a parallel spreadsheet.',
+      },
+    ],
+    benefits: [
+      'Sensitive employee information kept secure and access controlled',
+      'HR and managers stop chasing the same information repeatedly',
+      'Onboarding and internal processes become consistent',
+      'A reliable base for future people initiatives',
+    ],
+    ctaLabel: 'Manage Employees Better',
+    seo: {
+      title: 'Employee Management Software | Secure HR Workflows',
+      description:
+        'Secure employee management software for employee information, requests, approvals, tasks, documents, internal workflows and HR reporting.',
+    },
+  },
+  {
+    slug: 'procurement',
+    navLabel: 'Procurement',
+    title: 'Procurement',
+    icon: 'procurement',
+    tagline: 'From purchase request to delivery, with a clear record at every step.',
+    summary:
+      'Procurement software connects the full purchasing cycle, so requests are approved consistently, suppliers are managed properly and management always knows what has been ordered, from whom and whether it arrived.',
+    workflow: {
+      title: 'The procurement cycle',
+      steps: [
+        'Purchase Request',
+        'Manager Approval',
+        'Procurement',
+        'Supplier',
+        'Order',
+        'Delivery',
+        'Completion',
+      ],
+    },
+    capabilities: [
+      {
+        title: 'Purchase requests',
+        description: 'Standardised requests with line items, cost centres and supporting detail attached.',
+      },
+      {
+        title: 'Approval workflows',
+        description: 'Thresholds and rules decide who approves what, and the decision is recorded.',
+      },
+      {
+        title: 'Supplier management',
+        description: 'Supplier records, contacts and history kept with the orders they relate to.',
+      },
+      {
+        title: 'Procurement tracking',
+        description: 'See what is requested, approved, ordered and outstanding at any moment.',
+      },
+      {
+        title: 'Reporting',
+        description: 'Spend by category, supplier and period, without maintaining a separate spend file.',
+      },
+    ],
+    benefits: [
+      'Purchasing rules applied consistently across the business',
+      'Clear accountability at every stage of the cycle',
+      'Supplier performance and spend visible in one place',
+      'Less time lost to chasing orders that were never placed',
+    ],
+    ctaLabel: 'Streamline Procurement',
+    seo: {
+      title: 'Procurement Software | Purchase Request to Delivery',
+      description:
+        'Procurement software covering purchase requests, approval workflows, supplier management, procurement tracking and spend reporting.',
+    },
+  },
+  {
+    slug: 'reporting-dashboards',
+    navLabel: 'Reporting & Dashboards',
+    title: 'Reporting & Dashboards',
+    icon: 'reporting',
+    tagline: 'KPI and management dashboards built on data you can trust.',
+    summary:
+      'Reporting and dashboards turn the data your business already produces into management information that is current, consistent and easy to act on - instead of a monthly scramble to rebuild spreadsheets.',
+    capabilities: [
+      {
+        title: 'KPI dashboards',
+        description: 'The measures your business runs on, visible at a glance and updated automatically.',
+      },
+      {
+        title: 'Management dashboards',
+        description: 'Executive views that summarise performance without wading through detail.',
+      },
+      {
+        title: 'Operational reports',
+        description: 'Routine reports for the teams doing the work, available when they need them.',
+      },
+      {
+        title: 'Performance monitoring',
+        description: 'Compare actual performance against targets and spot the gaps early.',
+      },
+      {
+        title: 'Data visualisation',
+        description: 'Charts and views chosen to make the point quickly, not to decorate a report.',
+      },
+      {
+        title: 'Exportable reports',
+        description: 'Download the underlying detail for finance, audit and further analysis.',
+      },
+    ],
+    benefits: [
+      'Decisions made on current, consistent information',
+      'Reporting effort drops from days each month to minutes',
+      'Performance problems are visible while they can still be fixed',
+      'One agreed version of the numbers across the business',
+    ],
+    ctaLabel: 'Build My Dashboards',
+    seo: {
+      title: 'Reporting & Dashboards | KPI and Management Reporting',
+      description:
+        'KPI dashboards, management dashboards, operational reports, performance monitoring, data visualisation and exportable reports.',
+    },
+  },
+] as const satisfies readonly SolutionContent[];
+
+export function findSolution(slug: string): SolutionContent | undefined {
+  return SOLUTIONS.find((solution) => solution.slug === slug);
+}

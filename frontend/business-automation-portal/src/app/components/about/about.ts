@@ -6,10 +6,16 @@ import { SeoService } from '../../services/seo.service';
 import { CtaBanner } from '../../shared/cta-banner/cta-banner';
 import { Icon } from '../../shared/icon/icon';
 import { PageHero } from '../../shared/page-hero/page-hero';
-import { SectionHeading } from '../../shared/section-heading/section-heading';
+import { Reveal } from '../../shared/reveal/reveal';
+import { IconName } from '../../models/icon.model';
 
 interface ValuePoint {
-  readonly icon: 'spark' | 'shield' | 'lock' | 'check' | 'target' | 'document' | 'trend-up' | 'layers';
+  readonly icon: IconName;
+  readonly title: string;
+  readonly description: string;
+}
+
+interface ApproachPoint {
   readonly title: string;
   readonly description: string;
 }
@@ -17,7 +23,7 @@ interface ValuePoint {
 @Component({
   selector: 'app-about',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, PageHero, SectionHeading, CtaBanner],
+  imports: [RouterLink, Icon, PageHero, CtaBanner, Reveal],
   templateUrl: './about.html',
   styleUrl: './about.scss',
 })
@@ -70,7 +76,7 @@ export class About {
     },
   ];
 
-  protected readonly approach: readonly { title: string; description: string }[] = [
+  protected readonly approach: readonly ApproachPoint[] = [
     {
       title: 'We ask before we build',
       description:
@@ -78,8 +84,7 @@ export class About {
     },
     {
       title: 'We automate what should be automated',
-      description:
-        'Not every task needs software. We are as happy to remove a step entirely as to automate it.',
+      description: 'Not every task needs software. We are as happy to remove a step entirely as to automate it.',
     },
     {
       title: 'We build for the people using it',

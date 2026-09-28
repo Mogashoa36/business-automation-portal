@@ -1,57 +1,58 @@
 <app-page-hero
   eyebrow="About"
-  title="A technology partner for businesses that want to operate better"
+  title="A technology partner for businesses that want to operate better."
   intro="We help businesses use technology to simplify operations, automate repetitive processes and build scalable digital solutions."
   [crumbs]="[{ label: 'About' }]"
 />
 
+<!-- ============================== Story =============================== -->
 <section class="section">
   <div class="container">
     <div class="split">
       <div>
-        <app-section-heading
-          eyebrow="Why We Exist"
-          title="Manual processes cap how far a business can grow"
-        />
+        <p class="eyebrow">Why we exist</p>
+        <h2 class="split__title">Manual processes cap how far a business can grow.</h2>
         <div class="prose">
           <p>
-            Most businesses do not have a people problem or a strategy problem. They have a process problem. Work
-            that should take minutes takes days because it moves through inboxes, spreadsheets and phone calls. The
-            same information is retyped, chased and reconciled every single week.
+            Most businesses do not have a people problem or a strategy problem. They have a process
+            problem. Work that should take minutes takes days because it moves through inboxes,
+            spreadsheets and phone calls. The same information is retyped, chased and reconciled
+            every single week.
           </p>
           <p>
             We started this company to fix that at the source. Our work is
             <strong>business process automation</strong>, delivered through
             <strong>custom business applications</strong> and supported by professional
-            <strong>website development</strong>. We are not interested in selling hours of coding. We are interested
-            in removing the work that does not need a person to do it.
+            <strong>website development</strong>. We are not interested in selling hours of coding.
+            We are interested in removing the work that does not need a person to do it.
           </p>
           <p>
-            That means understanding your process before we write anything, building software around how your business
-            genuinely works, and being honest when a simpler answer is the right one.
+            That means understanding your process before we write anything, building software around
+            how your business genuinely works, and being honest when a simpler answer is the right
+            one.
           </p>
         </div>
         <div class="btn-row">
-          <a class="btn btn--primary" routerLink="/contact">Start a Conversation</a>
-          <a class="btn btn--secondary" routerLink="/portfolio">See our work</a>
+          <a class="btn btn--primary" routerLink="/contact">Start a conversation</a>
+          <a class="btn btn--outline" routerLink="/portfolio">See our work</a>
         </div>
       </div>
 
-      <div class="principles">
-        <article class="principle">
-          <span class="icon-tile"><app-icon name="target" [size]="22" /></span>
-          <h3>Our Mission</h3>
+      <div class="stack" appReveal>
+        <article class="creed">
+          <span class="creed__tag">Mission</span>
+          <h3>Replace inefficiency with something that works.</h3>
           <p>
-            Help businesses replace inefficient manual processes with practical digital solutions that people actually
-            use.
+            Help businesses replace inefficient manual processes with practical digital solutions
+            that people actually use.
           </p>
         </article>
-        <article class="principle">
-          <span class="icon-tile"><app-icon name="spark" [size]="22" /></span>
-          <h3>Our Vision</h3>
+        <article class="creed">
+          <span class="creed__tag">Vision</span>
+          <h3>A trusted technology partner.</h3>
           <p>
-            Become a trusted technology partner for businesses looking to modernise their operations and stay
-            competitive.
+            Become the partner businesses turn to when they want to modernise how they operate and
+            stay competitive.
           </p>
         </article>
       </div>
@@ -59,19 +60,23 @@
   </div>
 </section>
 
-<!-- ============================== Values ============================= -->
-<section class="section section--tint">
+<!-- ============================== Values ============================== -->
+<section class="section">
   <div class="container">
-    <app-section-heading
-      eyebrow="Our Values"
-      title="What we hold ourselves to"
-      intro="These are the standards we apply to our code and to our client relationships, in that order."
-    />
+    <div class="section-head section-head--split" appReveal>
+      <div>
+        <p class="eyebrow">Our values</p>
+        <h2>What we hold ourselves to.</h2>
+      </div>
+      <p class="lead">
+        These are the standards we apply to our code and to our client relationships, in that order.
+      </p>
+    </div>
 
-    <ul class="values">
+    <ul class="values" appRevealGroup>
       @for (value of values; track value.title) {
         <li class="value">
-          <span class="icon-tile"><app-icon [name]="value.icon" [size]="22" /></span>
+          <app-icon class="value__icon" [name]="value.icon" [size]="22" />
           <h3>{{ value.title }}</h3>
           <p>{{ value.description }}</p>
         </li>
@@ -80,26 +85,35 @@
   </div>
 </section>
 
-<!-- ============================= Approach ============================ -->
+<!-- ============================= Approach ============================= -->
 <section class="section">
   <div class="container">
-    <app-section-heading eyebrow="How We Work" title="Four things that shape every engagement" />
-
-    <div class="grid grid--4">
-      @for (item of approach; track item.title) {
-        <article class="card">
-          <h3 class="card__title">{{ item.title }}</h3>
-          <p class="card__body">{{ item.description }}</p>
-        </article>
-      }
+    <div class="section-head section-head--split" appReveal>
+      <div>
+        <p class="eyebrow">How we work</p>
+        <h2>Four things that shape every engagement.</h2>
+      </div>
+      <p class="lead">
+        The habits that keep the work honest from the first workshop to the first release.
+      </p>
     </div>
+
+    <ul class="steps" appRevealGroup>
+      @for (item of approach; track item.title) {
+        <li>
+          <span class="index-num">0{{ $index + 1 }}</span>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.description }}</p>
+        </li>
+      }
+    </ul>
   </div>
 </section>
 
 <app-cta-banner
-  title="Let's talk about your process"
+  title="Let's talk about your process."
   text="If a manual process is holding your business back, that is exactly the conversation we want to have."
-  ctaLabel="Contact Us"
+  ctaLabel="Contact us"
   ctaLink="/contact"
   secondaryLabel="View our services"
   secondaryLink="/services"

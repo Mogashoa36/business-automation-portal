@@ -1,0 +1,265 @@
+/* ==========================================================================
+   Light, corporate navigation. Sits quietly over the page and gains a blurred
+   white backdrop once the page scrolls.
+   ========================================================================== */
+.header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  background-color: rgba(244, 241, 236, 0.72);
+  border-bottom: 1px solid transparent;
+  transition: background-color var(--d-ui) var(--ease), border-color var(--d-ui) var(--ease),
+    box-shadow var(--d-ui) var(--ease), backdrop-filter var(--d-ui) var(--ease);
+}
+
+/*
+ * Scrolled state: more opaque, plus a hairline and a soft shadow so the header
+ * separates from the content passing underneath. The height deliberately does
+ * not change, so nothing jumps when the state flips.
+ */
+.header--scrolled,
+.header--open {
+  background-color: rgba(255, 255, 255, 0.94);
+  backdrop-filter: saturate(170%) blur(14px);
+  -webkit-backdrop-filter: saturate(170%) blur(14px);
+  border-bottom-color: var(--line);
+  box-shadow: 0 1px 24px rgba(23, 20, 17, 0.05);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: var(--header-h);
+}
+
+/* ------------------------------------------------------------- brand --- */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--c-ink);
+  flex: none;
+  z-index: 2;
+}
+
+.brand__mark { display: inline-flex; }
+.brand:hover { color: var(--c-ink); }
+
+.brand__name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* ------------------------------------------------------------ toggle --- */
+.header__toggle {
+  display: none;
+  position: relative;
+  z-index: 2;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.header__toggle-bars { display: grid; gap: 5px; width: 1.1rem; }
+
+.header__toggle-bars span {
+  display: block;
+  height: 1.5px;
+  background: var(--c-ink);
+  transition: transform var(--d-ui) var(--ease), opacity var(--d-fast) var(--ease);
+}
+
+.header__toggle-bars.is-open span:first-child { transform: translateY(3.25px) rotate(45deg); }
+.header__toggle-bars.is-open span:last-child { transform: translateY(-3.25px) rotate(-45deg); }
+
+/* --------------------------------------------------------------- nav --- */
+.nav__list { display: flex; align-items: center; gap: 0.15rem; list-style: none; }
+.nav__item { position: relative; }
+
+.nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.8rem;
+  background: none;
+  border: 0;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--c-ink-soft);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--d-fast) var(--ease);
+}
+
+.nav__link::after {
+  content: '';
+  position: absolute;
+  left: 0.8rem;
+  right: 0.8rem;
+  bottom: 0.3rem;
+  height: 1.5px;
+  background: var(--c-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--d-ui) var(--ease);
+}
+
+.nav__link:hover { color: var(--c-ink); }
+.nav__link:hover::after { transform: scaleX(1); }
+.nav__link.is-active { color: var(--c-ink); font-weight: 600; }
+.nav__link.is-active::after { transform: scaleX(1); }
+
+.nav__item--cta { margin-left: 0.9rem; }
+.nav__item--cta .btn { padding: 0.72rem 1.35rem; }
+
+.nav__item--parent.is-open > .nav__link { color: var(--c-ink); }
+.nav__item--parent.is-open > .nav__link::after { transform: scaleX(1); }
+
+/* ------------------------------------------------------------ panels --- */
+.nav__panel {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  left: -0.75rem;
+  z-index: 10;
+  min-width: 21rem;
+  padding: 0.5rem;
+  background-color: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity var(--d-ui) var(--ease), transform var(--d-ui) var(--ease), visibility var(--d-ui);
+}
+
+.nav__panel.is-open { opacity: 1; visibility: visible; transform: none; }
+
+.nav__sublist { display: grid; gap: 1px; list-style: none; }
+.nav__sublist--wide { min-width: 24rem; }
+
+.nav__sublink {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  gap: 0.7rem;
+  padding: 0.65rem 0.7rem;
+  border-radius: var(--radius-sm);
+  color: var(--c-ink-soft);
+  transition: background-color var(--d-fast) var(--ease), color var(--d-fast) var(--ease);
+}
+
+.nav__sublink:hover,
+.nav__sublink.is-active { background-color: var(--c-cream); color: var(--c-ink); }
+
+.nav__subindex {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--c-accent);
+  padding-top: 0.15rem;
+}
+
+.nav__sublabel { display: block; font-family: var(--font-display); font-size: 0.9rem; font-weight: 600; color: var(--c-ink); }
+.nav__subhint { display: block; font-size: 0.78rem; line-height: 1.4; color: var(--c-ink-soft); opacity: 0.75; }
+
+/* ---------------------------------------------------------- responsive -- */
+@media (max-width: 68rem) {
+  .header__toggle { display: inline-flex; }
+
+  .nav {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: calc(var(--header-h) + 2rem) var(--gutter) 2.5rem;
+    background-color: var(--c-cream);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-1rem);
+    transition: opacity var(--d-ui) var(--ease), transform var(--d-emphasis) var(--ease),
+      visibility var(--d-ui);
+    overflow-y: auto;
+  }
+
+  .nav--open { opacity: 1; visibility: visible; transform: none; }
+
+  .nav__list { flex-direction: column; align-items: stretch; gap: 0; width: 100%; }
+
+  .nav__item { border-bottom: 1px solid var(--line); }
+
+  .nav__item--cta { border-bottom: 0; margin-left: 0; padding-top: 1.75rem; }
+  .nav__item--cta .btn { width: 100%; padding: 0.95rem 1.5rem; }
+
+  .nav__link {
+    width: 100%;
+    padding: 1rem 0;
+    font-size: 1.3rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--c-ink);
+  }
+
+  .nav__link::after { left: 0; right: auto; width: 2.25rem; bottom: 0.55rem; }
+
+  /*
+   * Items arrive in sequence, 40ms apart. transform only, so the open menu
+   * never reflows. Touch targets keep their full height throughout.
+   */
+  .nav--open .nav__item { animation: fade-up var(--d-emphasis) var(--ease) both; }
+  .nav--open .nav__item:nth-child(1) { animation-delay: 60ms; }
+  .nav--open .nav__item:nth-child(2) { animation-delay: 100ms; }
+  .nav--open .nav__item:nth-child(3) { animation-delay: 140ms; }
+  .nav--open .nav__item:nth-child(4) { animation-delay: 180ms; }
+  .nav--open .nav__item:nth-child(5) { animation-delay: 220ms; }
+  .nav--open .nav__item:nth-child(6) { animation-delay: 260ms; }
+  .nav--open .nav__item:nth-child(7) { animation-delay: 300ms; }
+  .nav--open .nav__item:nth-child(8) { animation-delay: 340ms; }
+
+  /* Dropdowns become inline accordion sections. */
+  .nav__panel {
+    position: static;
+    min-width: 0;
+    padding: 0 0 1rem;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    display: none;
+  }
+
+  .nav__panel.is-open { display: block; }
+
+  .nav__sublink { padding: 0.6rem 0.5rem; }
+  .nav__subhint { display: none; }
+  .nav__sublabel { font-size: 1rem; }
+}
+
+@media (min-width: 68.01rem) {
+  .nav { display: block !important; }
+}
+
+/* Applied to the root element by the header while the mobile menu is open, so
+ * the page behind the overlay cannot scroll. */
+.is-menu-open,
+.is-menu-open body { overflow: hidden; }
+
+:host { display: block; }

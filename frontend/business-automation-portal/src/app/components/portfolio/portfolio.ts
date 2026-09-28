@@ -7,11 +7,12 @@ import { SeoService } from '../../services/seo.service';
 import { CtaBanner } from '../../shared/cta-banner/cta-banner';
 import { Icon } from '../../shared/icon/icon';
 import { PageHero } from '../../shared/page-hero/page-hero';
+import { Reveal } from '../../shared/reveal/reveal';
 
 @Component({
   selector: 'app-portfolio',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, PageHero, CtaBanner],
+  imports: [RouterLink, Icon, PageHero, CtaBanner, Reveal],
   templateUrl: './portfolio.html',
   styleUrl: './portfolio.scss',
 })
@@ -20,6 +21,7 @@ export class Portfolio {
   private readonly portfolioService = inject(PortfolioService);
 
   protected readonly projects = signal<readonly PortfolioProject[]>([]);
+  protected readonly featured = signal<PortfolioProject | null>(null);
   protected readonly loading = signal(true);
   protected readonly fromFallback = signal(false);
 
@@ -32,7 +34,8 @@ export class Portfolio {
     });
 
     this.portfolioService.list().subscribe((result) => {
-      this.projects.set(result.projects);
+      this.featured.set(result.projects[0] ?? null);
+      this.projects.set(result.projects.slice(1));
       this.fromFallback.set(result.fromFallback);
       this.loading.set(false);
     });

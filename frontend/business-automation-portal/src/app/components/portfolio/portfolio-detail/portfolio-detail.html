@@ -9,47 +9,54 @@
     ]"
   />
 
-  @if (current.sampleProject) {
-    <div class="container">
-      <p class="sample-note" role="note">
-        <strong>Sample project.</strong> This case study is an illustrative scenario published to show the kind of
-        work we deliver. It is not presented as a project delivered for a client.
+  <div class="container">
+    @if (current.sampleProject) {
+      <p class="sample-note" role="note" appReveal>
+        <strong>Sample project.</strong> This case study is an illustrative scenario published to
+        show the kind of work we deliver. It is not presented as a project delivered for a client.
       </p>
-    </div>
-  }
+    }
+  </div>
 
   <section class="section">
     <div class="container">
       <div class="detail">
         <div class="detail__main">
-          <article class="block">
+          <article class="block" appReveal>
+            <p class="index-num">01</p>
             <h2>The problem</h2>
             <p>{{ current.problem }}</p>
           </article>
 
-          <article class="block">
+          <article class="block" appReveal>
+            <p class="index-num">02</p>
             <h2>The solution</h2>
             <p>{{ current.solution }}</p>
           </article>
 
           @if (current.keyFeatures.length) {
-            <article class="block">
+            <article class="block" appReveal>
+              <p class="index-num">03</p>
               <h2>Key features</h2>
-              <ul class="check-list check-list--columns">
+              <ul class="ticks">
                 @for (feature of current.keyFeatures; track feature) {
-                  <li>{{ feature }}</li>
+                  <li>
+                    <app-icon name="check" [size]="18" />
+                    <span>{{ feature }}</span>
+                  </li>
                 }
               </ul>
             </article>
           }
 
           @if (current.results.length) {
-            <article class="block">
+            <article class="block" appReveal>
+              <p class="index-num">04</p>
               <h2>Results</h2>
-              <ul class="results">
+              <ul class="ticks">
                 @for (result of current.results; track result) {
                   <li>
-                    <app-icon name="trend-up" [size]="20" />
+                    <app-icon name="trend-up" [size]="18" />
                     <span>{{ result }}</span>
                   </li>
                 }
@@ -58,7 +65,7 @@
           }
         </div>
 
-        <aside class="detail__aside">
+        <aside class="detail__aside" appReveal>
           <div class="panel">
             <h2 class="panel__title">Project details</h2>
             <dl class="meta">
@@ -78,8 +85,13 @@
           <div class="panel panel--cta">
             <h2 class="panel__title">Facing something similar?</h2>
             <p class="panel__text">Tell us about the process and we will map out a practical first step.</p>
-            <a class="btn btn--primary btn--block" routerLink="/contact">Start a Conversation</a>
+            <a class="btn btn--primary btn--block" routerLink="/contact">Start a conversation</a>
           </div>
+
+          <a class="link link--back" routerLink="/portfolio">
+            <app-icon name="arrow-right" [size]="18" />
+            All case studies
+          </a>
         </aside>
       </div>
     </div>
@@ -88,7 +100,7 @@
   <app-cta-banner
     title="Ready to automate your own process?"
     text="Every project starts the same way: a conversation about what is slowing the business down."
-    ctaLabel="Get Started"
+    ctaLabel="Get started"
     ctaLink="/contact"
     secondaryLabel="Back to portfolio"
     secondaryLink="/portfolio"
