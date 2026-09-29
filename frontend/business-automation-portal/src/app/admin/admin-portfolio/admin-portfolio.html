@@ -1,0 +1,209 @@
+<app-admin-page-header
+  title="Portfolio"
+  intro="Case studies shown on the website. Drafts stay hidden until you publish them."
+>
+  <button class="btn btn--primary btn--sm" type="button" (click)="startNew()">New case study</button>
+</app-admin-page-header>
+
+@if (statusMessage()) {
+  <p class="notice" role="status">{{ statusMessage() }}</p>
+}
+@if (error()) {
+  <p class="notice notice--error" role="alert">{{ error() }}</p>
+}
+
+@if (editingId() !== null) {
+  <section class="panel">
+    <h2 class="panel__title">{{ editingId() === 'new' ? 'New case study' : 'Edit case study' }}</h2>
+    <form class="panel__body form-grid" [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <div class="field">
+        <label class="label" for="name">Project name</label>
+        <input id="name" class="input" type="text" formControlName="name" required />
+      </div>
+
+      <div class="field">
+        <label class="label" for="slug">Slug</label>
+        <input id="slug" class="input" type="text" formControlName="slug" spellcheck="false" />
+        <span class="hint">Leave blank to generate it from the project name.</span>
+      </div>
+
+      <div class="field">
+        <label class="label" for="industry">Industry</label>
+        <input id="industry" class="input" type="text" formControlName="industry" required />
+      </div>
+
+      <div class="field">
+        <label class="label" for="category">Category</label>
+        <input
+          id="category"
+          class="input"
+          type="text"
+          formControlName="category"
+          list="portfolio-categories"
+          placeholder="Workflow Management"
+        />
+        <datalist id="portfolio-categories">
+          <option value="Business Process Automation"></option>
+          <option value="Custom Business Applications"></option>
+          <option value="Website Development"></option>
+          <option value="Workflow Management"></option>
+          <option value="Operations Management"></option>
+          <option value="Reporting &amp; Dashboards"></option>
+        </datalist>
+        <span class="hint">Drives the filter on the public portfolio page.</span>
+      </div>
+
+      <div class="field field--full">
+        <label class="label" for="summary">Short description</label>
+        <textarea id="summary" class="textarea" rows="2" formControlName="summary" required></textarea>
+      </div>
+
+      <div class="field field--full">
+        <label class="label" for="problem">Challenge</label>
+        <textarea id="problem" class="textarea" rows="3" formControlName="problem" required></textarea>
+      </div>
+
+      <div class="field field--full">
+        <label class="label" for="solution">Solution</label>
+        <textarea id="solution" class="textarea" rows="3" formControlName="solution" required></textarea>
+      </div>
+
+      <div class="field">
+        <label class="label" for="technologies">Technologies</label>
+        <textarea
+          id="technologies"
+          class="textarea list-input"
+          rows="4"
+          formControlName="technologies"
+          aria-describedby="technologies-hint"
+        ></textarea>
+        <span class="hint" id="technologies-hint">One per line.</span>
+      </div>
+
+      <div class="field">
+        <label class="label" for="keyFeatures">Key features</label>
+        <textarea
+          id="keyFeatures"
+          class="textarea list-input"
+          rows="4"
+          formControlName="keyFeatures"
+          aria-describedby="features-hint"
+        ></textarea>
+        <span class="hint" id="features-hint">One per line.</span>
+      </div>
+
+      <div class="field">
+        <label class="label" for="results">Outcomes</label>
+        <textarea id="results" class="textarea list-input" rows="4" formControlName="results"></textarea>
+        <span class="hint">One per line. Describe the change, not a guarantee.</span>
+      </div>
+
+      <div class="field">
+        <label class="label" for="imageUrl">Image URL</label>
+        <input id="imageUrl" class="input" type="url" formControlName="imageUrl" />
+        <span class="hint">
+          Paste a URL copied from the Images screen, or use a link to the real system. Leave blank and
+          the case study shows text only.
+        </span>
+        @if (form.controls.imageUrl.value) {
+          <span class="image-url-preview">
+            <!-- The uploader's own alt text is not known here, so this preview is
+                 decorative. The saved record carries the real alt text. -->
+            <img [src]="form.controls.imageUrl.value" alt="" loading="lazy" decoding="async" />
+          </span>
+        }
+        <a class="link link--sm" routerLink="/admin/images">Open the image library</a>
+      </div>
+
+      <div class="field checkbox-field">
+        <label class="checkbox">
+          <input type="checkbox" formControlName="published" />
+          <span>Published on the website</span>
+        </label>
+      </div>
+
+      <div class="field checkbox-field">
+        <label class="checkbox">
+          <input type="checkbox" formControlName="featured" />
+          <span>Feature on the home page</span>
+        </label>
+      </div>
+
+      <div class="field checkbox-field">
+        <label class="checkbox">
+          <input type="checkbox" formControlName="sampleProject" />
+          <span>Sample project (not real client work)</span>
+        </label>
+      </div>
+
+      <div class="field field--full form-actions">
+        <button class="btn btn--primary" type="submit" [disabled]="saving()">
+          {{ saving() ? 'Saving...' : 'Save case study' }}
+        </button>
+        <button class="btn btn--ghost" type="button" (click)="cancel()">Cancel</button>
+      </div>
+    </form>
+  </section>
+}
+
+<div class="panel">
+  <h2 class="panel__title">Case studies ({{ projects().length }})</h2>
+
+  @if (loading()) {
+    <p class="panel__empty" role="status">Loading case studies...</p>
+  } @else if (!projects().length) {
+    <p class="panel__empty">No case studies yet. Create the first one.</p>
+  } @else {
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Portfolio case studies">
+      <table class="table">
+        <caption class="visually-hidden">Case studies with their category, status and flags</caption>
+        <thead>
+          <tr>
+            <th scope="col">Project</th>
+            <th scope="col">Category</th>
+            <th scope="col">Status</th>
+            <th scope="col">Flags</th>
+            <th scope="col"><span class="visually-hidden">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (project of projects(); track project.id) {
+            <tr>
+              <td>
+                <strong>{{ project.name }}</strong>
+                <br /><span class="cell-sub">/{{ project.slug }}</span>
+              </td>
+              <td>{{ project.category || '—' }}</td>
+              <td>
+                <span
+                  class="status"
+                  [class.status--published]="project.published"
+                  [class.status--draft]="!project.published"
+                >
+                  {{ project.published ? 'Published' : 'Draft' }}
+                </span>
+              </td>
+              <td>
+                @if (project.featured) {
+                  <span class="status status--active">Featured</span>
+                }
+                @if (project.sampleProject) {
+                  <span class="status status--draft">Sample</span>
+                }
+              </td>
+              <td>
+                <div class="table__actions">
+                  <button class="btn btn--outline btn--sm" type="button" (click)="startEdit(project)">Edit</button>
+                  <button class="btn btn--outline btn--sm" type="button" (click)="togglePublished(project)">
+                    {{ project.published ? 'Unpublish' : 'Publish' }}
+                  </button>
+                  <button class="btn btn--ghost btn--sm" type="button" (click)="remove(project)">Delete</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

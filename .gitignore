@@ -2,6 +2,16 @@
 .logs/
 *.log
 
+# Local environment and secrets.
+# Administrator credentials are supplied through environment variables and are
+# never committed. See backend/src/main/resources/application.properties.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.*
+
 # IDE
 .idea/
 *.iml
@@ -10,3 +20,11 @@
 # OS
 Thumbs.db
 .DS_Store
+
+# Administrator image uploads.
+# The upload directory is runtime data, not source. It must never be committed:
+# it holds files chosen by whoever runs the portal, and the storage location is
+# configurable, so the files do not belong in version control.
+uploads/
+backend/uploads/
+

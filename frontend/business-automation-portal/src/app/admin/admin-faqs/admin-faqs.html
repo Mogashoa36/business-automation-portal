@@ -1,0 +1,106 @@
+<app-admin-page-header
+  title="FAQs"
+  intro="Questions and answers shown on the public website. Unpublished entries are saved as drafts."
+>
+  <button class="btn btn--primary btn--sm" type="button" (click)="startNew()">New FAQ</button>
+</app-admin-page-header>
+
+@if (statusMessage()) {
+  <p class="notice" role="status">{{ statusMessage() }}</p>
+}
+@if (error()) {
+  <p class="notice notice--error" role="alert">{{ error() }}</p>
+}
+
+@if (editing() !== null) {
+  <section class="panel">
+    <h2 class="panel__title">{{ editing() === 'new' ? 'New FAQ' : 'Edit FAQ' }}</h2>
+    <form class="panel__body form-grid" [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <div class="field field--full">
+        <label class="label" for="question">Question</label>
+        <input id="question" class="input" type="text" formControlName="question" required />
+      </div>
+
+      <div class="field field--full">
+        <label class="label" for="answer">Answer</label>
+        <textarea id="answer" class="textarea" rows="5" formControlName="answer" required></textarea>
+        <span class="hint">Plain text only. Line breaks are preserved on the website.</span>
+      </div>
+
+      <div class="field">
+        <label class="label" for="category">Category</label>
+        <input id="category" class="input" type="text" formControlName="category" />
+      </div>
+
+      <div class="field">
+        <label class="label" for="displayOrder">Display order</label>
+        <input id="displayOrder" class="input" type="number" formControlName="displayOrder" min="0" />
+      </div>
+
+      <div class="field field--full checkbox-field">
+        <label class="checkbox">
+          <input type="checkbox" formControlName="published" />
+          <span>Published on the website</span>
+        </label>
+      </div>
+
+      <div class="field field--full form-actions">
+        <button class="btn btn--primary" type="submit" [disabled]="saving()">
+          {{ saving() ? 'Saving...' : 'Save FAQ' }}
+        </button>
+        <button class="btn btn--ghost" type="button" (click)="cancel()">Cancel</button>
+      </div>
+    </form>
+  </section>
+}
+
+<div class="panel">
+  <h2 class="panel__title">All FAQs ({{ faqs().length }})</h2>
+
+  @if (loading()) {
+    <p class="panel__empty" role="status">Loading FAQs...</p>
+  } @else if (!faqs().length) {
+    <p class="panel__empty">No FAQs yet. Create the first one.</p>
+  } @else {
+    <div class="table-wrap" tabindex="0" role="region" aria-label="FAQs">
+      <table class="table">
+        <caption class="visually-hidden">FAQ entries with their category and order</caption>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Question</th>
+            <th scope="col">Category</th>
+            <th scope="col">Order</th>
+            <th scope="col">Status</th>
+            <th scope="col"><span class="visually-hidden">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of faqs(); track item.id; let index = $index) {
+            <tr>
+              <td>{{ index + 1 }}</td>
+              <td>{{ item.question }}</td>
+              <td>{{ item.category || '—' }}</td>
+              <td>{{ item.displayOrder }}</td>
+              <td>
+                <span
+                  class="status"
+                  [class.status--published]="item.published"
+                  [class.status--draft]="!item.published"
+                >
+                  {{ item.published ? 'Published' : 'Draft' }}
+                </span>
+              </td>
+              <td>
+                <div class="table__actions">
+                  <button class="btn btn--outline btn--sm" type="button" (click)="startEdit(item)">Edit</button>
+                  <button class="btn btn--ghost btn--sm" type="button" (click)="remove(item)">Delete</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

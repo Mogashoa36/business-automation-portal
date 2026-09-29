@@ -1,0 +1,79 @@
+:host { display: block; }
+
+.faq__list {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.faq__item { background: var(--surface); min-width: 0; }
+
+.faq__question {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  cursor: pointer;
+  list-style: none;
+  transition: background-color var(--d-fast) var(--ease);
+}
+
+/* The default disclosure triangle is replaced by the marker below, so remove
+   it consistently across engines. */
+.faq__question::-webkit-details-marker { display: none; }
+.faq__question::marker { content: ''; }
+
+.faq__question:hover { background: var(--c-sand); }
+.faq__question:focus-visible { outline: 2px solid var(--c-accent); outline-offset: -2px; }
+
+.faq__text {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text);
+  overflow-wrap: break-word;
+}
+
+.faq__category {
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+/* Rotates to point down when open, so the direction is visible as well as
+   implied by the state. */
+.faq__marker {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: none;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--text-muted);
+  transition: transform var(--d-ui) var(--ease), color var(--d-ui) var(--ease);
+}
+
+.faq__item[open] .faq__marker { transform: rotate(90deg); color: var(--c-accent); }
+.faq__item[open] .faq__question { background: var(--c-sand); }
+
+.faq__answer {
+  padding: 0 1.25rem 1.25rem;
+  color: var(--text-soft);
+  max-width: 68ch;
+  white-space: pre-line;
+}
+
+.faq__answer p { margin: 0; }

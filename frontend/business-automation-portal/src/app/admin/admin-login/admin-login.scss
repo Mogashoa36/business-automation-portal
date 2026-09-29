@@ -1,0 +1,99 @@
+/*
+ * The login screen. It reuses the site's design tokens so the portal reads as
+ * part of the same product, but it is deliberately plainer: no marketing
+ * navigation, no motion beyond a focus ring, and a single clear task.
+ */
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.login {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: clamp(1.25rem, 5vw, 3rem);
+  background-color: var(--c-cream);
+  background-image: linear-gradient(rgba(33, 30, 27, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(33, 30, 27, 0.04) 1px, transparent 1px);
+  background-size: 5rem 5rem;
+}
+
+.login__panel {
+  width: 100%;
+  max-width: 26rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background-color: var(--c-white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  min-width: 0;
+}
+
+.login__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1.75rem;
+}
+
+.login__wordmark { display: flex; flex-direction: column; line-height: 1.1; }
+
+.login__name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--c-ink);
+}
+
+.login__descriptor {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+.login__title {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 1.1rem + 1vw, 1.6rem);
+  letter-spacing: -0.02em;
+}
+
+.login__intro {
+  margin-bottom: 1.75rem;
+  color: var(--c-ink-soft);
+  font-size: 0.95rem;
+}
+
+.login__form { display: grid; gap: 1.1rem; }
+
+/* Messages are announced, and colour is never the only signal. */
+.login__error,
+.login__notice {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--c-accent);
+  background: var(--c-accent-soft);
+  color: #8f2f22;
+}
+
+.login__notice {
+  margin-bottom: 1.25rem;
+  border-left-color: var(--c-line-strong);
+  background: var(--c-sand);
+  color: var(--c-ink-soft);
+}
+
+.login__foot {
+  margin: 1.5rem 0 0;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.login__home { color: var(--c-ink-soft); text-decoration: underline; }
+.login__home:hover { color: var(--c-accent); }

@@ -1,0 +1,130 @@
+:host { display: block; }
+
+.wf { display: grid; gap: clamp(1.25rem, 3vw, 2rem); min-width: 0; }
+
+.wf__disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.7rem 0.9rem;
+  background: var(--c-sand);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--c-accent);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  color: var(--text-soft);
+}
+
+.wf__disclaimer app-icon { flex: none; margin-top: 0.15rem; color: var(--c-accent); }
+
+/* The track is a progress indicator, so it is hidden from assistive tech -
+   the tablist below carries the same information properly. */
+.wf__track {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+  overflow-x: auto;
+  padding-bottom: 0.35rem;
+}
+
+.wf__node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  flex: none;
+  min-width: 0;
+}
+
+.wf__node-index {
+  display: grid;
+  place-items: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: background-color var(--d-ui) var(--ease), color var(--d-ui) var(--ease);
+}
+
+.wf__node-name {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.wf__node--done .wf__node-index { background: var(--c-accent-soft); border-color: var(--c-accent); color: var(--c-accent); }
+.wf__node--active .wf__node-index { background: var(--c-accent); border-color: var(--c-accent); color: var(--on-accent); }
+.wf__node--active .wf__node-name { color: var(--accent-text); }
+
+.wf__link { flex: 1 1 1rem; min-width: 0.75rem; height: 1px; background: var(--line-strong); }
+.wf__link--done { background: var(--c-accent); }
+
+.wf__panels { display: grid; gap: 1rem; min-width: 0; }
+
+.wf__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.wf__tab {
+  padding: 0.5rem 0.85rem;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: background-color var(--d-fast) var(--ease), color var(--d-fast) var(--ease);
+}
+
+.wf__tab:hover { border-color: var(--line-strong); color: var(--text); }
+.wf__tab--on { background: var(--c-accent); border-color: var(--c-accent); color: var(--on-accent); }
+.wf__tab--on:hover { background: var(--c-accent-deep); color: var(--on-accent); }
+
+.wf__panel { min-width: 0; }
+.wf__panel:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 4px; }
+.wf__panel[hidden] { display: none; }
+
+.wf__panel-title { margin: 0 0 0.4rem; font-size: var(--fs-h4); }
+.wf__panel-summary { margin: 0 0 0.5rem; font-weight: 500; color: var(--text); }
+.wf__panel-detail { margin: 0 0 1rem; max-width: 62ch; color: var(--text-soft); }
+
+.wf__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wf__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.7rem;
+  background: var(--c-sand);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  color: var(--text-soft);
+}
+
+.wf__action app-icon { color: var(--c-accent); }

@@ -1,0 +1,138 @@
+<section class="roi" appReveal>
+  <header class="roi__head">
+    <p class="eyebrow">ROI calculator</p>
+    <h2 class="roi__title">What could automation give back?</h2>
+    <p class="lead roi__intro">
+      Put your own numbers in and see the shape of the opportunity. Nothing you enter is stored or sent
+      anywhere - it is all calculated in your browser.
+    </p>
+  </header>
+
+  <div class="roi__body">
+    <form class="roi__form" (submit)="$event.preventDefault()">
+      <div class="field">
+        <label class="label" for="roi-employees">People involved</label>
+        <input
+          id="roi-employees"
+          class="input"
+          type="number"
+          inputmode="numeric"
+          min="1"
+          max="10000"
+          [value]="values().employees"
+          (input)="update('employees', $any($event.target).value)"
+        />
+        <span class="hint">Everyone who touches the process.</span>
+      </div>
+
+      <div class="field">
+        <label class="label" for="roi-hours">Hours each per week</label>
+        <input
+          id="roi-hours"
+          class="input"
+          type="number"
+          inputmode="decimal"
+          min="0"
+          max="100"
+          step="0.5"
+          [value]="values().hoursPerWeek"
+          (input)="update('hoursPerWeek', $any($event.target).value)"
+        />
+        <span class="hint">Their average time on it each week.</span>
+      </div>
+
+      <div class="field">
+        <label class="label" for="roi-cost">Average hourly cost (R)</label>
+        <input
+          id="roi-cost"
+          class="input"
+          type="number"
+          inputmode="decimal"
+          min="0"
+          max="100000"
+          step="10"
+          [value]="values().hourlyCost"
+          (input)="update('hourlyCost', $any($event.target).value)"
+        />
+        <span class="hint">Salary, benefits and overhead, roughly.</span>
+      </div>
+
+      <div class="field">
+        <label class="label" for="roi-weeks">Weeks per year</label>
+        <input
+          id="roi-weeks"
+          class="input"
+          type="number"
+          inputmode="numeric"
+          min="1"
+          max="52"
+          [value]="values().weeksPerYear"
+          (input)="update('weeksPerYear', $any($event.target).value)"
+        />
+        <span class="hint">Leave out public holidays.</span>
+      </div>
+
+      <div class="field field--full">
+        <label class="label" for="roi-percent">Share that could be automated: {{ values().automationPercent }}%</label>
+        <input
+          id="roi-percent"
+          class="roi__range"
+          type="range"
+          min="0"
+          max="100"
+          step="5"
+          [value]="values().automationPercent"
+          (input)="update('automationPercent', $any($event.target).value)"
+          aria-describedby="roi-percent-hint"
+        />
+        <span class="hint" id="roi-percent-hint">
+          Be realistic. Rules-based work suits a higher share; judgement-heavy work a lower one.
+        </span>
+      </div>
+
+      <div class="field field--full roi__actions">
+        <button class="btn btn--ghost" type="button" (click)="reset()">Reset</button>
+      </div>
+    </form>
+
+    <div class="roi__result">
+      @if (result(); as estimate) {
+        <p class="roi__estimate-label">Estimate</p>
+
+        <div class="roi__headline">
+          <span class="roi__headline-value">{{ currency(estimate.annualLabourValue) }}</span>
+          <span class="roi__headline-unit">estimated annual labour value</span>
+        </div>
+
+        <dl class="roi__figures">
+          <div class="roi__figure">
+            <dt>Current annual hours</dt>
+            <dd>{{ hours(estimate.currentAnnualHours) }}</dd>
+          </div>
+          <div class="roi__figure">
+            <dt>Potentially automatable</dt>
+            <dd>{{ hours(estimate.potentialAutomatedHours) }}</dd>
+          </div>
+          <div class="roi__figure roi__figure--accent">
+            <dt>Hours that could be recovered</dt>
+            <dd>{{ hours(estimate.hoursRecovered) }}</dd>
+          </div>
+        </dl>
+
+        <p class="roi__note">
+          This is an estimate based on the figures you entered, not a quote and not a saving we promise.
+          What is actually recoverable depends on your process, and that is what a conversation is for.
+        </p>
+
+        <a class="btn btn--primary roi__cta" [routerLink]="ctaLink">
+          {{ ctaLabel }}
+          <app-icon name="arrow-right" [size]="18" />
+        </a>
+      } @else {
+        <p class="roi__empty" role="status">
+          Enter the figures above and an estimate will appear here.
+        </p>
+      }
+    </div>
+  </div>
+</section>

@@ -9,6 +9,22 @@
   color: var(--text-soft);
 }
 
+/* The full width project image under the case study title. */
+.project-shot {
+  margin: clamp(1.25rem, 3vw, 2rem) 0 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background: var(--c-sand);
+}
+
+/* A very wide crop suits a screenshot; on narrow screens a 21:9 slice would be
+   too letterboxed, so the ratio relaxes. */
+@media (max-width: 40rem) {
+  .project-shot { --ratio: 16 / 10; }
+}
+
 .detail { display: grid; gap: clamp(1.5rem, 3vw, 3rem); align-items: start; }
 .detail__main { display: grid; gap: 1px; min-width: 0; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
 .detail__aside { display: grid; gap: 1px; min-width: 0; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; align-self: start; }

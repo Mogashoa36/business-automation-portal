@@ -2,10 +2,12 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { COMPANY } from '../../content/company';
+import { COMPANY_FACTS, PHOTO, hasPhoto } from '../../content/photo.data';
 import { SeoService } from '../../services/seo.service';
 import { CtaBanner } from '../../shared/cta-banner/cta-banner';
 import { Icon } from '../../shared/icon/icon';
 import { PageHero } from '../../shared/page-hero/page-hero';
+import { ResponsiveImage } from '../../shared/responsive-image/responsive-image';
 import { Reveal } from '../../shared/reveal/reveal';
 import { IconName } from '../../models/icon.model';
 
@@ -23,13 +25,25 @@ interface ApproachPoint {
 @Component({
   selector: 'app-about',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, PageHero, CtaBanner, Reveal],
+  imports: [RouterLink, Icon, PageHero, CtaBanner, Reveal, ResponsiveImage],
   templateUrl: './about.html',
   styleUrl: './about.scss',
 })
 export class About {
   private readonly seo = inject(SeoService);
   protected readonly company = COMPANY;
+
+  /**
+   * The company photograph slot. Empty until a genuine photograph is supplied;
+   * see `content/photo.data.ts` for why, and for the one line that fills it.
+   */
+  protected readonly photo = PHOTO;
+  protected readonly facts = COMPANY_FACTS;
+  protected readonly hasPhoto = hasPhoto;
+
+  /** Describes the empty slot honestly rather than implying a photo exists. */
+  protected readonly placeholderLabel =
+    'Placeholder for a photograph of the Bizflow Technologies team or workspace, to be supplied.';
 
   protected readonly values: readonly ValuePoint[] = [
     {

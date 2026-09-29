@@ -1,0 +1,37 @@
+<section class="ba">
+  <div class="ba__flows" appRevealGroup>
+    <div class="ba__flow ba__flow--before">
+      <h3 class="ba__flow-title">Before</h3>
+      <ol class="ba__steps">
+        @for (step of before; track step) {
+          <li class="ba__step">{{ step }}</li>
+        }
+      </ol>
+    </div>
+
+    <div class="ba__flow ba__flow--after">
+      <h3 class="ba__flow-title">After</h3>
+      <ol class="ba__steps">
+        @for (step of after; track step) {
+          <li class="ba__step">{{ step }}</li>
+        }
+      </ol>
+    </div>
+  </div>
+
+  <ul class="ba__pairs" appRevealGroup>
+    @for (pair of pairs; track pair.before) {
+      <li class="ba__pair">
+        <div class="ba__pair-side ba__pair-side--before">
+          <span class="ba__pair-label">Before</span>
+          <p class="ba__pair-text">{{ pair.before }}</p>
+        </div>
+        <div class="ba__pair-side ba__pair-side--after">
+          <span class="ba__pair-label">After</span>
+          <p class="ba__pair-text">{{ pair.after }}</p>
+        </div>
+        <p class="ba__pair-difference">{{ pair.difference }}</p>
+      </li>
+    }
+  </ul>
+</section>

@@ -3,3 +3,6 @@
 .chain li { display: grid; gap: 0.5rem; align-content: start; min-width: 0; padding: clamp(1.4rem, 2.5vw, 2rem); background: var(--surface); }
 .chain h3 { margin: 0; font-size: 1.1rem; }
 .chain p { margin: 0; font-size: 0.92rem; color: var(--text-soft); }
+
+/* Space between the chain and the single supporting visual below it. */
+.chain__visual { margin-top: clamp(1.5rem, 3vw, 2.5rem); }

@@ -32,7 +32,7 @@ class PortfolioProjectServiceImplTest {
 
 	@Test
 	void returnsProjectsInDisplayOrder() {
-		when(this.portfolioProjectRepository.findAllByOrderByDisplayOrderAsc())
+		when(this.portfolioProjectRepository.findByPublishedTrueOrderByDisplayOrderAsc())
 				.thenReturn(List.of(project("first", 1), project("second", 2)));
 
 		assertThat(this.service.findAll()).extracting("slug").containsExactly("first", "second");
@@ -40,7 +40,7 @@ class PortfolioProjectServiceImplTest {
 
 	@Test
 	void mapsCommaSeparatedValuesToLists() {
-		when(this.portfolioProjectRepository.findBySlug("first")).thenReturn(Optional.of(project("first", 1)));
+		when(this.portfolioProjectRepository.findBySlugAndPublishedTrue("first")).thenReturn(Optional.of(project("first", 1)));
 
 		var response = this.service.findBySlug("first");
 		assertThat(response.technologies()).containsExactly("Java", "Spring Boot", "PostgreSQL");
@@ -51,14 +51,15 @@ class PortfolioProjectServiceImplTest {
 
 	@Test
 	void returnsOnlyFeaturedProjects() {
-		when(this.portfolioProjectRepository.findByFeaturedTrueOrderByDisplayOrderAsc()).thenReturn(List.of());
+		when(this.portfolioProjectRepository.findByPublishedTrueAndFeaturedTrueOrderByDisplayOrderAsc())
+				.thenReturn(List.of());
 
 		assertThat(this.service.findFeatured()).isEmpty();
 	}
 
 	@Test
 	void failsWhenTheSlugIsUnknown() {
-		when(this.portfolioProjectRepository.findBySlug("missing")).thenReturn(Optional.empty());
+		when(this.portfolioProjectRepository.findBySlugAndPublishedTrue("missing")).thenReturn(Optional.empty());
 
 		assertThatThrownBy(() -> this.service.findBySlug("missing")).isInstanceOf(ResourceNotFoundException.class)
 				.hasMessageContaining("missing");

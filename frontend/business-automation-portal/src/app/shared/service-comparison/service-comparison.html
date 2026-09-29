@@ -1,0 +1,27 @@
+<div class="cmp" appReveal>
+  <div class="cmp__scroll" tabindex="0" role="region" aria-label="Service comparison">
+    <table class="cmp__table">
+      <caption class="cmp__caption">
+        The three services compared. They are peers, not a ranking: each suits a different situation.
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Service</th>
+          <th scope="col">Best for</th>
+          <th scope="col">Typically fits</th>
+          <th scope="col">What you get</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (service of services; track service.name) {
+          <tr>
+            <th scope="row" class="cmp__name">{{ service.name }}</th>
+            <td>{{ service.for }}</td>
+            <td>{{ service.fits }}</td>
+            <td>{{ service.outcome }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

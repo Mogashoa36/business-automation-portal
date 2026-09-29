@@ -1,0 +1,59 @@
+<app-admin-page-header
+  title="Activity log"
+  intro="A record of administrative actions. Passwords and other secrets are never stored here."
+/>
+
+@if (error()) {
+  <p class="notice notice--error" role="alert">{{ error() }}</p>
+}
+
+<div class="panel">
+  <h2 class="panel__title">Recent activity ({{ entries().length }})</h2>
+
+  @if (loading()) {
+    <p class="panel__empty" role="status">Loading the activity log...</p>
+  } @else if (!entries().length) {
+    <p class="panel__empty">No administrative activity has been recorded yet.</p>
+  } @else {
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Activity log">
+      <table class="table">
+        <caption class="visually-hidden">
+          Administrative actions with the time, the administrator and the outcome
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">When</th>
+            <th scope="col">Administrator</th>
+            <th scope="col">Action</th>
+            <th scope="col">Resource</th>
+            <th scope="col">Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (entry of entries(); track entry.id) {
+            <tr>
+              <td>
+                <time [attr.datetime]="entry.occurredAt">
+                  {{ entry.occurredAt | date: 'd MMM y, HH:mm' }}
+                </time>
+              </td>
+              <td>{{ entry.actor }}</td>
+              <td>
+                {{ humanise(entry.action) }}
+                @if (entry.detail) {
+                  <br /><span class="cell-sub">{{ entry.detail }}</span>
+                }
+              </td>
+              <td>{{ entry.resource || '—' }}</td>
+              <td>
+                <span class="status" [class.status--done]="entry.result === 'SUCCESS'">
+                  {{ entry.result === 'SUCCESS' ? 'Success' : entry.result }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

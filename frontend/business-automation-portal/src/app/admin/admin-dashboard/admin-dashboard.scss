@@ -1,0 +1,18 @@
+:host { display: block; }
+
+.notice {
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.25rem;
+  background: var(--c-white);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--c-line-strong);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  color: var(--c-ink-soft);
+}
+
+.notice--error {
+  border-left-color: var(--c-accent);
+  background: var(--c-accent-soft);
+  color: #8f2f22;
+}

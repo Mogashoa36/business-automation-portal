@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import company.backend.dto.ApiErrorResponse;
+import company.backend.exception.AccountLockedException;
 import company.backend.exception.ContactSubmissionRateLimitException;
+import company.backend.exception.InvalidCredentialsException;
+import company.backend.exception.InvalidRequestException;
 import company.backend.exception.InvalidServiceInterestException;
 import company.backend.exception.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -74,6 +77,38 @@ public class ApiExceptionHandler {
 				exception.getMessage(), Map.of(), request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
 				.header(HttpHeaders.RETRY_AFTER, Long.toString(exception.getRetryAfterSeconds())).body(body);
+	}
+
+	@ExceptionHandler(InvalidRequestException.class)
+	public ResponseEntity<ApiErrorResponse> handleInvalidRequest(InvalidRequestException exception,
+			HttpServletRequest request) {
+		ApiErrorResponse body = ApiErrorResponse.of(HttpStatus.BAD_REQUEST.value(), "Bad Request", exception.getMessage(),
+				Map.of(), request.getRequestURI());
+		return ResponseEntity.badRequest().body(body);
+	}
+
+	/**
+	 * Wrong identifier or password. The message is deliberately identical for
+	 * an unknown account, a wrong password and a disabled account, so the
+	 * endpoint cannot be used to discover which accounts exist.
+	 */
+	@ExceptionHandler(InvalidCredentialsException.class)
+	public ResponseEntity<ApiErrorResponse> handleInvalidCredentials(InvalidCredentialsException exception,
+			HttpServletRequest request) {
+		ApiErrorResponse body = ApiErrorResponse.of(HttpStatus.UNAUTHORIZED.value(), "Unauthorized",
+				exception.getMessage(), Map.of(), request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
+	}
+
+	/** Account or client is temporarily throttled. */
+	@ExceptionHandler(AccountLockedException.class)
+	public ResponseEntity<ApiErrorResponse> handleAccountLocked(AccountLockedException exception,
+			HttpServletRequest request) {
+		ApiErrorResponse body = ApiErrorResponse.of(HttpStatus.TOO_MANY_REQUESTS.value(), "Too Many Requests",
+				exception.getMessage(), Map.of(), request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+			.header(HttpHeaders.RETRY_AFTER, Long.toString(exception.getRetryAfterSeconds()))
+			.body(body);
 	}
 
 	@ExceptionHandler(Exception.class)

@@ -1,0 +1,153 @@
+<app-admin-page-header
+  title="Administrator accounts"
+  intro="Create accounts, change roles and reset passwords. Passwords are never displayed after they are set."
+>
+  <button class="btn btn--primary btn--sm" type="button" (click)="startCreate()">New account</button>
+</app-admin-page-header>
+
+@if (statusMessage()) {
+  <p class="notice" role="status">{{ statusMessage() }}</p>
+}
+@if (error()) {
+  <p class="notice notice--error" role="alert">{{ error() }}</p>
+}
+
+@if (creating()) {
+  <section class="panel">
+    <h2 class="panel__title">New administrator</h2>
+    <form class="panel__body form-grid" [formGroup]="createForm" (ngSubmit)="create()" novalidate>
+      <div class="field">
+        <label class="label" for="username">Username</label>
+        <input id="username" class="input" type="text" formControlName="username" spellcheck="false" required />
+      </div>
+
+      <div class="field">
+        <label class="label" for="email">Email address</label>
+        <input id="email" class="input" type="email" formControlName="email" required />
+      </div>
+
+      <div class="field">
+        <label class="label" for="displayName">Display name</label>
+        <input id="displayName" class="input" type="text" formControlName="displayName" required />
+      </div>
+
+      <div class="field">
+        <label class="label" for="role">Role</label>
+        <select id="role" class="select" formControlName="role">
+          <option value="Editor">Editor</option>
+          <option value="Administrator">Administrator</option>
+        </select>
+        <span class="hint">Editors manage content and enquiries only.</span>
+      </div>
+
+      <div class="field field--full">
+        <label class="label" for="temporaryPassword">Temporary password</label>
+        <input
+          id="temporaryPassword"
+          class="input"
+          type="password"
+          formControlName="temporaryPassword"
+          autocomplete="new-password"
+          required
+        />
+        <span class="hint">
+          At least 12 characters with an uppercase letter, a lowercase letter and a number. They must change it
+          at first sign in.
+        </span>
+      </div>
+
+      <div class="field field--full form-actions">
+        <button class="btn btn--primary" type="submit" [disabled]="saving()">
+          {{ saving() ? 'Creating...' : 'Create account' }}
+        </button>
+        <button class="btn btn--ghost" type="button" (click)="cancelCreate()">Cancel</button>
+      </div>
+    </form>
+  </section>
+}
+
+<div class="panel">
+  <h2 class="panel__title">Accounts ({{ users().length }})</h2>
+
+  @if (loading()) {
+    <p class="panel__empty" role="status">Loading accounts...</p>
+  } @else {
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Administrator accounts">
+      <table class="table">
+        <caption class="visually-hidden">Administrator accounts with their role and status</caption>
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Username</th>
+            <th scope="col">Role</th>
+            <th scope="col">Status</th>
+            <th scope="col">Last sign in</th>
+            <th scope="col"><span class="visually-hidden">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of users(); track user.id) {
+            <tr>
+              <td>
+                <strong>{{ user.displayName }}</strong>
+                @if (isSelf(user)) {
+                  <br /><span class="cell-sub">This is you</span>
+                }
+                @if (user.mustChangePassword) {
+                  <br /><span class="status status--new">Must change password</span>
+                }
+              </td>
+              <td>
+                {{ user.username }}
+                <br /><span class="cell-sub">{{ user.email }}</span>
+              </td>
+              <td>
+                <label class="visually-hidden" [for]="'role-' + user.id">Role for {{ user.username }}</label>
+                <select
+                  class="select select--compact"
+                  [id]="'role-' + user.id"
+                  [value]="user.role"
+                  (change)="changeRole(user, $any($event.target).value)"
+                >
+                  <option value="Editor">Editor</option>
+                  <option value="Administrator">Administrator</option>
+                </select>
+              </td>
+              <td>
+                <span
+                  class="status"
+                  [class.status--done]="user.enabled"
+                  [class.status--archived]="!user.enabled"
+                >
+                  {{ user.enabled ? 'Enabled' : 'Disabled' }}
+                </span>
+              </td>
+              <td>
+                @if (user.lastLoginAt) {
+                  <time [attr.datetime]="user.lastLoginAt">{{ user.lastLoginAt | date: 'd MMM y, HH:mm' }}</time>
+                } @else {
+                  Never
+                }
+              </td>
+              <td>
+                <div class="table__actions">
+                  @if (!isSelf(user)) {
+                    <button class="btn btn--outline btn--sm" type="button" (click)="toggleEnabled(user)">
+                      {{ user.enabled ? 'Disable' : 'Enable' }}
+                    </button>
+                    <button class="btn btn--outline btn--sm" type="button" (click)="resetPassword(user)">
+                      Reset password
+                    </button>
+                    <button class="btn btn--ghost btn--sm" type="button" (click)="remove(user)">Remove</button>
+                  } @else {
+                    <span class="cell-sub">Use "Change password" to update your own.</span>
+                  }
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

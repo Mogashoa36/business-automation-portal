@@ -9,6 +9,92 @@
   color: var(--text-soft);
 }
 
+/* The reset button inside the notice reads as a link but behaves as a button. */
+.link--inline {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  color: var(--accent-text);
+}
+
+/* Category filter. Buttons rather than links, because filtering does not
+   navigate and should not add a history entry per click. */
+.filters { margin-bottom: clamp(1.5rem, 3vw, 2rem); }
+
+.filters__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.filters__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: background-color var(--d-fast) var(--ease), border-color var(--d-fast) var(--ease),
+    color var(--d-fast) var(--ease);
+}
+
+.filters__btn:hover { border-color: var(--line-strong); color: var(--text); }
+
+/* Selected state is carried by fill, weight and a border, not colour alone. */
+.filters__btn--on {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: var(--on-accent);
+}
+
+.filters__btn--on:hover { background: var(--c-accent-deep); border-color: var(--c-accent-deep); color: var(--on-accent); }
+
+.filters__count {
+  font-size: 0.68rem;
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------ Project imagery ---
+   Shown only when a real image has been uploaded. A project without one keeps
+   the original text-only card, so the page never shows an empty frame.
+   ------------------------------------------------------------------------ */
+
+.case-lead__art { display: block; min-width: 0; }
+
+.case__art {
+  display: block;
+  margin-bottom: 0.9rem;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  /* Clipped here rather than only on the image, so the hover scale of the
+     artwork stays inside the card. */
+  background: var(--c-sand);
+}
+
+/* The artwork leads on wide screens, with the text beside it. */
+@media (min-width: 58rem) {
+  .case-lead--with-art {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+}
+
+
 .skeleton {
   height: 19rem;
   border: 1px solid var(--line);

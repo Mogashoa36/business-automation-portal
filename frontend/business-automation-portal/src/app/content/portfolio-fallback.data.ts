@@ -1,4 +1,4 @@
-import { PortfolioProject } from '../models/portfolio-project.model';
+﻿import { PortfolioProject } from '../models/portfolio-project.model';
 
 /**
  * Offline snapshot of the portfolio case studies.
@@ -39,6 +39,8 @@ export const PORTFOLIO_FALLBACK: readonly PortfolioProject[] = [
     imageUrl: null,
     featured: true,
     sampleProject: true,
+    published: true,
+    category: 'Business Process Automation',
   },
   {
     id: null,
@@ -68,6 +70,8 @@ export const PORTFOLIO_FALLBACK: readonly PortfolioProject[] = [
     imageUrl: null,
     featured: true,
     sampleProject: true,
+    published: true,
+    category: 'Workflow Management',
   },
   {
     id: null,
@@ -96,5 +100,7 @@ export const PORTFOLIO_FALLBACK: readonly PortfolioProject[] = [
     imageUrl: null,
     featured: true,
     sampleProject: true,
+    published: true,
+    category: 'Reporting & Dashboards',
   },
 ];

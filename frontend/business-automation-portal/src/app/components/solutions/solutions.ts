@@ -7,6 +7,7 @@ import { CtaBanner } from '../../shared/cta-banner/cta-banner';
 import { Icon } from '../../shared/icon/icon';
 import { PageHero } from '../../shared/page-hero/page-hero';
 import { Reveal } from '../../shared/reveal/reveal';
+import { SolutionsVisual } from '../../shared/solutions-visual/solutions-visual';
 
 interface ChainStep {
   readonly title: string;
@@ -16,7 +17,7 @@ interface ChainStep {
 @Component({
   selector: 'app-solutions',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, PageHero, CtaBanner, Reveal],
+  imports: [RouterLink, Icon, PageHero, CtaBanner, Reveal, SolutionsVisual],
   templateUrl: './solutions.html',
   styleUrl: './solutions.scss',
 })

@@ -1,0 +1,14 @@
+:host { display: block; }
+
+.notice--error {
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.25rem;
+  background: var(--c-accent-soft);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--c-accent);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  color: #8f2f22;
+}
+
+.cell-sub { color: var(--c-ink-muted); font-size: 0.8rem; overflow-wrap: break-word; }

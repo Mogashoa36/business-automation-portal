@@ -39,4 +39,13 @@ public class PortfolioController {
 	public PortfolioProjectResponse findBySlug(@PathVariable String slug) {
 		return this.portfolioProjectService.findBySlug(slug);
 	}
+
+	/**
+	 * Categories that have at least one published case study. The public
+	 * portfolio filter uses this so it never offers a filter with no results.
+	 */
+	@GetMapping("/categories")
+	public List<String> findCategories() {
+		return this.portfolioProjectService.findPublishedCategories();
+	}
 }

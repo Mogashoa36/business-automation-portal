@@ -1,0 +1,187 @@
+/*
+ * Administration layout.
+ *
+ * Clarity over decoration: a fixed sidebar on wide screens, a drawer below the
+ * tablet breakpoint, and no animation beyond short colour transitions. The
+ * palette reuses the site tokens, so the portal feels related to the marketing
+ * site while being plainly a different surface.
+ */
+:host {
+  display: block;
+  min-height: 100dvh;
+  background-color: var(--c-sand);
+}
+
+.admin { min-height: 100dvh; }
+
+/* ------------------------------------------------------------------- top bar */
+
+.admin__bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.7rem clamp(0.9rem, 2.5vw, 1.5rem);
+  background-color: var(--c-white);
+  border-bottom: 1px solid var(--line);
+}
+
+.admin__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: none;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--c-ink);
+  cursor: pointer;
+}
+
+.admin__toggle:hover { border-color: var(--c-line-strong); background: var(--c-sand); }
+
+.admin__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.admin__wordmark { display: flex; flex-direction: column; line-height: 1.1; min-width: 0; }
+
+.admin__name {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--c-ink);
+}
+
+.admin__descriptor {
+  font-size: 0.66rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+  white-space: nowrap;
+}
+
+.admin__account {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-left: auto;
+  min-width: 0;
+}
+
+.admin__avatar {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  flex: none;
+  border-radius: 50%;
+  background: var(--c-accent-soft);
+  color: var(--c-accent);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+/* The name is the first thing to go when space is tight. */
+.admin__who { display: none; min-width: 0; }
+
+.admin__who-name {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--c-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin__who-role {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+.admin__signout { padding: 0.5rem 0.95rem; font-size: 0.72rem; }
+
+@media (min-width: 48rem) {
+  .admin__toggle { display: none; }
+  .admin__who { display: block; }
+}
+
+/* --------------------------------------------------------------------- body */
+
+.admin__body { display: flex; align-items: flex-start; }
+
+.admin__nav {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 15;
+  width: min(17rem, 82vw);
+  padding: 1.25rem 0.9rem 2rem;
+  overflow-y: auto;
+  background-color: var(--c-white);
+  border-right: 1px solid var(--line);
+  /* Off canvas until opened, rather than display:none, so the transition and
+     the browser's own focus handling both behave predictably. */
+  transform: translateX(-100%);
+  transition: transform var(--d-ui) var(--ease);
+}
+
+.admin__nav--open { transform: none; }
+
+.admin__content {
+  flex: 1;
+  min-width: 0;
+  padding: clamp(1.1rem, 3vw, 2rem);
+}
+
+.admin__group + .admin__group { margin-top: 1.35rem; }
+
+.admin__group-label {
+  margin: 0 0 0.4rem;
+  padding-inline: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+.admin__list { list-style: none; display: grid; gap: 1px; }
+
+.admin__link {
+  display: block;
+  padding: 0.55rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--c-ink-soft);
+  transition: background-color var(--d-fast) var(--ease), color var(--d-fast) var(--ease);
+}
+
+.admin__link:hover { background: var(--c-sand); color: var(--c-ink); }
+
+/* The active item is marked by colour, weight and a bar, never colour alone. */
+.admin__link.is-active {
+  background: var(--c-accent-soft);
+  color: var(--c-accent);
+  font-weight: 600;
+  box-shadow: inset 2px 0 0 var(--c-accent);
+}
+
+@media (min-width: 48rem) {
+  .admin__nav { position: sticky; top: 3.75rem; height: calc(100dvh - 3.75rem); flex: none; transform: none; }
+  .admin__content { padding: clamp(1.5rem, 3vw, 2.25rem); }
+}

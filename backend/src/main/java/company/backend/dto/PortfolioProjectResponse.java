@@ -5,10 +5,16 @@ import java.util.List;
 
 import company.backend.entity.PortfolioProject;
 
-/** Public representation of a portfolio case study. */
+/**
+ * Public representation of a portfolio case study.
+ *
+ * <p>{@code category} was added alongside the portfolio filter. It is purely
+ * additive: every field that existed before is still present and unchanged, so
+ * existing consumers of {@code GET /api/portfolio} keep working.
+ */
 public record PortfolioProjectResponse(Long id, String slug, String name, String industry, String summary,
 		String problem, String solution, List<String> technologies, List<String> keyFeatures, List<String> results,
-		String imageUrl, boolean featured, boolean sampleProject) {
+		String imageUrl, boolean featured, boolean sampleProject, String category) {
 
 	/**
 	 * Maps a persisted project to its API representation, splitting the stored
@@ -19,7 +25,7 @@ public record PortfolioProjectResponse(Long id, String slug, String name, String
 				project.getSummary(), project.getProblem(), project.getSolution(),
 				splitToList(project.getTechnologies()), splitToList(project.getKeyFeatures()),
 				splitToList(project.getResults()), project.getImageUrl(), project.isFeatured(),
-				project.isSampleProject());
+				project.isSampleProject(), project.getCategory());
 	}
 
 	private static List<String> splitToList(String value) {

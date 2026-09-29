@@ -21,4 +21,12 @@ export interface PortfolioProject {
    * clearly so they are never mistaken for work delivered for a real client.
    */
   readonly sampleProject: boolean;
+  /**
+   * Whether the case study is published. Always `true` on the public API,
+   * because the public endpoint only ever returns published projects; the
+   * admin endpoint is where a draft is visible.
+   */
+  readonly published: boolean;
+  /** Optional filter label, e.g. "Workflow Management". Powers the portfolio filter. */
+  readonly category: string | null;
 }

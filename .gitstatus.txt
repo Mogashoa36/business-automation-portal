@@ -1,0 +1,88 @@
+ M backend/pom.xml
+ D backend/src/main/java/company/backend/config/WebConfig.java
+ M backend/src/main/java/company/backend/controller/ApiExceptionHandler.java
+ M backend/src/main/java/company/backend/controller/PortfolioController.java
+ M backend/src/main/java/company/backend/dto/PortfolioProjectResponse.java
+ M backend/src/main/java/company/backend/entity/ContactMessage.java
+ M backend/src/main/java/company/backend/entity/PortfolioProject.java
+ M backend/src/main/java/company/backend/repo/ContactMessageRepository.java
+ M backend/src/main/java/company/backend/repo/PortfolioProjectRepository.java
+ M backend/src/main/java/company/backend/service/PortfolioProjectService.java
+ M backend/src/main/java/company/backend/service/PortfolioProjectServiceImpl.java
+ M backend/src/main/resources/application.properties
+ M backend/src/test/java/company/backend/service/PortfolioProjectServiceImplTest.java
+ M backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+ M backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+ M backend/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+ M backend/target/surefire-reports/TEST-company.backend.BackendApplicationTests.xml
+ M backend/target/surefire-reports/TEST-company.backend.config.PortfolioDataSeederTest.xml
+ M backend/target/surefire-reports/TEST-company.backend.controller.ContactControllerTest.xml
+ M backend/target/surefire-reports/TEST-company.backend.controller.PortfolioControllerTest.xml
+ M backend/target/surefire-reports/TEST-company.backend.service.ContactMessageServiceImplTest.xml
+ M backend/target/surefire-reports/TEST-company.backend.service.PortfolioProjectServiceImplTest.xml
+ M backend/target/surefire-reports/company.backend.BackendApplicationTests.txt
+ M backend/target/surefire-reports/company.backend.config.PortfolioDataSeederTest.txt
+ M backend/target/surefire-reports/company.backend.controller.ContactControllerTest.txt
+ M backend/target/surefire-reports/company.backend.controller.PortfolioControllerTest.txt
+ M backend/target/surefire-reports/company.backend.service.ContactMessageServiceImplTest.txt
+ M backend/target/surefire-reports/company.backend.service.PortfolioProjectServiceImplTest.txt
+?? .gitstatus.txt
+?? backend/src/main/java/company/backend/config/AdminSecurityProperties.java
+?? backend/src/main/java/company/backend/config/AdminUserBootstrap.java
+?? backend/src/main/java/company/backend/config/EditableContentKeys.java
+?? backend/src/main/java/company/backend/config/SecurityConfig.java
+?? backend/src/main/java/company/backend/controller/FaqController.java
+?? backend/src/main/java/company/backend/controller/admin/
+?? backend/src/main/java/company/backend/domain/AdminRole.java
+?? backend/src/main/java/company/backend/domain/EnquiryStatus.java
+?? backend/src/main/java/company/backend/dto/ActivityLogResponse.java
+?? backend/src/main/java/company/backend/dto/AdminUserCreateRequest.java
+?? backend/src/main/java/company/backend/dto/AdminUserResponse.java
+?? backend/src/main/java/company/backend/dto/AdminUserUpdateRequest.java
+?? backend/src/main/java/company/backend/dto/ChangePasswordRequest.java
+?? backend/src/main/java/company/backend/dto/DashboardResponse.java
+?? backend/src/main/java/company/backend/dto/EnquiryResponse.java
+?? backend/src/main/java/company/backend/dto/EnquiryUpdateRequest.java
+?? backend/src/main/java/company/backend/dto/FaqRequest.java
+?? backend/src/main/java/company/backend/dto/FaqResponse.java
+?? backend/src/main/java/company/backend/dto/LoginRequest.java
+?? backend/src/main/java/company/backend/dto/LoginResponse.java
+?? backend/src/main/java/company/backend/dto/PageResponse.java
+?? backend/src/main/java/company/backend/dto/ResetPasswordRequest.java
+?? backend/src/main/java/company/backend/dto/SiteContentResponse.java
+?? backend/src/main/java/company/backend/entity/ActivityLog.java
+?? backend/src/main/java/company/backend/entity/AdminUser.java
+?? backend/src/main/java/company/backend/entity/FaqItem.java
+?? backend/src/main/java/company/backend/entity/SiteContent.java
+?? backend/src/main/java/company/backend/exception/AccountLockedException.java
+?? backend/src/main/java/company/backend/exception/InvalidCredentialsException.java
+?? backend/src/main/java/company/backend/exception/InvalidRequestException.java
+?? backend/src/main/java/company/backend/repo/ActivityLogRepository.java
+?? backend/src/main/java/company/backend/repo/AdminUserRepository.java
+?? backend/src/main/java/company/backend/repo/FaqItemRepository.java
+?? backend/src/main/java/company/backend/repo/SiteContentRepository.java
+?? backend/src/main/java/company/backend/security/
+?? backend/src/main/java/company/backend/service/ActivityLogService.java
+?? backend/src/main/java/company/backend/service/ActivityLogServiceImpl.java
+?? backend/src/main/java/company/backend/service/AdminEnquiryService.java
+?? backend/src/main/java/company/backend/service/AdminEnquiryServiceImpl.java
+?? backend/src/main/java/company/backend/service/AdminFaqService.java
+?? backend/src/main/java/company/backend/service/AdminFaqServiceImpl.java
+?? backend/src/main/java/company/backend/service/AdminPortfolioService.java
+?? backend/src/main/java/company/backend/service/AdminPortfolioServiceImpl.java
+?? backend/src/main/java/company/backend/service/AdminSession.java
+?? backend/src/main/java/company/backend/service/AdminUserService.java
+?? backend/src/main/java/company/backend/service/AdminUserServiceImpl.java
+?? backend/src/main/java/company/backend/service/AuthService.java
+?? backend/src/main/java/company/backend/service/AuthServiceImpl.java
+?? backend/src/main/java/company/backend/service/DashboardService.java
+?? backend/src/main/java/company/backend/service/DashboardServiceImpl.java
+?? backend/src/main/java/company/backend/service/FaqService.java
+?? backend/src/main/java/company/backend/service/FaqServiceImpl.java
+?? backend/src/main/java/company/backend/service/LoginThrottleService.java
+?? backend/src/main/java/company/backend/service/PortfolioProjectCommand.java
+?? backend/src/main/java/company/backend/service/SiteContentService.java
+?? backend/src/main/java/company/backend/service/SiteContentServiceImpl.java
+?? backend/src/test/java/company/backend/controller/admin/
+?? backend/src/test/java/company/backend/security/
+?? run-dev.ps1.txt

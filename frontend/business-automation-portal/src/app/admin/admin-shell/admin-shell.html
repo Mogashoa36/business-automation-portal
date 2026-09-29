@@ -1,0 +1,72 @@
+<a class="skip-link" href="#admin-content">Skip to main content</a>
+
+<div class="admin" [class.admin--drawer-open]="drawerOpen()">
+  <header class="admin__bar">
+    <button
+      type="button"
+      class="admin__toggle"
+      [attr.aria-expanded]="drawerOpen()"
+      aria-controls="admin-navigation"
+      (click)="toggleDrawer()"
+    >
+      <app-icon [name]="drawerOpen() ? 'close' : 'menu'" [size]="20" />
+      <span class="visually-hidden">{{ drawerOpen() ? 'Close navigation' : 'Open navigation' }}</span>
+    </button>
+
+    <a class="admin__brand" routerLink="/admin/dashboard" (click)="closeDrawer()">
+      <span class="admin__mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="26" height="26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="4" fill="#A94735" />
+          <path d="M9 11h14M9 16h9M9 21h6" stroke="#171311" stroke-width="2.4" stroke-linecap="round" />
+        </svg>
+      </span>
+      <span class="admin__wordmark">
+        <span class="admin__name">BIZFLOW</span>
+        <span class="admin__descriptor">Administration</span>
+      </span>
+    </a>
+
+    <div class="admin__account">
+      @if (user(); as current) {
+        <span class="admin__avatar" aria-hidden="true">{{ initials() }}</span>
+        <span class="admin__who">
+          <span class="admin__who-name">{{ current.displayName }}</span>
+          <span class="admin__who-role">{{ current.role }}</span>
+        </span>
+      }
+      <button class="btn btn--outline admin__signout" type="button" (click)="signOut()" [disabled]="signingOut()">
+        Log out
+      </button>
+    </div>
+  </header>
+
+  <div class="admin__body">
+    <nav id="admin-navigation" class="admin__nav" [class.admin__nav--open]="drawerOpen()" aria-label="Administration">
+      @for (group of groups; track group.label) {
+        <div class="admin__group">
+          <p class="admin__group-label">{{ group.label }}</p>
+          <ul class="admin__list">
+            @for (item of group.items; track item.path) {
+              @if (!item.adminOnly || canManageAccounts()) {
+                <li>
+                  <a
+                    class="admin__link"
+                    [routerLink]="item.path"
+                    routerLinkActive="is-active"
+                    (click)="closeDrawer()"
+                  >
+                    {{ item.label }}
+                  </a>
+                </li>
+              }
+            }
+          </ul>
+        </div>
+      }
+    </nav>
+
+    <main id="admin-content" class="admin__content" tabindex="-1">
+      <router-outlet />
+    </main>
+  </div>
+</div>

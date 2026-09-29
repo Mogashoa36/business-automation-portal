@@ -43,12 +43,20 @@ export class PortfolioService {
   }
 }
 
-/** Defensive mapping so a partial payload can never break the template. */
+/**
+ * Defensive mapping so a partial payload can never break the template, and so
+ * an older API response still satisfies the interface.
+ *
+ * `published` defaults to `true` because the public endpoint only ever returns
+ * published projects, and `category` is optional.
+ */
 function normalise(project: PortfolioProject): PortfolioProject {
   return {
     ...project,
     technologies: project.technologies ?? [],
     keyFeatures: project.keyFeatures ?? [],
     results: project.results ?? [],
+    published: project.published ?? true,
+    category: project.category ?? null,
   };
 }

@@ -10,14 +10,32 @@ import { PortfolioProject } from '../../models/portfolio-project.model';
 import { SeoService } from '../../services/seo.service';
 import { PortfolioService } from '../../services/portfolio.service';
 import { CtaBanner } from '../../shared/cta-banner/cta-banner';
+import { AutomationAssessment } from '../../shared/automation-assessment/automation-assessment';
+import { BeforeAfter } from '../../shared/before-after/before-after';
+import { DeliveryTimeline } from '../../shared/delivery-timeline/delivery-timeline';
+import { DeviceTrio } from '../../shared/device-trio/device-trio';
 import { Icon } from '../../shared/icon/icon';
 import { ProcessFlow } from '../../shared/process-flow/process-flow';
 import { Reveal } from '../../shared/reveal/reveal';
+import { RoiCalculator } from '../../shared/roi-calculator/roi-calculator';
+import { WorkflowDemo } from '../../shared/workflow-demo/workflow-demo';
 
 @Component({
   selector: 'app-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, ProcessFlow, CtaBanner, Reveal],
+  imports: [
+    RouterLink,
+    Icon,
+    ProcessFlow,
+    CtaBanner,
+    Reveal,
+    BeforeAfter,
+    AutomationAssessment,
+    RoiCalculator,
+    WorkflowDemo,
+    DeliveryTimeline,
+    DeviceTrio,
+  ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

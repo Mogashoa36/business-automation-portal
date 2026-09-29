@@ -1,0 +1,39 @@
+@if (!loading() && available()) {
+  <section class="faq" aria-labelledby="faq-heading">
+    <div class="section-head section-head--split" appReveal>
+      <div>
+        <p class="eyebrow">FAQ</p>
+        <h2 id="faq-heading">Questions we are asked often.</h2>
+      </div>
+      <p class="lead">
+        Straight answers about how we work, what automation can and cannot do, and what a project
+        looks like from the start.
+      </p>
+    </div>
+
+    <!--
+      The shared `name` attribute means only one answer is open at a time, which
+      is the expected behaviour and needs no script.
+    -->
+    <div class="faq__list" appRevealGroup>
+      @for (item of faqs(); track item.id) {
+        <details class="faq__item" name="faq">
+          <summary class="faq__question">
+            <span class="faq__text">
+              @if (item.category) {
+                <span class="faq__category">{{ item.category }}</span>
+              }
+              {{ item.question }}
+            </span>
+            <span class="faq__marker" aria-hidden="true">
+              <app-icon name="arrow-right" [size]="18" />
+            </span>
+          </summary>
+          <div class="faq__answer">
+            <p>{{ item.answer }}</p>
+          </div>
+        </details>
+      }
+    </div>
+  </section>
+}

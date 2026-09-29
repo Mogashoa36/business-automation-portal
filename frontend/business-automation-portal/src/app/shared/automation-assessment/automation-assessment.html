@@ -1,0 +1,98 @@
+<section class="assessment" appReveal>
+  <header class="assessment__head">
+    <p class="eyebrow">Automation assessment</p>
+    <h2 class="assessment__title">Can your process be automated?</h2>
+    <p class="lead assessment__intro">
+      Six quick questions about how a process runs today. The result suggests where automation would help
+      most, so you can start a useful conversation rather than a blind one.
+    </p>
+  </header>
+
+  <form class="assessment__form" (submit)="$event.preventDefault()">
+    @for (question of questions; track question.id; let index = $index) {
+      <div class="q">
+        <p class="q__label" [id]="question.id + '-label'">
+          <span class="q__index" aria-hidden="true">{{ index + 1 }}</span>
+          {{ question.question }}
+        </p>
+
+        <div class="q__options" role="radiogroup" [attr.aria-labelledby]="question.id + '-label'">
+          @for (option of question.options; track option.label) {
+            <label class="q__option" [class.q__option--on]="answers()[question.id] === option.label">
+              <input
+                type="radio"
+                [name]="question.id"
+                [value]="option.label"
+                [checked]="answers()[question.id] === option.label"
+                (change)="select(question.id, option.label)"
+              />
+              <span>{{ option.label }}</span>
+            </label>
+          }
+        </div>
+      </div>
+    }
+
+    <div class="assessment__actions">
+      <button class="btn btn--ghost" type="button" (click)="reset()" [disabled]="!answered()">
+        Start again
+      </button>
+      <span class="assessment__progress" role="status">{{ answered() }} of {{ questions.length }} answered</span>
+    </div>
+  </form>
+
+  @if (result(); as outcome) {
+    <section class="result" aria-labelledby="assessment-result-heading">
+      <div class="result__head">
+        <p class="result__eyebrow">Your result</p>
+        <h3 class="result__band" id="assessment-result-heading">{{ outcome.bandLabel }}</h3>
+        <p class="result__summary">{{ outcome.bandSummary }}</p>
+
+        <div class="result__meter">
+          <div
+            class="result__meter-fill"
+            [style.width.%]="outcome.score"
+            role="img"
+            [attr.aria-label]="'Automation potential score: ' + outcome.score + ' out of 100'"
+          ></div>
+        </div>
+        <p class="result__score"><strong>{{ outcome.score }}</strong> / 100</p>
+      </div>
+
+      @if (outcome.opportunities.length) {
+        <div class="result__body">
+          <h4 class="result__subtitle">Where automation would most likely help</h4>
+          <ul class="opps">
+            @for (opportunity of outcome.opportunities; track opportunity.title) {
+              <li class="opp" [class.opp--strong]="opportunity.strength === 'strong'">
+                <span class="opp__title">
+                  <app-icon name="check" [size]="16" />
+                  {{ opportunity.title }}
+                </span>
+                <span class="opp__tag">
+                  {{ opportunity.strength === 'strong' ? 'Strong fit' : 'Possible' }}
+                </span>
+                <p class="opp__body">{{ opportunity.description }}</p>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      <div class="result__cta">
+        <p class="result__note">
+          This is an indicative guide, not a quote or a saving we promise. A short form cannot know your
+          process properly - the real answer comes from talking it through.
+        </p>
+        <a class="btn btn--primary" [routerLink]="ctaLink">
+          {{ ctaLabel }}
+          <app-icon name="arrow-right" [size]="18" />
+        </a>
+      </div>
+    </section>
+  } @else {
+    <p class="result__empty" role="status">
+      Answer the questions above and the opportunities will appear here.
+    </p>
+  }
+</section>

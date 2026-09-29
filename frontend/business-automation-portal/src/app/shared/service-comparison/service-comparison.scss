@@ -1,0 +1,50 @@
+:host { display: block; }
+
+/* Scrolls rather than squeezing, so no cell becomes unreadably narrow. The
+   region is focusable so it is reachable with a keyboard. */
+.cmp__scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.cmp__scroll:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 4px; }
+
+.cmp__table {
+  width: 100%;
+  min-width: 46rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.cmp__caption {
+  padding-bottom: 0.85rem;
+  text-align: left;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.cmp__table th,
+.cmp__table td {
+  padding: 0.9rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+.cmp__table thead th {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom-color: var(--line-strong);
+  white-space: nowrap;
+}
+
+.cmp__name {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.cmp__table tbody tr:last-child th,
+.cmp__table tbody tr:last-child td { border-bottom: 0; }

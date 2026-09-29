@@ -2,6 +2,7 @@ package company.backend.entity;
 
 import java.time.Instant;
 
+import company.backend.domain.EnquiryStatus;
 import company.backend.domain.ServiceInterest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -55,6 +56,24 @@ public class ContactMessage {
 	@Column(name = "created_at", nullable = false)
 	private Instant createdAt;
 
+	/**
+	 * Progress through the sales conversation. Always starts at {@code NEW} and
+	 * is only ever changed from the authenticated administration portal.
+	 */
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", nullable = false, length = 20)
+	private EnquiryStatus status = EnquiryStatus.NEW;
+
+	/**
+	 * Internal notes for the team. Never exposed through the public API and
+	 * only ever returned from an authenticated admin endpoint.
+	 */
+	@Column(name = "internal_notes", length = 4000)
+	private String internalNotes;
+
+	@Column(name = "updated_at", nullable = false)
+	private Instant updatedAt;
+
 	protected ContactMessage() {
 		// Required by JPA.
 	}
@@ -69,6 +88,8 @@ public class ContactMessage {
 		this.message = message;
 		this.reference = reference;
 		this.createdAt = createdAt;
+		this.status = EnquiryStatus.NEW;
+		this.updatedAt = createdAt;
 	}
 
 	public Long getId() {
@@ -105,5 +126,30 @@ public class ContactMessage {
 
 	public Instant getCreatedAt() {
 		return this.createdAt;
+	}
+
+	public EnquiryStatus getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(EnquiryStatus status) {
+		this.status = status;
+	}
+
+	public String getInternalNotes() {
+		return this.internalNotes;
+	}
+
+	public void setInternalNotes(String internalNotes) {
+		this.internalNotes = internalNotes;
+	}
+
+	public Instant getUpdatedAt() {
+		return this.updatedAt;
+	}
+
+	/** Called after every administrator edit so the record stays accurate. */
+	public void touch(Instant now) {
+		this.updatedAt = now;
 	}
 }

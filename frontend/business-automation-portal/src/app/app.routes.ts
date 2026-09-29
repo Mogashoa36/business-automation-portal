@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { adminGuard, adminRoleGuard, loginGuard } from './admin/guards/admin.guard';
+
 /**
  * Every page is lazy loaded so the initial bundle only contains the shell.
  * Page level titles, descriptions and Open Graph tags are set by each
@@ -88,6 +90,66 @@ export const routes: Routes = [
     path: 'contact',
     title: 'Contact | Start a Business Automation Project',
     loadComponent: () => import('./components/contact/contact').then((m) => m.Contact),
+  },
+  {
+    // Administration portal. Logically separate from the marketing site and
+    // lazy loaded so none of it reaches a visitor's bundle.
+    path: 'admin/login',
+    title: 'Administrator sign in | Bizflow Technologies',
+    canActivate: [loginGuard],
+    loadComponent: () => import('./admin/admin-login/admin-login').then((m) => m.AdminLogin),
+  },
+  {
+    path: 'admin',
+    canActivate: [adminGuard],
+    loadComponent: () => import('./admin/admin-shell/admin-shell').then((m) => m.AdminShell),
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+      {
+        path: 'dashboard',
+        title: 'Dashboard | Bizflow administration',
+        loadComponent: () => import('./admin/admin-dashboard/admin-dashboard').then((m) => m.AdminDashboard),
+      },
+      {
+        path: 'portfolio',
+        title: 'Portfolio | Bizflow administration',
+        loadComponent: () => import('./admin/admin-portfolio/admin-portfolio').then((m) => m.AdminPortfolio),
+      },
+      {
+        path: 'faqs',
+        title: 'FAQs | Bizflow administration',
+        loadComponent: () => import('./admin/admin-faqs/admin-faqs').then((m) => m.AdminFaqs),
+      },
+      {
+        path: 'enquiries',
+        title: 'Contact enquiries | Bizflow administration',
+        loadComponent: () => import('./admin/admin-enquiries/admin-enquiries').then((m) => m.AdminEnquiries),
+      },
+      {
+        path: 'images',
+        title: 'Images | Bizflow administration',
+        // ADMIN only, matching the server rule on /api/admin/images/**. The
+        // shell also hides the link for editors, but the server is the boundary.
+        canActivate: [adminRoleGuard],
+        loadComponent: () => import('./admin/admin-media/admin-media').then((m) => m.AdminMedia),
+      },
+      {
+        path: 'users',
+        title: 'Administrator accounts | Bizflow administration',
+        loadComponent: () => import('./admin/admin-users/admin-users').then((m) => m.AdminUsers),
+      },
+      {
+        path: 'activity',
+        title: 'Activity log | Bizflow administration',
+        loadComponent: () => import('./admin/admin-activity/admin-activity').then((m) => m.AdminActivity),
+      },
+      {
+        path: 'change-password',
+        title: 'Change password | Bizflow administration',
+        loadComponent: () =>
+          import('./admin/admin-change-password/admin-change-password').then((m) => m.AdminChangePassword),
+      },
+    ],
   },
   {
     path: '**',

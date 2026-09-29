@@ -1,0 +1,177 @@
+<app-admin-page-header
+  title="Contact enquiries"
+  intro="Enquiries submitted through the website. These are private and are never shown publicly."
+/>
+
+@if (statusMessage()) {
+  <p class="notice" role="status">{{ statusMessage() }}</p>
+}
+@if (error()) {
+  <p class="notice notice--error" role="alert">{{ error() }}</p>
+}
+
+<div class="panel">
+  <form class="toolbar" [formGroup]="filters" (ngSubmit)="applyFilters()">
+    <div class="field">
+      <label class="label" for="search">Search</label>
+      <input
+        id="search"
+        class="input"
+        type="search"
+        formControlName="search"
+        placeholder="Name, company, email or reference"
+      />
+    </div>
+
+    <div class="field">
+      <label class="label" for="status">Status</label>
+      <select id="status" class="select" formControlName="status">
+        <option value="">All statuses</option>
+        @for (option of statuses; track option) {
+          <option [value]="option">{{ option }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="toolbar__actions">
+      <button class="btn btn--primary btn--sm" type="submit">Apply</button>
+      <button class="btn btn--ghost btn--sm" type="button" (click)="clearFilters()">Clear</button>
+    </div>
+  </form>
+
+  @if (loading()) {
+    <p class="panel__empty" role="status">Loading enquiries...</p>
+  } @else if (!enquiries().length) {
+    <p class="panel__empty">No enquiries match these filters.</p>
+  } @else {
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Contact enquiries">
+      <table class="table">
+        <caption class="visually-hidden">
+          Contact enquiries with their status, service and received date
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Received</th>
+            <th scope="col">Name</th>
+            <th scope="col">Service</th>
+            <th scope="col">Status</th>
+            <th scope="col"><span class="visually-hidden">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (enquiry of enquiries(); track enquiry.id) {
+            <tr>
+              <td>
+                <time [attr.datetime]="enquiry.createdAt">{{ enquiry.createdAt | date: 'd MMM y' }}</time>
+              </td>
+              <td>
+                <strong>{{ enquiry.fullName }}</strong>
+                @if (enquiry.company) {
+                  <br /><span class="cell-sub">{{ enquiry.company }}</span>
+                }
+                <br /><span class="cell-sub">{{ enquiry.reference }}</span>
+              </td>
+              <td>{{ enquiry.service }}</td>
+              <td>
+                <label class="visually-hidden" [for]="'status-' + enquiry.id">
+                  Status for {{ enquiry.fullName }}
+                </label>
+                <select
+                  class="select select--compact"
+                  [id]="'status-' + enquiry.id"
+                  [value]="enquiry.status"
+                  (change)="setStatus(enquiry, $any($event.target).value)"
+                >
+                  @for (option of statuses; track option) {
+                    <option [value]="option">{{ option }}</option>
+                  }
+                </select>
+                <span class="status" [class]="tone(enquiry.status)">{{ enquiry.status }}</span>
+              </td>
+              <td>
+                <button
+                  class="btn btn--outline btn--sm"
+                  type="button"
+                  (click)="toggle(enquiry.id)"
+                  [attr.aria-expanded]="expanded() === enquiry.id"
+                >
+                  {{ expanded() === enquiry.id ? 'Close' : 'View' }}
+                </button>
+              </td>
+            </tr>
+
+            @if (expanded() === enquiry.id) {
+              <tr class="detail-row">
+                <td colspan="5">
+                  <dl class="detail">
+                    <div class="detail__pair">
+                      <dt>Email</dt>
+                      <dd><a [href]="'mailto:' + enquiry.email">{{ enquiry.email }}</a></dd>
+                    </div>
+                    @if (enquiry.phone) {
+                      <div class="detail__pair">
+                        <dt>Phone</dt>
+                        <dd>{{ enquiry.phone }}</dd>
+                      </div>
+                    }
+                    <div class="detail__pair detail__pair--wide">
+                      <dt>Message</dt>
+                      <dd class="detail__message">{{ enquiry.message }}</dd>
+                    </div>
+                    <div class="detail__pair detail__pair--wide">
+                      <dt><label [for]="'notes-' + enquiry.id">Internal notes</label></dt>
+                      <dd>
+                        <textarea
+                          class="textarea"
+                          [id]="'notes-' + enquiry.id"
+                          rows="3"
+                          [value]="enquiry.internalNotes ?? ''"
+                          #notes
+                        ></textarea>
+                        <button
+                          class="btn btn--outline btn--sm"
+                          type="button"
+                          (click)="saveNotes(enquiry, notes.value)"
+                        >
+                          Save notes
+                        </button>
+                      </dd>
+                    </div>
+                  </dl>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (page(); as result) {
+      <div class="pager">
+        <span>
+          Showing {{ result.items.length }} of {{ result.totalItems }}
+          {{ result.totalItems === 1 ? 'enquiry' : 'enquiries' }}
+        </span>
+        <div class="pager__controls">
+          <button
+            class="btn btn--outline btn--sm"
+            type="button"
+            (click)="changePage(result.page - 1)"
+            [disabled]="result.first"
+          >
+            Previous
+          </button>
+          <span>Page {{ result.page + 1 }} of {{ result.totalPages || 1 }}</span>
+          <button
+            class="btn btn--outline btn--sm"
+            type="button"
+            (click)="changePage(result.page + 1)"
+            [disabled]="result.last"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    }
+  }
+</div>

@@ -25,3 +25,102 @@
 @media (min-width: 64rem) {
   .split { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); align-items: start; }
 }
+
+/* ------------------------------------------------ Company photography ---
+   One large image with small supporting text, which is the composition the
+   brief asks for. The slot is deliberately restrained: a single bordered
+   frame, no carousel and no decorative collage.
+   ------------------------------------------------------------------------ */
+
+.photo-section {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 3rem);
+  align-items: center;
+  min-width: 0;
+}
+
+@media (min-width: 62rem) {
+  /* The image leads, the text supports it. */
+  .photo-section { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); }
+}
+
+.photo { margin: 0; min-width: 0; }
+
+.photo__media { display: block; }
+
+.photo__media img,
+.photo__placeholder {
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.photo__caption {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/*
+ * The empty slot. It reads as a designed placeholder rather than a broken
+ * image, and it says what it is instead of implying a team photo exists.
+ */
+.photo__placeholder {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 0.6rem;
+  aspect-ratio: 4 / 3;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  text-align: center;
+  /* A quiet diagonal wash in the site's own warm neutrals. */
+  background:
+    linear-gradient(135deg, var(--c-sand) 0%, var(--c-cream) 55%, #e4ded5 100%);
+}
+
+.photo__mark { display: block; opacity: 0.9; }
+
+.photo__placeholder-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-ink-soft);
+}
+
+.photo__placeholder-note {
+  margin: 0;
+  max-width: 34ch;
+  font-size: 0.88rem;
+  color: var(--c-ink-muted);
+}
+
+.photo-facts { min-width: 0; }
+
+.photo-facts__title { margin: 0 0 0.75rem; font-size: clamp(1.35rem, 1.1rem + 1.3vw, 1.9rem); }
+
+.photo-facts__body { margin: 0 0 1.5rem; color: var(--text-soft); max-width: 46ch; }
+
+.facts { display: grid; gap: 1px; margin: 0; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+
+.facts__row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 0.5rem 1rem;
+  padding: 0.85rem 1.05rem;
+  background: var(--surface);
+}
+
+.facts__row dt {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+.facts__row dd { margin: 0; font-size: 0.92rem; color: var(--text); overflow-wrap: break-word; }
+ 

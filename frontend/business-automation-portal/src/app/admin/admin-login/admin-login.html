@@ -1,0 +1,68 @@
+<main class="login" id="main-content">
+  <div class="login__panel">
+    <div class="login__brand">
+      <span class="login__mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="4" fill="#A94735" />
+          <path d="M9 11h14M9 16h9M9 21h6" stroke="#171311" stroke-width="2.4" stroke-linecap="round" />
+        </svg>
+      </span>
+      <span class="login__wordmark">
+        <span class="login__name">BIZFLOW</span>
+        <span class="login__descriptor">Technologies</span>
+      </span>
+    </div>
+
+    <h1 class="login__title">Administration</h1>
+    <p class="login__intro">Sign in to manage the website content and enquiries.</p>
+
+    @if (sessionExpired()) {
+      <p class="login__notice" role="status">Your session has ended. Please sign in again.</p>
+    }
+
+    <form class="login__form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="field">
+        <label class="label" for="identifier">Email / Username</label>
+        <input
+          id="identifier"
+          class="input"
+          type="text"
+          formControlName="identifier"
+          autocomplete="username"
+          spellcheck="false"
+          autocapitalize="none"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <label class="label" for="password">Password</label>
+        <input
+          id="password"
+          class="input"
+          type="password"
+          formControlName="password"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+
+      @if (message()) {
+        <p class="login__error" role="alert">{{ message() }}</p>
+      }
+
+      <button
+        class="btn btn--primary btn--block"
+        type="submit"
+        [disabled]="state() === 'submitting'"
+        [attr.aria-busy]="state() === 'submitting'"
+      >
+        {{ state() === 'submitting' ? 'Signing in...' : 'Sign in' }}
+      </button>
+    </form>
+
+    <p class="login__foot">
+      <a class="login__home" href="/">Back to the website</a>
+    </p>
+  </div>
+</main>

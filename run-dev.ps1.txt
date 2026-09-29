@@ -1,0 +1,65 @@
+# ============================================
+# Local Development Launcher
+# Spring Boot + Angular
+# ============================================
+
+$ErrorActionPreference = "Stop"
+
+$ROOT = Split-Path -Parent $MyInvocation.MyCommand.Path
+$BACKEND = Join-Path $ROOT "backend"
+$FRONTEND = Join-Path $ROOT "frontend\business-automation-portal"
+
+Write-Host ""
+Write-Host "============================================"
+Write-Host "      LOCAL DEVELOPMENT ENVIRONMENT"
+Write-Host "============================================"
+Write-Host ""
+
+# --------------------------------------------
+# Validate folders
+# --------------------------------------------
+
+if (!(Test-Path $BACKEND)) {
+    Write-Host "ERROR: Backend folder not found: $BACKEND" -ForegroundColor Red
+    exit 1
+}
+
+if (!(Test-Path $FRONTEND)) {
+    Write-Host "ERROR: Frontend folder not found: $FRONTEND" -ForegroundColor Red
+    exit 1
+}
+
+# --------------------------------------------
+# Start Spring Boot
+# --------------------------------------------
+
+Write-Host "Starting Spring Boot backend..." -ForegroundColor Cyan
+
+Start-Process powershell -ArgumentList @(
+    "-NoExit",
+    "-Command",
+    "Set-Location '$BACKEND'; .\mvnw.cmd spring-boot:run"
+)
+
+# --------------------------------------------
+# Start Angular
+# --------------------------------------------
+
+Write-Host "Starting Angular frontend..." -ForegroundColor Cyan
+
+Start-Process powershell -ArgumentList @(
+    "-NoExit",
+    "-Command",
+    "Set-Location '$FRONTEND'; npm start"
+)
+
+Write-Host ""
+Write-Host "============================================"
+Write-Host "      DEVELOPMENT ENVIRONMENT STARTED"
+Write-Host "============================================"
+Write-Host ""
+Write-Host "Backend:  http://localhost:8080"
+Write-Host "Frontend: http://localhost:4200"
+Write-Host ""
+Write-Host "Two terminal windows have been opened."
+Write-Host ""

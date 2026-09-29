@@ -1,9 +1,18 @@
 <a class="skip-link" href="#main-content">Skip to main content</a>
 
-<app-header />
+@if (!isAdminRoute()) {
+  <app-scroll-progress />
+}
+
+@if (!isAdminRoute()) {
+  <app-header />
+}
 
 <main id="main-content" tabindex="-1">
   <router-outlet />
 </main>
 
-<app-footer />
+@if (!isAdminRoute()) {
+  <app-footer />
+  <app-mobile-cta />
+}

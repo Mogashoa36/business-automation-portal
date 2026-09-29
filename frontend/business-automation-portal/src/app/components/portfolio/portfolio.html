@@ -22,32 +22,81 @@
         }
       </div>
       <p class="visually-hidden" role="status">Loading case studies</p>
-    } @else if (featured(); as lead) {
-      <article class="case-lead" appReveal>
-        <div class="case-lead__body">
-          <div class="case-lead__badges">
-            <span class="badge">{{ lead.industry }}</span>
-            @if (lead.sampleProject) {
-              <span class="badge badge--sample">Sample project</span>
-            }
+    } @else {
+      @if (featured(); as lead) {
+        <article class="case-lead" [class.case-lead--with-art]="!!lead.imageUrl" appReveal>
+          @if (lead.imageUrl) {
+            <!-- The lead image sits above the text on narrow screens and beside
+                 it on wide ones. It is decorative: the heading and summary
+                 beneath already name the project. -->
+            <div class="case-lead__art" aria-hidden="true">
+              <app-image [src]="lead.imageUrl" ratio="4 / 3" />
+            </div>
+          }
+          <div class="case-lead__body">
+            <div class="case-lead__badges">
+              <span class="badge">{{ lead.industry }}</span>
+              @if (lead.sampleProject) {
+                <span class="badge badge--sample">Sample project</span>
+              }
+            </div>
+            <h2>{{ lead.name }}</h2>
+            <p>{{ lead.summary }}</p>
+            <a class="link" [routerLink]="['/portfolio', lead.slug]">
+              View project
+              <app-icon name="arrow-right" [size]="18" />
+            </a>
           </div>
-          <h2>{{ lead.name }}</h2>
-          <p>{{ lead.summary }}</p>
-          <a class="link" [routerLink]="['/portfolio', lead.slug]">
-            View project
-            <app-icon name="arrow-right" [size]="18" />
-          </a>
-        </div>
-        <div class="case-lead__art" aria-hidden="true">
-          <span class="case-lead__monogram">{{ lead.name.charAt(0) }}</span>
-        </div>
-      </article>
+        </article>
+      }
 
-      @if (projects().length) {
+      @if (categories().length) {
+        <div class="filters" appReveal>
+          <h2 class="visually-hidden" id="filter-heading">Filter case studies by category</h2>
+          <ul class="filters__list" aria-labelledby="filter-heading">
+            <li>
+              <button
+                type="button"
+                class="filters__btn"
+                [class.filters__btn--on]="activeCategory() === null"
+                [attr.aria-pressed]="activeCategory() === null"
+                (click)="filter(null)"
+              >
+                All <span class="filters__count">{{ countFor(null) }}</span>
+              </button>
+            </li>
+            @for (category of categories(); track category) {
+              <li>
+                <button
+                  type="button"
+                  class="filters__btn"
+                  [class.filters__btn--on]="activeCategory() === category"
+                  [attr.aria-pressed]="activeCategory() === category"
+                  (click)="filter(category)"
+                >
+                  {{ category }} <span class="filters__count">{{ countFor(category) }}</span>
+                </button>
+              </li>
+            }
+          </ul>
+          <p class="visually-hidden" role="status">
+            Showing {{ visible().length }} of {{ projects().length }} case studies
+          </p>
+        </div>
+      }
+
+      @if (visible().length) {
         <ul class="case-grid" appRevealGroup>
-          @for (project of projects(); track project.slug) {
+          @for (project of visible(); track project.slug) {
             <li>
               <a class="case" [routerLink]="['/portfolio', project.slug]">
+                @if (project.imageUrl) {
+                  <!-- Decorative: the project name is the link's own text, so
+                       repeating it in alt would be noise for a screen reader. -->
+                  <span class="case__art" aria-hidden="true">
+                    <app-image [src]="project.imageUrl" ratio="16 / 10" />
+                  </span>
+                }
                 <span class="badge">{{ project.industry }}</span>
                 @if (project.sampleProject) {
                   <span class="badge badge--sample">Sample</span>
@@ -62,12 +111,12 @@
             </li>
           }
         </ul>
+      } @else {
+        <p class="notice" role="status">
+          There are no case studies in this category yet.
+          <button class="link link--inline" type="button" (click)="filter(null)">Show all case studies</button>
+        </p>
       }
-    } @else {
-      <p class="notice" role="status">
-        There are no published case studies yet. Get in touch and we will walk you through how a
-        project like yours would run.
-      </p>
     }
   </div>
 </section>

@@ -1,0 +1,41 @@
+<app-admin-page-header
+  title="Dashboard"
+  intro="An overview of the website content and the enquiries waiting for a response."
+/>
+
+@if (error()) {
+  <p class="notice notice--error" role="alert">{{ error() }}</p>
+}
+
+@if (loading()) {
+  <p class="notice" role="status">Loading your dashboard...</p>
+} @else {
+  <section aria-labelledby="overview-heading">
+    <h2 class="visually-hidden" id="overview-heading">Overview</h2>
+    <app-admin-stats [stats]="stats()" />
+  </section>
+
+  <section class="panel" aria-labelledby="activity-heading">
+    <h2 class="panel__title" id="activity-heading">Recent activity</h2>
+
+    @if (activity().length) {
+      <ul class="activity">
+        @for (entry of activity(); track entry.id) {
+          <li class="activity__row">
+            <span class="activity__action">{{ humanise(entry.action) }}</span>
+            <span class="activity__meta">
+              <span>{{ entry.actor }}</span>
+              <span aria-hidden="true">&middot;</span>
+              <span>{{ entry.occurredAt | date: 'd MMM y, HH:mm' }}</span>
+            </span>
+            @if (entry.detail) {
+              <span class="activity__detail">{{ entry.detail }}</span>
+            }
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="panel__empty">No administrative activity has been recorded yet.</p>
+    }
+  </section>
+}

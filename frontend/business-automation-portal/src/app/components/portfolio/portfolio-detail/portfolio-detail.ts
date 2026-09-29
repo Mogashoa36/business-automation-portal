@@ -8,12 +8,13 @@ import { SeoService } from '../../../services/seo.service';
 import { CtaBanner } from '../../../shared/cta-banner/cta-banner';
 import { Icon } from '../../../shared/icon/icon';
 import { PageHero } from '../../../shared/page-hero/page-hero';
+import { ResponsiveImage } from '../../../shared/responsive-image/responsive-image';
 import { Reveal } from '../../../shared/reveal/reveal';
 
 @Component({
   selector: 'app-portfolio-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, PageHero, CtaBanner, Reveal],
+  imports: [RouterLink, Icon, PageHero, CtaBanner, Reveal, ResponsiveImage],
   templateUrl: './portfolio-detail.html',
   styleUrl: './portfolio-detail.scss',
 })

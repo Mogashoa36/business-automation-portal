@@ -18,6 +18,16 @@
     }
   </div>
 
+  @if (current.imageUrl) {
+    <!-- A full width project image directly under the title. Decorative: the
+         project name is the page's own h1, so alt text would only repeat it. -->
+    <div class="container" aria-hidden="true">
+      <figure class="project-shot" appReveal>
+        <app-image [src]="current.imageUrl" ratio="21 / 9" />
+      </figure>
+    </div>
+  }
+
   <section class="section">
     <div class="container">
       <div class="detail">

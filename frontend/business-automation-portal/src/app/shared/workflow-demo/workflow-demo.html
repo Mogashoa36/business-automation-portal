@@ -1,0 +1,63 @@
+<section class="wf" appReveal>
+  <p class="wf__disclaimer">
+    <app-icon name="spark" [size]="16" />
+    Illustrative demonstration. This shows the shape of a typical approval workflow, not a live system.
+  </p>
+
+  <div class="wf__track" aria-hidden="true">
+    @for (stage of stages; track stage.name; let index = $index) {
+      <div class="wf__node" [class.wf__node--done]="index < active()" [class.wf__node--active]="index === active()">
+        <span class="wf__node-index">{{ index + 1 }}</span>
+        <span class="wf__node-name">{{ stage.name }}</span>
+      </div>
+      @if (!$last) {
+        <span class="wf__link" [class.wf__link--done]="index < active()"></span>
+      }
+    }
+  </div>
+
+  <div class="wf__panels">
+    <div id="workflow-tabs" role="tablist" aria-label="Workflow stages" class="wf__tabs">
+      @for (stage of stages; track stage.name; let index = $index) {
+        <button
+          type="button"
+          role="tab"
+          class="wf__tab"
+          [class.wf__tab--on]="index === active()"
+          [attr.aria-selected]="index === active()"
+          [attr.aria-controls]="'workflow-panel-' + index"
+          [id]="'workflow-tab-' + index"
+          [attr.tabindex]="index === active() ? 0 : -1"
+          (click)="select(index)"
+          (keydown)="onKeydown($event, index)"
+        >
+          {{ stage.name }}
+        </button>
+      }
+    </div>
+
+    @for (stage of stages; track stage.name; let index = $index) {
+      <div
+        class="wf__panel"
+        role="tabpanel"
+        [id]="'workflow-panel-' + index"
+        [attr.aria-labelledby]="'workflow-tab-' + index"
+        [hidden]="index !== active()"
+        tabindex="0"
+      >
+        <h3 class="wf__panel-title">{{ stage.name }}</h3>
+        <p class="wf__panel-summary">{{ stage.summary }}</p>
+        <p class="wf__panel-detail">{{ stage.detail }}</p>
+
+        <ul class="wf__actions">
+          @for (action of stage.actions; track action) {
+            <li class="wf__action">
+              <app-icon name="check" [size]="15" />
+              {{ action }}
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+</section>

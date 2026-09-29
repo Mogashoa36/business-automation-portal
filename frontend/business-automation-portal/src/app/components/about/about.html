@@ -60,6 +60,61 @@
   </div>
 </section>
 
+<!-- ============================== Photography ============================ -->
+<!--
+  One place for company photography, as the brief asks. No photograph ships:
+  a stock image of someone else's office would misrepresent the business, so
+  the slot renders a clearly marked placeholder until a real photo is
+  supplied. Setting PHOTO.src and PHOTO.alt in content/photo.data.ts is the
+  only change needed to swap in the real thing.
+-->
+<section class="section">
+  <div class="container">
+    <div class="photo-section">
+      <figure class="photo">
+        @if (hasPhoto()) {
+          <app-image class="photo__media" [src]="photo.src" [alt]="photo.alt" ratio="4 / 3" />
+          @if (photo.caption) {
+            <figcaption class="photo__caption">{{ photo.caption }}</figcaption>
+          }
+        } @else {
+          <!-- Deliberately not a fake photograph. It reads as a designed slot
+               and says so, rather than implying a team photo exists. -->
+          <div class="photo__placeholder" role="img" [attr.aria-label]="placeholderLabel">
+            <span class="photo__mark" aria-hidden="true">
+              <svg viewBox="0 0 32 32" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="32" height="32" rx="4" fill="#A94735" />
+                <path d="M9 11h14M9 16h9M9 21h6" stroke="#171311" stroke-width="2.4" stroke-linecap="round" />
+              </svg>
+            </span>
+            <p class="photo__placeholder-title">Company photograph</p>
+            <p class="photo__placeholder-note">
+              A genuine photograph of our team or workspace will appear here once one is available.
+            </p>
+          </div>
+        }
+      </figure>
+
+      <div class="photo-facts">
+        <h2 class="photo-facts__title">Straightforward to work with.</h2>
+        <p class="photo-facts__body">
+          You deal with the people who build the software, not a handover team. Here is the practical
+          detail.
+        </p>
+
+        <dl class="facts">
+          @for (fact of facts; track fact.label) {
+            <div class="facts__row">
+              <dt>{{ fact.label }}</dt>
+              <dd>{{ fact.value }}</dd>
+            </div>
+          }
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============================== Values ============================== -->
 <section class="section">
   <div class="container">

@@ -1,6 +1,9 @@
 company\backend\BackendApplicationTests.class
 company\backend\controller\PortfolioControllerTest.class
+company\backend\security\PasswordPolicyTest.class
 company\backend\controller\ContactControllerTest.class
 company\backend\config\PortfolioDataSeederTest.class
+company\backend\controller\admin\AdminSecurityTest.class
+company\backend\controller\admin\AdminImageSecurityTest.class
 company\backend\service\ContactMessageServiceImplTest.class
 company\backend\service\PortfolioProjectServiceImplTest.class

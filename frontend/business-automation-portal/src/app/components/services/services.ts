@@ -4,9 +4,11 @@ import { RouterLink } from '@angular/router';
 import { SERVICES } from '../../content/services.data';
 import { SeoService } from '../../services/seo.service';
 import { CtaBanner } from '../../shared/cta-banner/cta-banner';
+import { FaqSection } from '../../shared/faq-section/faq-section';
 import { Icon } from '../../shared/icon/icon';
 import { PageHero } from '../../shared/page-hero/page-hero';
 import { Reveal } from '../../shared/reveal/reveal';
+import { ServiceComparison } from '../../shared/service-comparison/service-comparison';
 
 interface ApproachStep {
   readonly title: string;
@@ -16,7 +18,7 @@ interface ApproachStep {
 @Component({
   selector: 'app-services',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, PageHero, CtaBanner, Reveal],
+  imports: [RouterLink, Icon, PageHero, CtaBanner, Reveal, ServiceComparison, FaqSection],
   templateUrl: './services.html',
   styleUrl: './services.scss',
 })

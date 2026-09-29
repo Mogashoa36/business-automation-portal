@@ -22,20 +22,29 @@ public class PortfolioProjectServiceImpl implements PortfolioProjectService {
 
 	@Override
 	public List<PortfolioProjectResponse> findAll() {
-		return this.portfolioProjectRepository.findAllByOrderByDisplayOrderAsc().stream().map(PortfolioProjectResponse::from)
+		return this.portfolioProjectRepository.findByPublishedTrueOrderByDisplayOrderAsc().stream().map(PortfolioProjectResponse::from)
 				.toList();
 	}
 
 	@Override
 	public List<PortfolioProjectResponse> findFeatured() {
-		return this.portfolioProjectRepository.findByFeaturedTrueOrderByDisplayOrderAsc().stream()
+		return this.portfolioProjectRepository.findByPublishedTrueAndFeaturedTrueOrderByDisplayOrderAsc().stream()
 				.map(PortfolioProjectResponse::from).toList();
 	}
 
 	@Override
 	public PortfolioProjectResponse findBySlug(String slug) {
-		PortfolioProject project = this.portfolioProjectRepository.findBySlug(slug)
+		PortfolioProject project = this.portfolioProjectRepository.findBySlugAndPublishedTrue(slug)
 				.orElseThrow(() -> new ResourceNotFoundException("No portfolio project found with slug '" + slug + "'."));
 		return PortfolioProjectResponse.from(project);
+	}
+
+	/**
+	 * Categories that actually have a published case study. Drives the public
+	 * filter chips so the website never offers a filter that returns nothing.
+	 */
+	@Override
+	public List<String> findPublishedCategories() {
+		return this.portfolioProjectRepository.findPublishedCategories();
 	}
 }

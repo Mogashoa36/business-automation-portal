@@ -22,4 +22,10 @@ public interface PortfolioProjectService {
 	 * uses the given slug
 	 */
 	PortfolioProjectResponse findBySlug(String slug);
+
+	/**
+	 * @return the distinct categories that have at least one published case
+	 * study, used to build the public filter chips
+	 */
+	List<String> findPublishedCategories();
 }

@@ -1,0 +1,162 @@
+<app-admin-page-header
+  title="Images"
+  intro="Images uploaded here can be attached to case studies and site content. Use a screenshot of the real system where one exists."
+/>
+
+@if (statusMessage()) {
+  <p class="notice" role="status">{{ statusMessage() }}</p>
+}
+@if (error()) {
+  <p class="notice notice--error" role="alert">{{ error() }}</p>
+}
+
+<!-- ============================== Upload =============================== -->
+<section class="panel">
+  <h2 class="panel__title">Upload image</h2>
+
+  <div class="panel__body">
+    <form class="form-grid" [formGroup]="form" (ngSubmit)="upload()" novalidate>
+      <div class="field">
+        <label class="label" for="image-file">Image file</label>
+        <!-- The native control is visually replaced but kept in the DOM and
+             focusable, so keyboard and screen reader users get the real thing. -->
+        <input
+          #fileInput
+          id="image-file"
+          class="input"
+          type="file"
+          accept="image/jpeg,image/png,image/gif,image/webp"
+          (change)="onFileChosen($event)"
+        />
+        <span class="hint">JPEG, PNG, GIF or WebP. Up to 5 MB.</span>
+      </div>
+
+      <div class="field">
+        <label class="label" for="image-alt">Alt text</label>
+        <input
+          id="image-alt"
+          class="input"
+          type="text"
+          formControlName="altText"
+          required
+          maxlength="300"
+        />
+        <span class="hint">Describe what the image shows. Do not repeat the heading.</span>
+        @if (form.controls.altText.touched && form.controls.altText.invalid) {
+          <span class="field-error">Alt text is required so the image is described.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label class="label" for="image-caption">Caption</label>
+        <input id="image-caption" class="input" type="text" formControlName="caption" maxlength="300" />
+        <span class="hint">Optional. Shown under the image where a caption is used.</span>
+      </div>
+
+      <div class="field">
+        <span class="label">Preview</span>
+        @if (previewUrl()) {
+          <span class="media-preview">
+            <img class="media-preview__img" [src]="previewUrl()" alt="" />
+          </span>
+        } @else {
+          <span class="media-preview media-preview--empty">No file chosen yet.</span>
+        }
+      </div>
+
+      @if (selectionSummary()) {
+        <p class="media-selection">
+          <strong>{{ selectionSummary() }}</strong>
+          @if (selectionProblem()) {
+            <span class="field-error">{{ selectionProblem() }}</span>
+          }
+        </p>
+        <p>
+          <button class="btn btn--outline btn--sm" type="button" (click)="clearSelection()" [disabled]="uploading()">
+            Clear selection
+          </button>
+        </p>
+      }
+
+      <div class="field">
+        <button
+          class="btn btn--primary"
+          type="submit"
+          [disabled]="uploading() || !selectionValid() || form.invalid"
+        >
+          {{ uploading() ? 'Uploading...' : 'Upload image' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ============================== Library ============================== -->
+<section class="panel">
+  <h2 class="panel__title">Uploaded images</h2>
+
+  <div class="panel__body">
+    @if (loading()) {
+      <p>Loading images...</p>
+    } @else if (!images().length) {
+      <p class="hint">No images yet. Anything uploaded here appears in this list.</p>
+    } @else {
+      <ul class="media-grid">
+        @for (image of images(); track image.id) {
+          <li class="media-card">
+            <span class="media-card__art">
+              <img
+                class="media-card__img"
+                [src]="image.url"
+                [alt]="image.altText"
+                [attr.width]="image.width"
+                [attr.height]="image.height"
+                loading="lazy"
+                decoding="async"
+              />
+            </span>
+
+            <div class="media-card__body">
+              <p class="media-card__name">{{ image.originalName }}</p>
+              <p class="media-card__meta">
+                {{ image.mimeType }} - {{ formatBytes(image.sizeBytes) }} - {{ image.width }} x {{ image.height }}
+              </p>
+
+              <label class="label label--sm" [for]="'alt-' + image.id">Alt text</label>
+              <input
+                class="input input--sm"
+                type="text"
+                [id]="'alt-' + image.id"
+                [value]="image.altText"
+                maxlength="300"
+                #altBox
+              />
+
+              <label class="label label--sm" [for]="'cap-' + image.id">Caption</label>
+              <input
+                class="input input--sm"
+                type="text"
+                [id]="'cap-' + image.id"
+                [value]="image.caption ?? ''"
+                maxlength="300"
+                #capBox
+              />
+
+              <div class="media-card__actions">
+                <button
+                  class="btn btn--outline btn--sm"
+                  type="button"
+                  (click)="updateMetadata(image, altBox.value, capBox.value)"
+                >
+                  Save details
+                </button>
+                <button class="btn btn--ghost btn--sm" type="button" (click)="copyUrl(image)">Copy URL</button>
+                <button class="btn btn--danger btn--sm" type="button" (click)="remove(image)">Delete</button>
+              </div>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</section>

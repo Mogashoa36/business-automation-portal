@@ -1,0 +1,180 @@
+:host { display: block; }
+
+.assessment {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.assessment__head { margin-bottom: clamp(1.5rem, 3vw, 2.25rem); }
+
+.assessment__title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.4rem, 1.1rem + 1.6vw, 2.25rem);
+  max-width: 20ch;
+}
+
+.assessment__intro { max-width: 56ch; margin: 0; }
+
+.assessment__form { display: grid; gap: 1.5rem; }
+
+.q { display: grid; gap: 0.6rem; }
+
+.q__label {
+  display: flex;
+  gap: 0.6rem;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.q__index {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: none;
+  border-radius: 50%;
+  background: var(--c-accent-soft);
+  color: var(--c-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.q__options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 0.5rem;
+  padding-left: 2.1rem;
+}
+
+.q__option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--c-sand);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color var(--d-fast) var(--ease), background-color var(--d-fast) var(--ease);
+}
+
+.q__option:hover { border-color: var(--line-strong); }
+.q__option--on { border-color: var(--c-accent); background: var(--c-accent-soft); }
+.q__option input { margin: 0.25rem 0 0; accent-color: var(--c-accent); }
+
+.assessment__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.assessment__progress { font-size: 0.85rem; color: var(--text-muted); }
+
+.result {
+  margin-top: clamp(1.5rem, 3vw, 2rem);
+  padding-top: clamp(1.5rem, 3vw, 2rem);
+  border-top: 1px solid var(--line);
+}
+
+.result__eyebrow {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.result__band { margin: 0 0 0.5rem; font-size: clamp(1.2rem, 1rem + 1vw, 1.6rem); }
+.result__summary { max-width: 56ch; color: var(--text-soft); }
+
+.result__meter {
+  height: 6px;
+  margin: 1.25rem 0 0.5rem;
+  background: var(--line);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+/* Width only, so the bar never reflows what sits around it. */
+.result__meter-fill {
+  height: 100%;
+  background: var(--c-accent);
+  transition: width var(--d-emphasis) var(--ease);
+}
+
+.result__score { margin: 0 0 1.5rem; font-size: 0.9rem; color: var(--text-muted); }
+.result__score strong { color: var(--text); font-size: 1.05rem; }
+
+.result__subtitle {
+  margin: 0 0 0.85rem;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.opps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: 0.6rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.opp {
+  padding: 0.9rem 1rem;
+  background: var(--c-sand);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+
+.opp--strong { border-left: 3px solid var(--c-accent); }
+
+.opp__title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.opp__title app-icon { color: var(--c-accent); }
+
+.opp__tag {
+  display: inline-block;
+  margin: 0.3rem 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.opp__body { margin: 0; font-size: 0.87rem; color: var(--text-soft); }
+
+.result__cta {
+  display: grid;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.result__note { margin: 0; max-width: 62ch; font-size: 0.85rem; color: var(--text-muted); }
+.result__cta .btn { justify-self: start; }
+.result__empty { margin: 0; color: var(--text-muted); font-size: 0.92rem; }

@@ -68,8 +68,30 @@ public class PortfolioProject {
 	@Column(name = "sample_project", nullable = false)
 	private boolean sampleProject;
 
+	/**
+	 * Whether the case study appears on the public website. Drafts stay in the
+	 * database and are visible to administrators only, which is what makes the
+	 * publish/unpublish control meaningful.
+	 */
+	@Column(name = "published", nullable = false)
+	private boolean published = true;
+
+	/**
+	 * Optional filter label, e.g. "Workflow Management". The public portfolio
+	 * filter reads this, and the existing {@code industry} field is kept
+	 * untouched so the public contract does not change.
+	 */
+	@Column(name = "category", length = 80)
+	private String category;
+
 	@Column(name = "display_order", nullable = false)
 	private int displayOrder;
+
+	@Column(name = "created_at", nullable = false)
+	private java.time.Instant createdAt;
+
+	@Column(name = "updated_at", nullable = false)
+	private java.time.Instant updatedAt;
 
 	protected PortfolioProject() {
 		// Required by JPA.
@@ -91,6 +113,9 @@ public class PortfolioProject {
 		this.featured = featured;
 		this.sampleProject = sampleProject;
 		this.displayOrder = displayOrder;
+		this.published = true;
+		this.createdAt = java.time.Instant.now();
+		this.updatedAt = this.createdAt;
 	}
 
 	public Long getId() {
@@ -147,5 +172,86 @@ public class PortfolioProject {
 
 	public int getDisplayOrder() {
 		return this.displayOrder;
+	}
+
+	public boolean isPublished() {
+		return this.published;
+	}
+
+	public void setPublished(boolean published) {
+		this.published = published;
+	}
+
+	public String getCategory() {
+		return this.category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public void setDisplayOrder(int displayOrder) {
+		this.displayOrder = displayOrder;
+	}
+
+	public void setFeatured(boolean featured) {
+		this.featured = featured;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setSlug(String slug) {
+		this.slug = slug;
+	}
+
+	public void setIndustry(String industry) {
+		this.industry = industry;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	public void setProblem(String problem) {
+		this.problem = problem;
+	}
+
+	public void setSolution(String solution) {
+		this.solution = solution;
+	}
+
+	public void setTechnologies(String technologies) {
+		this.technologies = technologies;
+	}
+
+	public void setKeyFeatures(String keyFeatures) {
+		this.keyFeatures = keyFeatures;
+	}
+
+	public void setResults(String results) {
+		this.results = results;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public void setSampleProject(boolean sampleProject) {
+		this.sampleProject = sampleProject;
+	}
+
+	public java.time.Instant getCreatedAt() {
+		return this.createdAt;
+	}
+
+	public java.time.Instant getUpdatedAt() {
+		return this.updatedAt;
+	}
+
+	/** Called after every administrator edit so the record stays accurate. */
+	public void touch(java.time.Instant now) {
+		this.updatedAt = now;
 	}
 }

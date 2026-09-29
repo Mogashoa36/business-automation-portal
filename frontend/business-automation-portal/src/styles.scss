@@ -908,6 +908,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /*
  * Placeholder artwork for a case study with no screenshot yet: a restrained
  * warm gradient rather than a dramatic one, so it sits inside a light page.
+ * The component only renders this when a project genuinely has no image; as
+ * soon as one is uploaded the real screenshot replaces it.
  */
 .case-lead__art {
   position: relative;
@@ -928,6 +930,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 
 .case-lead__monogram { position: relative; z-index: 1; font-family: var(--font-display); font-size: clamp(3.5rem, 9vw, 8rem); font-weight: 700; line-height: 1; color: rgba(33, 30, 27, 0.16); }
+
+/* When a real image is present the art cell holds an <app-image>, which brings
+   its own border and radius. The placeholder sizing above must not fight it. */
+.case-lead__art:has(app-image) { display: block; min-height: 0; background: none; }
+
+.case-lead__art:has(app-image)::after { display: none; }
 
 .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 1px; list-style: none; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
 
@@ -1202,7 +1210,175 @@ app-icon,
 .js [data-mockup].is-revealed > *:nth-child(4) { transition-delay: 360ms; }
 .js [data-mockup].is-revealed > *:nth-child(5) { transition-delay: 460ms; }
 
+/* ====================================================== ADMINISTRATION UI ==
+   Shared surfaces for the administration portal. Same tokens and same form
+   controls as the marketing site, so the portal reads as part of the product
+   while being plainly a different, quieter surface.
+
+   Priority is clarity, then speed, then reliability, then appearance. There is
+   no decorative animation here, and nothing that would delay a keyboard user.
+   ========================================================================= */
+
+.panel {
+  margin-top: clamp(1.25rem, 3vw, 1.75rem);
+  background-color: var(--c-white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  min-width: 0;
+}
+
+.panel__title {
+  margin: 0;
+  padding: 1rem 1.15rem;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+
+.panel__body { padding: 1.15rem; }
+
+.panel__empty {
+  margin: 0;
+  padding: 1.5rem 1.15rem;
+  color: var(--c-ink-muted);
+  font-size: 0.9rem;
+}
+
+/* Status text plus a shape, so state is never communicated by colour alone. */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  background: var(--c-sand);
+  color: var(--c-ink-soft);
+  white-space: nowrap;
+}
+
+.status--published { border-color: transparent; background: #e6f1ea; color: #1c6b4b; }
+.status--draft { border-color: transparent; background: var(--c-sand); color: var(--c-ink-muted); }
+.status--new { border-color: transparent; background: var(--c-accent-soft); color: var(--c-accent); }
+.status--active { border-color: transparent; background: #e7eef5; color: #2a5580; }
+.status--done { border-color: transparent; background: #e6f1ea; color: #1c6b4b; }
+.status--archived { border-color: transparent; background: var(--c-sand); color: var(--c-ink-muted); }
+
+/* Tables scroll horizontally rather than reflowing into unreadable columns.
+   The scroll region is keyboard reachable so it is not mouse-only. */
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.table th,
+.table td {
+  padding: 0.7rem 0.9rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+.table th {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+  white-space: nowrap;
+  background: var(--c-sand);
+}
+
+.table tbody tr:last-child td { border-bottom: 0; }
+.table tbody tr:hover { background: var(--c-sand); }
+
+.table__actions { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+/* Compact buttons for table rows. */
+.btn--sm { padding: 0.4rem 0.7rem; font-size: 0.68rem; letter-spacing: 0.08em; }
+
+.activity { list-style: none; margin: 0; padding: 0; }
+
+.activity__row {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.75rem 1.15rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.activity__row:last-child { border-bottom: 0; }
+
+.activity__action { font-weight: 600; color: var(--c-ink); font-size: 0.9rem; }
+
+.activity__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--c-ink-muted);
+}
+
+.activity__detail { font-size: 0.8rem; color: var(--c-ink-soft); overflow-wrap: break-word; }
+
+/* Toolbar above a table: search, filters and page size in one wrapping row. */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.15rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.toolbar .field { flex: 1 1 12rem; min-width: 0; }
+.toolbar__actions { display: flex; gap: 0.5rem; align-items: flex-end; }
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1.15rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.82rem;
+  color: var(--c-ink-soft);
+}
+
+.pager__controls { display: flex; align-items: center; gap: 0.5rem; }
+
+/* ================================================= MOBILE STICKY CTA =======
+   Space is reserved for the fixed mobile call to action so it can never sit on
+   top of content or, more importantly, on top of a form control. Only applied
+   at the widths where the bar is actually shown.
+   ========================================================================= */
+
+@media (max-width: 47.99rem) {
+  body {
+    /* Matches the bar's padding plus a comfortable tap target. */
+    padding-bottom: calc(4.25rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  /* The admin drawer transition stops immediately. */
+  .admin__nav { transition: none; }
+
   html { scroll-behavior: auto; }
 
   *,

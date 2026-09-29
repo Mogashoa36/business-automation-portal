@@ -1,0 +1,10 @@
+<ol class="tl" appRevealGroup>
+  @for (stage of stages; track stage.title; let index = $index; let last = $last) {
+    <li class="tl__stage" [class.tl__stage--last]="last">
+      <span class="tl__num" aria-hidden="true">{{ (index + 1).toString().padStart(2, '0') }}</span>
+      <h3 class="tl__title">{{ stage.title }}</h3>
+      <p class="tl__summary">{{ stage.summary }}</p>
+      <p class="tl__detail">{{ stage.detail }}</p>
+    </li>
+  }
+</ol>

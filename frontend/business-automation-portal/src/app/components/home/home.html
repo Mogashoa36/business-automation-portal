@@ -229,26 +229,10 @@
         </a>
       </div>
 
-      <!-- Commercial website mockup. Assembles once on reveal. -->
-      <div class="browser" appMockup aria-hidden="true">
-        <div class="browser__chrome">
-          <span class="frame__dot"></span>
-          <span class="frame__dot"></span>
-          <span class="frame__dot"></span>
-          <span class="browser__url">yoursite.co.za</span>
-        </div>
-        <div class="browser__page">
-          <span class="browser__nav"></span>
-          <div class="browser__hero">
-            <span class="browser__line browser__line--lg"></span>
-            <span class="browser__line"></span>
-            <span class="browser__cta"></span>
-          </div>
-          <div class="browser__grid">
-            <span></span><span></span><span></span>
-          </div>
-        </div>
-      </div>
+      <!-- Responsive showcase: the same page on desktop, tablet and phone. One
+           composition replaces three screenshots, and it makes the responsive
+           claim visible rather than something the copy has to assert. -->
+      <app-device-trio />
     </div>
   </div>
 </section>
@@ -412,6 +396,74 @@
     <div class="portfolio__more" appReveal>
       <a class="btn btn--outline" routerLink="/portfolio">View all case studies</a>
     </div>
+  </div>
+</section>
+
+<!-- ============================== BEFORE / AFTER ========================== -->
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head--split" appReveal>
+      <div>
+        <p class="eyebrow">Before and after</p>
+        <h2>The same work, without the chasing.</h2>
+      </div>
+      <p class="lead">
+        Most manual processes are not badly done - they are just spread across inboxes, spreadsheets and
+        good intentions. Here is what changes when they become one digital process.
+      </p>
+    </div>
+
+    <app-before-after />
+  </div>
+</section>
+
+<!-- ============================== ASSESSMENT ============================= -->
+<section class="section">
+  <div class="container">
+    <app-automation-assessment />
+  </div>
+</section>
+
+<!-- ============================== ROI CALCULATOR ========================= -->
+<section class="section">
+  <div class="container">
+    <app-roi-calculator />
+  </div>
+</section>
+
+<!-- ============================== WORKFLOW DEMO ========================== -->
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head--split" appReveal>
+      <div>
+        <p class="eyebrow">How it works</p>
+        <h2>A request, from raised to closed.</h2>
+      </div>
+      <p class="lead">
+        Step through what an automated approval workflow looks like, and what the system is doing at
+        each stage.
+      </p>
+    </div>
+
+    <app-workflow-demo />
+  </div>
+</section>
+
+<!-- ============================== DELIVERY ============================== -->
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head--split" appReveal>
+      <div>
+        <p class="eyebrow">How we deliver</p>
+        <h2>Seven stages, and you see each one.</h2>
+      </div>
+      <p class="lead">
+        No black box. This is the process a project moves through, from the first conversation to
+        the support that follows go-live.
+      </p>
+    </div>
+
+    <app-delivery-timeline />
   </div>
 </section>
 

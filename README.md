@@ -126,13 +126,34 @@ wrapping on buttons and the brand lock-up. A 200% zoom shrinks the CSS viewport
 rather than scaling layout out, so it surfaces the same defects as a small phone
 and the same rules cover both.
 
-**Artwork** — the large visuals (hero workflow panel, dashboard, browser
-mockup, case-study artwork) are built from markup and CSS rather than
-photography. They are vector, add no network requests, cannot break, and can be
-swapped for real product screenshots later without changing any layout. They are
-styled to read as an enterprise application — warm chrome, thin connectors,
-realistic data — not as decoration. `.frame` is the light application surface
-and `.frame--dark` the inverted one used on light pages.
+**Artwork** — the large visuals (hero workflow panel, dashboard, device trio,
+operations console) are built from markup and CSS rather than photography. They
+are vector, add no network requests, cannot break, and can be swapped for real
+product screenshots later without changing any layout. They are styled to read
+as an enterprise application — warm chrome, thin connectors, realistic data —
+not as decoration. `.frame` is the light application surface and `.frame--dark`
+the inverted one used on light pages.
+
+**Real images** — where a genuine asset exists, it is shown rather than
+imitated. `app-image` handles every one of them, so the performance and
+accessibility rules cannot be forgotten in a template:
+
+- **Space is reserved.** The aspect ratio sits on a wrapper with
+  `aspect-ratio`, so the box exists before the bytes arrive. This is the main
+  cause of layout shift on an image-led page.
+- **Below the fold is lazy.** `loading="lazy"` by default; the LCP image
+  opts into `eager` and `fetchpriority="high"`.
+- **Decoration is the default.** `alt` defaults to `""`, so an image that
+  should have been described cannot silently ship unlabelled. Real alt text
+  is passed explicitly where an image carries meaning.
+- **Hover is a 1.03 scale**, clipped by the wrapper, and switched off entirely
+  under `prefers-reduced-motion`.
+
+No photograph of the team or office ships with the site. A stock image of
+someone else's workspace would misrepresent the business, so the About page
+renders a slot that says what it is. Supplying a real photo is one line —
+`src` and `alt` in `src/app/content/photo.data.ts` — and needs no template
+change.
 
 **Depth** — soft shadows only (`0 8px 30px rgba(33,30,27,.07)` and one step
 below/above). Radii are moderate: 6px buttons, 10px cards, 16–18px mockups.
@@ -184,6 +205,160 @@ rejected with HTTP 400), rate limits the public contact endpoint, returns a sing
 error shape, and never leaks stack traces, SQL or entity internals. No credentials, keys or
 tokens are committed anywhere — every environment-specific value comes from an environment
 variable.
+
+## Administration portal
+
+A separate, authenticated area for managing website content and enquiries. It is logically and
+technically distinct from the public marketing site: its own routes, its own shell without the
+public header or footer, and its own API surface behind `/api/admin/**`.
+
+| Route                    | Purpose                             |
+| ------------------------ | ----------------------------------- |
+| `/admin/login`           | Sign in                             |
+| `/admin/dashboard`       | Real counts and recent activity     |
+| `/admin/portfolio`       | Create, edit, publish, delete       |
+| `/admin/faqs`            | Create, edit, publish, delete       |
+| `/admin/enquiries`       | Triage, status, internal notes      |
+| `/admin/images`          | Upload, replace and caption images  |
+| `/admin/users`           | Accounts, roles, password resets    |
+| `/admin/activity`        | Audit trail                         |
+| `/admin/change-password` | Change your own password            |
+
+## Images and uploads
+
+`/admin/images` is a small media library. An administrator picks a file, sees
+its type and size, previews it, adds alt text and an optional caption, and
+saves. The resulting URL is pasted into a case study's image field.
+
+Uploads are the only place an unauthenticated visitor could push bytes onto
+the server, so the handling is deliberately strict:
+
+- **The file is decoded, not trusted.** The declared MIME type is checked
+  against an allow list, the file's magic bytes must agree with it, and the
+  image is then fully decoded with `ImageIO`. A script or an HTML document
+  renamed to `.png` fails at one of those three steps. SVG is excluded
+  deliberately, because it can carry script.
+- **The stored name is generated, never supplied.** A UUID plus the extension
+  derived from the validated type. The caller's filename is reduced to a
+  display label and is never used to build a path, so traversal is removed as
+  a class of bug rather than filtered case by case.
+- **Uploads live outside the application.** They are written to a configurable
+  directory (default `./uploads`, override with `IMAGE_UPLOAD_DIR`) and are
+  read back only through `GET /api/images/{filename}`. Nothing maps that
+  directory to a static handler, so a stored file can never be executed.
+- **Serving is hardened.** The content type comes from the validated record,
+  not from the file, and responses carry `nosniff`, an inline
+  `Content-Disposition` and a restrictive `Content-Security-Policy`.
+- **Alt text is mandatory.** An upload without it is rejected, so a meaningful
+  image cannot reach the site undescribed.
+- **Size is capped** at 5 MB (`IMAGE_MAX_FILE_BYTES`) before anything is
+  written.
+
+`AdminImageSecurityTest` covers each of these with genuinely hostile input:
+renamed scripts, HTML, a disallowed MIME type, an oversized file, a traversal
+filename and a traversal request path.
+
+The upload directory is runtime data and is excluded by `.gitignore`.
+
+### How authentication works
+
+Authentication is a **server-side session**, not a token held by the browser:
+
+```
+Angular sign-in form
+        ↓  POST /api/admin/auth/login  { identifier, password }
+Spring Security (DaoAuthenticationProvider)
+        ↓  BCrypt compares the submitted password against the stored hash
+AdminUser lookup, enabled and lockout checks
+        ↓
+Security context saved to the HTTP session
+        ↓  Set-Cookie: JSESSIONID (HttpOnly, SameSite=Lax)
+Authenticated session
+```
+
+The browser only ever holds an opaque `HttpOnly` cookie that JavaScript cannot read. There is no
+token in `localStorage`, nothing for a cross-site script to steal, and logout invalidates the
+session **server side** rather than asking the browser to forget a value.
+
+- **Passwords** are BCrypt hashes (strength 12). Plaintext is never stored, returned or logged.
+- **Rate limiting** — a per-client sliding window plus a per-account failure counter. Five
+  consecutive failures lock that account for 15 minutes.
+- **Account enumeration** — an unknown account and a wrong password return an identical response.
+- **Roles** — `ADMIN` manages everything; `EDITOR` manages content and enquiries. Account
+  management and site settings are `ADMIN` only.
+- **CSRF** — Spring Security's cookie-based double submit token, which the Angular `HttpClient`
+  echoes automatically. Scoped to `/api/admin/**`; the stateless public contact form is excluded.
+- **CORS** — explicit origin list with credentials allowed, so a wildcard is impossible.
+- **Route guards** are a UX convenience only. The server refuses every `/api/admin/**` request
+  without a valid session regardless of what the browser does.
+
+### First run: creating the first administrator
+
+There is **no default account and no default password** anywhere in the codebase. The first
+administrator is created only if you supply bootstrap values before the first start:
+
+```bash
+export APP_ADMIN_BOOTSTRAP_USERNAME=your-username
+export APP_ADMIN_BOOTSTRAP_EMAIL=you@example.com
+export APP_ADMIN_BOOTSTRAP_PASSWORD='a-strong-temporary-password'
+export APP_ADMIN_BOOTSTRAP_DISPLAY_NAME='Your Name'
+```
+
+The account is created with a **forced password change**, so the bootstrap secret is rotated at
+the first sign in. The password is never logged and never echoed back. Once any administrator
+exists, the bootstrap values are ignored.
+
+If no bootstrap values are set the application still starts normally and simply logs that no
+administrator exists yet.
+
+### Administration environment variables
+
+| Variable                        | Purpose                                              |
+| ------------------------------- | ---------------------------------------------------- |
+| `APP_ADMIN_SESSION_MINUTES`     | Idle session timeout (default `30`)                   |
+| `APP_ADMIN_MAX_FAILED_ATTEMPTS` | Failures before lockout (default `5`)                 |
+| `APP_ADMIN_LOCKOUT_MINUTES`     | Lockout duration (default `15`)                       |
+| `APP_ADMIN_SECURE_COOKIES`      | `true` behind HTTPS, which any public deployment needs |
+| `APP_ADMIN_ALLOWED_ORIGINS`     | Origins allowed to call the admin API                 |
+
+### Database entities added
+
+`admin_users`, `faq_items`, `activity_logs` and `site_contents`, plus `status`, `internal_notes`
+and `updated_at` on `contact_messages`, and `published`, `category`, `created_at` and `updated_at`
+on `portfolio_projects`. The schema is created by Hibernate `ddl-auto`, consistent with the
+existing setup; for production use `SPRING_JPA_DDL_AUTO=validate` and apply the DDL as part of the
+deployment.
+
+### What the admin portal deliberately cannot do
+
+Site content is restricted to an **allow list of keys** (`EditableContentKeys`). Database
+credentials, API secrets, signing keys, encryption keys and environment variables are not
+reachable through the admin API at all — the service rejects any key that is not on the list.
+Contact email and phone are not editable either, because no real values have been supplied and
+inventing them would be worse than omitting them.
+
+## Client facing features
+
+| Feature                   | Where it comes from                                                    |
+| ------------------------- | ---------------------------------------------------------------------- |
+| Automation assessment     | `shared/automation-assessment`, logic in `content/assessment.data.ts`   |
+| ROI calculator            | `shared/roi-calculator`, logic in `content/roi-calculator.data.ts`      |
+| Before / after showcase   | `shared/before-after`                                                  |
+| Delivery timeline         | `shared/delivery-timeline`                                             |
+| Interactive workflow demo | `shared/workflow-demo`                                                 |
+| Service comparison        | `shared/service-comparison`                                            |
+| Portfolio filtering       | `components/portfolio`                                                 |
+| FAQ section               | `shared/faq-section`, served by `GET /api/faqs`                        |
+| Mobile sticky CTA         | `shared/mobile-cta`                                                    |
+| Scroll progress           | `shared/scroll-progress`                                               |
+
+**The ROI calculator and assessment never transmit or store anything.** Both calculate entirely
+in the browser from a signal in the component: there is no API call, no cookie and no analytics
+event carrying a visitor's figures. All results are labelled **Estimate**, and the copy avoids
+promising a saving, because a short form cannot honestly produce one.
+
+The workflow demonstration is explicitly labelled as illustrative: it shows the shape of a typical
+approval workflow, not a live system.
 
 ## Running it
 
