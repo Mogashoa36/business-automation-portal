@@ -53,9 +53,9 @@ export class Contact {
 
   constructor() {
     this.seo.update({
-      title: 'Contact | Start a Business Automation Project',
+      title: 'Contact | Start a Business Automation Project with Bizflow Technologies',
       description:
-        'Tell us which business process is slowing you down. Request a consultation on business process automation, custom applications or website development.',
+        'Tell Bizflow Technologies which business process is slowing you down. Request a consultation on business process automation, custom applications or website development.',
       path: '/contact',
     });
   }

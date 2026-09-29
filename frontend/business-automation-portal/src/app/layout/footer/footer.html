@@ -2,25 +2,33 @@
   <div class="container">
     <div class="footer__top">
       <div class="footer__brand">
-        <a class="footer__logo" routerLink="/" aria-label="Business Automation Company - home">
+        <a class="footer__logo" routerLink="/" [attr.aria-label]="company.name + ' - home'">
           <span class="footer__mark" aria-hidden="true">
             <svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="32" height="32" rx="4" fill="#B83A2B" />
-              <path d="M9 11h14M9 16h9M9 21h6" stroke="#100705" stroke-width="2.4" stroke-linecap="round" />
+              <rect width="32" height="32" rx="4" fill="#A94735" />
+              <path d="M9 11h14M9 16h9M9 21h6" stroke="#171311" stroke-width="2.4" stroke-linecap="round" />
             </svg>
           </span>
-          <span>{{ company.shortName }}</span>
+          <span class="footer__wordmark">
+            <span class="footer__name">BIZFLOW</span>
+            <span class="footer__descriptor">Technologies</span>
+          </span>
         </a>
         <p class="footer__pitch">{{ company.positioning }}</p>
         <ul class="footer__contact">
-          <li>
-            <app-icon name="mail" [size]="18" />
-            <a [href]="'mailto:' + company.email">{{ company.email }}</a>
-          </li>
-          <li>
-            <app-icon name="phone" [size]="18" />
-            <a [href]="'tel:' + dialNumber">{{ company.phone }}</a>
-          </li>
+          <!-- Email and phone are only rendered once real details are supplied. -->
+          @if (company.email) {
+            <li>
+              <app-icon name="mail" [size]="18" />
+              <a [href]="'mailto:' + company.email">{{ company.email }}</a>
+            </li>
+          }
+          @if (company.phone) {
+            <li>
+              <app-icon name="phone" [size]="18" />
+              <a [href]="'tel:' + dialNumber">{{ company.phone }}</a>
+            </li>
+          }
           <li>
             <app-icon name="pin" [size]="18" />
             <span>{{ company.location }}</span>
@@ -63,12 +71,14 @@
 
     <div class="footer__cta">
       <p class="footer__cta-title">Have a process that should be automated?</p>
-      <a class="btn btn--primary" routerLink="/contact">Start a project</a>
+      <a class="btn btn--primary" routerLink="/contact">Let's Automate Your Business</a>
     </div>
 
     <div class="footer__bottom">
       <p>&copy; {{ year }} {{ company.legalName }}. All rights reserved.</p>
-      <p class="footer__note">Business Automation South Africa &middot; Process Automation &middot; Custom Business Software</p>
+      <p class="footer__note">
+        {{ company.location }} &middot; {{ company.businessHours }}
+      </p>
     </div>
   </div>
 </footer>

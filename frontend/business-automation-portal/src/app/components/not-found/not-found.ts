@@ -19,7 +19,7 @@ export class NotFound {
 
   constructor() {
     this.seo.update({
-      title: 'Page not found | Business Automation Company',
+      title: 'Page not found | Bizflow Technologies',
       description: 'The page you were looking for could not be found.',
       path: '/404',
     });

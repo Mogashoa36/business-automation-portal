@@ -1,11 +1,25 @@
-# Business Automation Company — Website
+# Bizflow Technologies — Website
 
-Full-stack company website for a software business that specialises in **business process
-automation**, delivers **custom business applications**, and provides **website development**
-as a supporting service.
+Full-stack company website for **BIZFLOW Technologies**, a software business in Johannesburg that
+specialises in **business process automation**, delivers **custom business applications**, and
+provides **website development** as a supporting service.
 
-> We help businesses replace manual processes with secure, custom software and modern digital
-> experiences.
+> We build software that automates business processes, simplifies operations, and turns manual work
+> into efficient digital workflows.
+
+|                      |                              |
+| -------------------- | ---------------------------- |
+| **Display name**     | BIZFLOW                      |
+| **Descriptor**       | Technologies                 |
+| **Legal name**       | Bizflow Technologies         |
+| **Short name**       | Bizflow                      |
+| **Location**         | Johannesburg, South Africa   |
+| **Business hours**   | Mon–Fri, 08:00–17:00 (SAST)  |
+| **Primary CTA**      | Let's Automate Your Business |
+
+Services: Business Process Automation · Custom Business Applications · Website Development.
+Solutions: Workflow Management · Operations Management · Employee Management · Procurement ·
+Reporting & Dashboards.
 
 ```
 company/
@@ -69,15 +83,24 @@ company/
 
 ## Design system
 
-Light, editorial and precise — aimed at an enterprise software buyer rather than
+Warm, editorial and precise — aimed at an enterprise software buyer rather than
 a design portfolio. Everything is driven by tokens in `src/styles.scss` so no
 component hard-codes a value.
 
-**Palette** — warm off-white `#F4F1EC` page, white `#FFFFFF` surfaces, soft warm
-`#E8E2DA`, ink `#171411` text, `#625D57` secondary text, `#D9D3CC` borders.
-Terracotta `#B83A2B` is the accent and stays under ~5% of any screen: buttons,
-links, index numbers, active nav, hover states. Near-black `#100705` is kept for
+**Palette** — a warm neutral scale, deliberately *not* pure white. Page background
+`#ECE9E4` (bg-primary), raised band `#F5F3EF` (bg-secondary), card and input
+surface `#FAF9F7`, ink `#211E1B` text, `#625E58` secondary, `#6A645C` muted, `#D6D1CA`
+borders. Terracotta `#A94735` is the accent and stays under ~5% of any screen: buttons,
+links, index numbers, active nav, hover states. Near-black `#171311` is kept for
 the few dark moments only.
+
+Pure white (`--c-pure`) survives in exactly one place: the inside of the product
+and UI mockups, where a true application surface is what is being depicted.
+It is never a page or section background.
+
+`--text-muted` is darkened to `#6A645C` rather than the softer `#77716A` so that
+muted labels clear WCAG AA (≈4.8:1) against the `#ECE9E4` page background. Form
+labels and hints use the secondary ink `#625E58` for the same reason.
 
 **Surfaces** — the site is light by default (roughly 70–80% light). A section
 opts into the dark palette by adding `.theme-dark`, which re-points the same
@@ -89,18 +112,29 @@ CTA, and the footer. Sections are **not** alternated dark/light down the page.
 **Type** — Space Grotesk for display and headings, Inter for body, loaded from
 Google Fonts with `display=swap` behind a system fallback so the site still
 reads correctly while the font loads or if fonts are blocked. The scale is
-deliberately restrained: hero `clamp(2.6rem … 6.5rem)`, section `… 3.4rem`,
-subsection `… 1.85rem`, card `… 1.2rem`, body `… 1.09rem`.
+deliberately restrained: hero `clamp(2rem … 6rem)`, section `… 3rem`,
+subsection `… 1.75rem`, card `… 1.16rem`, body `… 1.07rem`.
+
+**Robustness** — the layout is verified from 375px to 1920px and at browser zoom
+from 80% to 200%. There is deliberately **no `overflow-x: hidden` on `body`**:
+clipping the page would mask real layout bugs and would silently break
+`position: sticky`. Overflow is prevented at its source instead, via
+`minmax(0, 1fr)` tracks, `min-width: 0` on grid and flex children, `clamp()` with
+floors low enough to survive a ~187 CSS px viewport (375px at 200% zoom),
+`overflow-wrap: break-word` as the last-resort guard, and `max-width: 100%` with
+wrapping on buttons and the brand lock-up. A 200% zoom shrinks the CSS viewport
+rather than scaling layout out, so it surfaces the same defects as a small phone
+and the same rules cover both.
 
 **Artwork** — the large visuals (hero workflow panel, dashboard, browser
 mockup, case-study artwork) are built from markup and CSS rather than
 photography. They are vector, add no network requests, cannot break, and can be
 swapped for real product screenshots later without changing any layout. They are
-styled to read as an enterprise application — white chrome, thin connectors,
+styled to read as an enterprise application — warm chrome, thin connectors,
 realistic data — not as decoration. `.frame` is the light application surface
 and `.frame--dark` the inverted one used on light pages.
 
-**Depth** — soft shadows only (`0 8px 30px rgba(23,20,17,.06)` and one step
+**Depth** — soft shadows only (`0 8px 30px rgba(33,30,27,.07)` and one step
 below/above). Radii are moderate: 6px buttons, 10px cards, 16–18px mockups.
 Pills are reserved for small tags and badges.
 
@@ -219,9 +253,12 @@ Server side rendering only accepts requests for the hosts listed in `angular.jso
 are allowed for development — **add your production domain there**, otherwise the server will refuse
 to render and fall back to client side rendering.
 
-> **Before going live:** replace the placeholder contact details in
-> `src/app/content/company.ts` (email, phone, location) and the matching values in
-> `src/index.html` (JSON-LD). They are marked as placeholders in that file.
+> **Before going live:** `src/app/content/company.ts` deliberately ships with `email` and
+> `phone` set to empty strings, because no real address or number has been supplied. Until they are
+> filled in, the header, footer and contact page **hide** those rows rather than rendering an empty
+> `mailto:`/`tel:` link, and the JSON-LD in `src/index.html` omits the `email` and `telephone`
+> properties. Add the real values in `company.ts` and mirror them in `index.html` (JSON-LD) — no
+> template changes are needed.
 
 ## API
 

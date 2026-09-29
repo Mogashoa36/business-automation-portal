@@ -48,7 +48,7 @@ import { Reveal } from '../reveal/reveal';
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(70% 100% at 12% 0%, rgba(184, 58, 43, 0.24) 0%, rgba(184, 58, 43, 0) 60%);
+      background: radial-gradient(70% 100% at 12% 0%, rgba(169, 71, 53, 0.22) 0%, rgba(169, 71, 53, 0) 60%);
       pointer-events: none;
     }
 
@@ -56,6 +56,7 @@ import { Reveal } from '../reveal/reveal';
       position: relative;
       display: grid;
       gap: clamp(1.75rem, 4vw, 4rem);
+      min-width: 0;
     }
 
     /*
@@ -78,15 +79,15 @@ import { Reveal } from '../reveal/reveal';
 
     .cta__title {
       margin: 0;
-      max-width: 20ch;
-      color: #eeeeed;
-      font-size: clamp(2rem, 1.2rem + 3.2vw, 3.5rem);
-      line-height: 1;
-      letter-spacing: -0.035em;
+      max-width: 22ch;
+      color: #f2efea;
+      font-size: clamp(1.6rem, 1.1rem + 2.4vw, 3.2rem);
+      line-height: 1.04;
+      letter-spacing: -0.03em;
     }
 
     .lead {
-      color: #bdb2a9;
+      color: #bdb4ab;
       margin-bottom: 1.75rem;
       max-width: 46ch;
     }

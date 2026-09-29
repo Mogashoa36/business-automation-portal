@@ -42,7 +42,7 @@ export class PortfolioDetail {
   private applySeo(project: PortfolioProject | null): void {
     if (!project) {
       this.seo.update({
-        title: 'Case study not found | Business Automation Company',
+        title: 'Case study not found | Bizflow Technologies',
         description: 'The requested case study could not be found.',
         path: '/portfolio',
       });

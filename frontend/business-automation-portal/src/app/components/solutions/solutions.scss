@@ -1,5 +1,5 @@
 /* How the solutions interlock, unique to this page. */
 .chain { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1px; list-style: none; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
-.chain li { display: grid; gap: 0.5rem; align-content: start; padding: clamp(1.4rem, 2.5vw, 2rem); background: var(--surface); }
+.chain li { display: grid; gap: 0.5rem; align-content: start; min-width: 0; padding: clamp(1.4rem, 2.5vw, 2rem); background: var(--surface); }
 .chain h3 { margin: 0; font-size: 1.1rem; }
 .chain p { margin: 0; font-size: 0.92rem; color: var(--text-soft); }

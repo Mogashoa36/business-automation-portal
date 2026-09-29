@@ -89,7 +89,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
     .flow__label {
       font-family: var(--font-display);
-      font-size: clamp(0.98rem, 0.92rem + 0.3vw, 1.15rem);
+      font-size: clamp(0.95rem, 0.9rem + 0.25vw, 1.12rem);
       font-weight: 500;
       letter-spacing: -0.015em;
       line-height: 1.25;

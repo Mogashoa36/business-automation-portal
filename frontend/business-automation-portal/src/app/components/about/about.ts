@@ -100,9 +100,9 @@ export class About {
 
   constructor() {
     this.seo.update({
-      title: 'About | Business Automation Company',
+      title: 'About | Bizflow Technologies',
       description:
-        'We help businesses use technology to simplify operations, automate repetitive processes and build scalable digital solutions. Our mission, vision and values.',
+        'Bizflow Technologies automates business processes, simplifies operations and builds scalable digital solutions. Our mission, vision and values.',
       path: '/about',
     });
   }

@@ -1,6 +1,6 @@
 /* Steps and service index, unique to this page. */
 .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1px; list-style: none; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
-.steps li { display: grid; gap: 0.5rem; align-content: start; padding: clamp(1.4rem, 2.5vw, 2rem); background: var(--surface); }
+.steps li { display: grid; gap: 0.5rem; align-content: start; min-width: 0; padding: clamp(1.4rem, 2.5vw, 2rem); background: var(--surface); }
 .steps h3 { margin: 0; font-size: 1.1rem; }
 .steps p { margin: 0; font-size: 0.92rem; color: var(--text-soft); }
 
@@ -12,6 +12,7 @@
   gap: 0.8rem;
   align-content: start;
   height: 100%;
+  min-width: 0;
   padding: clamp(1.6rem, 3vw, 2.5rem);
   background: var(--surface);
   transition: background-color var(--d-ui) var(--ease), transform var(--d-ui) var(--ease),
@@ -55,11 +56,11 @@
 
 .svc:hover .svc__num::after { transform: scaleX(1); }
 
-.svc__title { margin: 0; font-size: clamp(1.35rem, 1.1rem + 1vw, 1.9rem); line-height: 1.05; transition: transform var(--d-ui) var(--ease); }
+.svc__title { margin: 0; font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.9rem); line-height: 1.1; transition: transform var(--d-ui) var(--ease); }
 .svc__body { margin: 0; font-size: 0.95rem; color: var(--text-soft); }
 
 .svc__replaces { display: grid; gap: 0.5rem; list-style: none; }
-.svc__replaces li { display: grid; grid-template-columns: 1.2rem 1fr; gap: 0.55rem; align-items: start; font-size: 0.87rem; color: var(--text-muted); }
+.svc__replaces li { display: grid; grid-template-columns: 1.2rem minmax(0, 1fr); gap: 0.55rem; align-items: start; font-size: 0.87rem; color: var(--c-ink-soft); }
 .svc__replaces app-icon { margin-top: 0.18rem; color: var(--accent); }
 
 .svc__cta { margin-top: auto; padding-top: 0.5rem; }

@@ -1,7 +1,7 @@
 <app-page-hero
   eyebrow="Contact"
   title="Tell us which process is slowing you down."
-  intro="Share a little about the manual work, the spreadsheets or the chasing involved. We will come back to you with a practical first step."
+  intro="Tell us which process is slowing you down. Share a little about the manual work, the spreadsheets or the chasing involved. We will come back to you with a practical first step."
   [crumbs]="[{ label: 'Contact' }]"
 />
 
@@ -104,20 +104,25 @@
         <div class="panel">
           <h2 class="panel__title">Talk to us directly</h2>
           <ul class="contact-list">
-            <li>
-              <span class="contact-list__icon"><app-icon name="mail" [size]="18" /></span>
-              <span>
-                <strong>Email</strong>
-                <a [href]="'mailto:' + company.email">{{ company.email }}</a>
-              </span>
-            </li>
-            <li>
-              <span class="contact-list__icon"><app-icon name="phone" [size]="18" /></span>
-              <span>
-                <strong>Phone</strong>
-                <a [href]="'tel:' + dialNumber">{{ company.phone }}</a>
-              </span>
-            </li>
+            <!-- Email and phone are only rendered once real details are supplied. -->
+            @if (company.email) {
+              <li>
+                <span class="contact-list__icon"><app-icon name="mail" [size]="18" /></span>
+                <span>
+                  <strong>Email</strong>
+                  <a [href]="'mailto:' + company.email">{{ company.email }}</a>
+                </span>
+              </li>
+            }
+            @if (company.phone) {
+              <li>
+                <span class="contact-list__icon"><app-icon name="phone" [size]="18" /></span>
+                <span>
+                  <strong>Phone</strong>
+                  <a [href]="'tel:' + dialNumber">{{ company.phone }}</a>
+                </span>
+              </li>
+            }
             <li>
               <span class="contact-list__icon"><app-icon name="pin" [size]="18" /></span>
               <span>

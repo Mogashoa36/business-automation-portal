@@ -35,6 +35,7 @@ import { RouterLink } from '@angular/router';
           <p class="eyebrow" data-anim="fade-up">{{ eyebrow() }}</p>
         }
         <h1 data-anim="fade-up" class="d1">{{ title() }}</h1>
+        <span class="hero__rule" aria-hidden="true"></span>
         @if (intro()) {
           <p class="lead d2" data-anim="fade-up">{{ intro() }}</p>
         }
@@ -55,8 +56,8 @@ import { RouterLink } from '@angular/router';
     .hero__grid {
       position: absolute;
       inset: 0;
-      background-image: linear-gradient(rgba(23, 20, 17, 0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(23, 20, 17, 0.045) 1px, transparent 1px);
+      background-image: linear-gradient(rgba(33, 30, 27, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(33, 30, 27, 0.04) 1px, transparent 1px);
       background-size: 5rem 5rem;
       mask-image: linear-gradient(160deg, #000 0%, transparent 68%);
       -webkit-mask-image: linear-gradient(160deg, #000 0%, transparent 68%);
@@ -67,6 +68,20 @@ import { RouterLink } from '@angular/router';
       position: relative;
       z-index: 1;
       max-width: 60rem;
+      min-width: 0;
+    }
+
+    /*
+     * A short accent rule under the title, drawn in once as the page settles.
+     * transform-only, so it never shifts the heading or affects layout.
+     */
+    .hero__rule {
+      display: block;
+      width: 3.5rem;
+      height: 2px;
+      margin-top: 1.75rem;
+      background: var(--c-accent);
+      animation: draw-line var(--d-emphasis) var(--ease) 320ms both;
     }
 
     h1 {
@@ -92,10 +107,11 @@ import { RouterLink } from '@angular/router';
     .crumbs li {
       display: flex;
       gap: 0.5rem;
-      color: #9a938b;
+      min-width: 0;
+      color: var(--c-ink-soft);
     }
 
-    .crumbs a { color: #7b746c; }
+    .crumbs a { color: var(--c-ink-soft); }
     .crumbs a:hover { color: var(--c-accent); }
     .crumbs [aria-current] { color: var(--c-ink); font-weight: 600; }
   `,

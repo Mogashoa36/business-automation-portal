@@ -8,7 +8,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    title: 'Business Automation Company | Business Process Automation South Africa',
+    title: 'Bizflow Technologies | Business Process Automation South Africa',
     loadComponent: () => import('./components/home/home').then((m) => m.Home),
   },
   {
@@ -66,7 +66,7 @@ export const routes: Routes = [
   },
   {
     path: 'about',
-    title: 'About | Business Automation Company',
+    title: 'About | Bizflow Technologies',
     loadComponent: () => import('./components/about/about').then((m) => m.About),
   },
   {
@@ -91,7 +91,7 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    title: 'Page not found | Business Automation Company',
+    title: 'Page not found | Bizflow Technologies',
     loadComponent: () => import('./components/not-found/not-found').then((m) => m.NotFound),
   },
 ];

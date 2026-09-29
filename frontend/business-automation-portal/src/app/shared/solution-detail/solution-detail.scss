@@ -3,21 +3,23 @@
    two stay recognisably the same system.
    ========================================================================== */
 .split { display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); }
-.split__title { margin: 0 0 1.25rem; font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.1rem); }
+.split__title { margin: 0 0 1.25rem; font-size: clamp(1.5rem, 1.15rem + 1.9vw, 3rem); }
 
 .outcomes { display: grid; gap: 0.85rem; list-style: none; margin-top: 2rem; }
-.outcomes li { display: grid; grid-template-columns: 1.4rem 1fr; gap: 0.8rem; align-items: start; }
+.outcomes li { display: grid; grid-template-columns: 1.4rem minmax(0, 1fr); gap: 0.8rem; align-items: start; }
+.outcomes li > span { min-width: 0; }
 .outcomes app-icon { margin-top: 0.28rem; color: var(--accent); }
 
 .panel { padding: clamp(1.5rem, 2.5vw, 2.25rem); background: var(--surface); border: 1px solid var(--line); align-self: start; }
 .panel__title { margin: 0 0 1.1rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-text); }
 .panel__text { margin: 0 0 1.75rem; color: var(--text-soft); }
 
-.section--related { background: var(--c-white); }
+/* A raised warm band rather than pure white, so the page keeps one family. */
+.section--related { background: var(--surface-2); }
 
 .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 1px; list-style: none; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
 
-.related-card { display: grid; gap: 0.6rem; align-content: start; height: 100%; padding: clamp(1.35rem, 2.4vw, 1.9rem); background: var(--surface); transition: box-shadow var(--d-ui) var(--ease); }
+.related-card { display: grid; gap: 0.6rem; align-content: start; height: 100%; min-width: 0; padding: clamp(1.35rem, 2.4vw, 1.9rem); background: var(--surface); transition: box-shadow var(--d-ui) var(--ease); }
 .related-card:hover { box-shadow: var(--shadow); }
 .related-card h3 { margin: 0; font-size: 1.15rem; }
 .related-card p { margin: 0; font-size: 0.92rem; color: var(--text-soft); }

@@ -1,13 +1,16 @@
 <header class="header" [class.header--scrolled]="scrolled()" [class.header--open]="menuOpen()">
   <div class="container header__inner">
-    <a class="brand" routerLink="/" aria-label="Business Automation Company - home">
+    <a class="brand" routerLink="/" [attr.aria-label]="company.name + ' - home'">
       <span class="brand__mark" aria-hidden="true">
         <svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="32" height="32" rx="4" fill="#B83A2B" />
-          <path d="M9 11h14M9 16h9M9 21h6" stroke="#100705" stroke-width="2.4" stroke-linecap="round" />
+          <rect width="32" height="32" rx="4" fill="#A94735" />
+          <path d="M9 11h14M9 16h9M9 21h6" stroke="#171311" stroke-width="2.4" stroke-linecap="round" />
         </svg>
       </span>
-      <span class="brand__name">{{ company.shortName }}</span>
+      <span class="brand__text">
+        <span class="brand__name">BIZFLOW</span>
+        <span class="brand__descriptor">Technologies</span>
+      </span>
     </a>
 
     <button
@@ -79,7 +82,7 @@
           >
             Solutions
           </button>
-          <div class="nav__panel" id="submenu-solutions" [class.is-open]="isOpen('solutions')">
+          <div class="nav__panel nav__panel--right" id="submenu-solutions" [class.is-open]="isOpen('solutions')">
             <ul class="nav__sublist nav__sublist--wide">
               @for (solution of solutions; track solution.slug) {
                 <li>
@@ -106,7 +109,7 @@
           <a class="nav__link" routerLink="/technology" routerLinkActive="is-active">Technology</a>
         </li>
         <li class="nav__item nav__item--cta">
-          <a class="btn btn--primary" routerLink="/contact">Start a project</a>
+          <a class="btn btn--primary" routerLink="/contact">Let's Automate Your Business</a>
         </li>
       </ul>
     </nav>

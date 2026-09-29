@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Light, corporate navigation. Sits quietly over the page and gains a blurred
-   white backdrop once the page scrolls.
+   Light, corporate navigation. Sits quietly over the warm page background and
+   gains an opaque backdrop plus a hairline once the page scrolls.
    ========================================================================== */
 .header {
   position: fixed;
@@ -8,7 +8,7 @@
   right: 0;
   left: 0;
   z-index: 100;
-  background-color: rgba(244, 241, 236, 0.72);
+  background-color: rgba(236, 233, 228, 0.82);
   border-bottom: 1px solid transparent;
   transition: background-color var(--d-ui) var(--ease), border-color var(--d-ui) var(--ease),
     box-shadow var(--d-ui) var(--ease), backdrop-filter var(--d-ui) var(--ease);
@@ -21,11 +21,11 @@
  */
 .header--scrolled,
 .header--open {
-  background-color: rgba(255, 255, 255, 0.94);
-  backdrop-filter: saturate(170%) blur(14px);
-  -webkit-backdrop-filter: saturate(170%) blur(14px);
+  background-color: rgba(250, 249, 247, 0.94);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
   border-bottom-color: var(--line);
-  box-shadow: 0 1px 24px rgba(23, 20, 17, 0.05);
+  box-shadow: 0 1px 24px rgba(33, 30, 27, 0.06);
 }
 
 .header__inner {
@@ -37,10 +37,16 @@
 }
 
 /* ------------------------------------------------------------- brand --- */
+/*
+ * The wordmark is the display name over the descriptor, matching the brand
+ * lock-up: BIZFLOW / Technologies. Neither part wraps - a fixed header that
+ * grows to two lines would overlap the page beneath it.
+ */
 .brand {
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
+  min-width: 0;
   color: var(--c-ink);
   flex: none;
   z-index: 2;
@@ -49,11 +55,30 @@
 .brand__mark { display: inline-flex; }
 .brand:hover { color: var(--c-ink); }
 
+.brand__text {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+  line-height: 1;
+}
+
 .brand__name {
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.brand__descriptor {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c-ink-soft);
+  white-space: nowrap;
 }
 
 /* ------------------------------------------------------------ toggle --- */
@@ -80,13 +105,19 @@
   background: var(--c-ink);
   transition: transform var(--d-ui) var(--ease), opacity var(--d-fast) var(--ease);
 }
-
 .header__toggle-bars.is-open span:first-child { transform: translateY(3.25px) rotate(45deg); }
 .header__toggle-bars.is-open span:last-child { transform: translateY(-3.25px) rotate(-45deg); }
 
 /* --------------------------------------------------------------- nav --- */
-.nav__list { display: flex; align-items: center; gap: 0.15rem; list-style: none; }
-.nav__item { position: relative; }
+/*
+ * `flex-wrap: wrap` plus `justify-content: flex-end` is the safety valve: if
+ * the desktop nav ever runs out of room - a long CTA label, a mid-range
+ * window at high zoom - the items wrap onto a second line and the header
+ * grows cleanly instead of pushing the page sideways.
+ */
+.nav { min-width: 0; }
+.nav__list { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 0.15rem; list-style: none; }
+.nav__item { position: relative; min-width: 0; }
 
 .nav__link {
   position: relative;
@@ -130,14 +161,25 @@
 .nav__item--parent.is-open > .nav__link::after { transform: scaleX(1); }
 
 /* ------------------------------------------------------------ panels --- */
+/*
+ * Dropdown panels are absolutely positioned against their trigger. Three rules
+ * keep them inside the viewport at every width and zoom level:
+ *   - min-width resolves against the viewport as well, so the floor can never
+ *     exceed the space available (this is what previously pushed the panel
+ *     past the right edge on a zoomed 1024px window);
+ *   - max-width never exceeds the viewport, whatever the breakpoint;
+ *   - the Solutions panel is right-anchored, because it is the widest and
+ *     sits closest to the right edge of the nav.
+ */
 .nav__panel {
   position: absolute;
   top: calc(100% + 0.75rem);
   left: -0.75rem;
   z-index: 10;
-  min-width: 21rem;
+  min-width: min(21rem, calc(100vw - 2rem));
+  max-width: calc(100vw - 2rem);
   padding: 0.5rem;
-  background-color: #fff;
+  background-color: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow-md);
@@ -147,14 +189,25 @@
   transition: opacity var(--d-ui) var(--ease), transform var(--d-ui) var(--ease), visibility var(--d-ui);
 }
 
+.nav__panel--right { left: auto; right: -0.75rem; }
+
 .nav__panel.is-open { opacity: 1; visibility: visible; transform: none; }
 
 .nav__sublist { display: grid; gap: 1px; list-style: none; }
-.nav__sublist--wide { min-width: 24rem; }
+/*
+ * The wide sublist inherits the panel's width. An explicit `min-width: 0` is
+ * required, otherwise the 24rem floor below would re-introduce overflow on a
+ * narrow or zoomed viewport once the panel becomes an inline accordion.
+ */
+.nav__sublist--wide { min-width: 0; }
+
+@media (min-width: 68.01rem) {
+  .nav__sublist--wide { min-width: min(24rem, calc(100vw - 2rem)); }
+}
 
 .nav__sublink {
   display: grid;
-  grid-template-columns: 1.6rem 1fr;
+  grid-template-columns: 1.6rem minmax(0, 1fr);
   gap: 0.7rem;
   padding: 0.65rem 0.7rem;
   border-radius: var(--radius-sm);
@@ -196,6 +249,8 @@
     transition: opacity var(--d-ui) var(--ease), transform var(--d-emphasis) var(--ease),
       visibility var(--d-ui);
     overflow-y: auto;
+    /* Scrolls independently so a tall menu stays usable when zoomed in. */
+    overscroll-behavior: contain;
   }
 
   .nav--open { opacity: 1; visibility: visible; transform: none; }
@@ -205,15 +260,19 @@
   .nav__item { border-bottom: 1px solid var(--line); }
 
   .nav__item--cta { border-bottom: 0; margin-left: 0; padding-top: 1.75rem; }
-  .nav__item--cta .btn { width: 100%; padding: 0.95rem 1.5rem; }
+  .nav__item--cta .btn { width: 100%; max-width: 100%; padding: 0.95rem 1.5rem; }
 
   .nav__link {
     width: 100%;
+    max-width: 100%;
     padding: 1rem 0;
     font-size: 1.3rem;
     font-weight: 500;
     letter-spacing: -0.01em;
     color: var(--c-ink);
+    /* Long labels wrap instead of forcing a horizontal scrollbar. */
+    white-space: normal;
+    overflow-wrap: break-word;
   }
 
   .nav__link::after { left: 0; right: auto; width: 2.25rem; bottom: 0.55rem; }
@@ -236,6 +295,7 @@
   .nav__panel {
     position: static;
     min-width: 0;
+    max-width: 100%;
     padding: 0 0 1rem;
     background: transparent;
     border: 0;
@@ -250,7 +310,23 @@
 
   .nav__sublink { padding: 0.6rem 0.5rem; }
   .nav__subhint { display: none; }
-  .nav__sublabel { font-size: 1rem; }
+  .nav__sublabel { font-size: 1rem; white-space: normal; }
+}
+
+/*
+ * Mid-range desktop: 1088px up to ~1344px is the tightest window for the
+ * full nav, because the container is narrow while the desktop menu is still
+ * active. Tightening the type and padding here is what keeps "Let's Automate
+ * Your Business" on one line instead of wrapping the header to two rows.
+ */
+@media (min-width: 68.01rem) and (max-width: 84rem) {
+  .nav__link {
+    padding: 0.55rem 0.6rem;
+    font-size: 0.82rem;
+  }
+
+  .nav__item--cta { margin-left: 0.5rem; }
+  .nav__item--cta .btn { padding: 0.72rem 1rem; font-size: 0.74rem; letter-spacing: 0.08em; }
 }
 
 @media (min-width: 68.01rem) {

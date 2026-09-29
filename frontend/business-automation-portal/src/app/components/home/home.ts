@@ -42,9 +42,9 @@ export class Home {
 
   constructor() {
     this.seo.update({
-      title: 'Business Automation Company | Business Process Automation South Africa',
+      title: 'Bizflow Technologies | Business Process Automation South Africa',
       description:
-        'We automate manual business processes and build secure, scalable software that helps businesses work faster, smarter and more efficiently. Custom applications, portals and websites.',
+        'Bizflow Technologies builds software that automates business processes, simplifies operations, and turns manual work into efficient digital workflows. Custom applications, portals and websites.',
       path: '/',
     });
 
